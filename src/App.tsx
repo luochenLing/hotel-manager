@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { F7App } from "framework7-react";
+// import routes from "./Route/route";
+import { HashRouter, Switch, Route } from "react-router-dom";
+import "./theme";
+import "css/App.scss";
+import "framework7-icons";
+const Home = React.lazy(() => import("views/home/Index"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback="loading...">
+      <F7App>
+        <HashRouter>
+          <Switch>
+            <Route path="/Home" exact component={Home}></Route>
+            <Route path="/" component={Home}></Route>
+          </Switch>
+        </HashRouter>
+      </F7App>
+    </Suspense>
   );
 }
 
