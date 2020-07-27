@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { f7 } from "framework7-react";
 import { Dom7 } from "framework7";
+let selDateArr: string[] = [];
 export default function CalendarSel() {
+  // const [selDateArr, setSelDateArr] = useState([""]); //点击选中日期的时候存储的数组
+  useEffect(() => {
+    console.log(11);
+    initCalendar();
+  }, []);
   const initCalendar = () => {
     var $$ = Dom7;
     var monthNames = [
@@ -18,6 +24,7 @@ export default function CalendarSel() {
       "十一月",
       "十二月",
     ];
+
     var calendarInline = f7.calendar.create({
       containerEl: "#calendar-inline-container",
       weekHeader: false,
@@ -70,17 +77,23 @@ export default function CalendarSel() {
           day: number
         ) => {
           //点击两次以上的时候清空样式再加样式
+          let selDate = `${year}-${month}-${day}`;
+          // setSelDateArr([...selDateArr, selDate]);
+          selDateArr.push(selDate);
           //点击两个以内加样式
+          if (selDateArr.length <= 2) {
+            dayEl.children[0].classList.remove("calendar-day-number");
+            dayEl.children[0].classList.add("active");
+          } else {
+            // setSelDateArr([""]);
+            selDateArr.splice(0);
+          }
           //两次以上的时候关闭界面
-          console.log(dayEl);
+          console.log(selDate);
         },
       },
     });
   };
-
-  useEffect(() => {
-    initCalendar();
-  }, []);
 
   return (
     <div className="block block-strong no-padding no-margin">
