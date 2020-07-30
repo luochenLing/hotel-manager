@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useImperativeHandle } from "react";
 import { f7 } from "framework7-react";
 import { Dom7 } from "framework7";
 let selDateArr: string[] = [];
-export default function CalendarSel() {
+const CalendarSel = (props: any, ref: any) => {
   // const [selDateArr, setSelDateArr] = useState([""]); //点击选中日期的时候存储的数组
   useEffect(() => {
-    console.log(11);
     initCalendar();
   }, []);
   const initCalendar = () => {
@@ -24,7 +23,6 @@ export default function CalendarSel() {
       "十一月",
       "十二月",
     ];
-
     var calendarInline = f7.calendar.create({
       containerEl: "#calendar-inline-container",
       weekHeader: false,
@@ -52,6 +50,7 @@ export default function CalendarSel() {
           "</div>"
         );
       },
+
       on: {
         init: function (c) {
           $$(".calendar-custom-toolbar .center").text(
@@ -86,13 +85,20 @@ export default function CalendarSel() {
             dayEl.children[0].classList.add("active");
           } else {
             // setSelDateArr([""]);
-            selDateArr.splice(0);
+            // selDateArr.splice(0);
           }
           //两次以上的时候关闭界面
-          console.log(selDate);
         },
       },
     });
+  };
+  useImperativeHandle(ref, () => ({
+    test: () => {
+      test()
+    },
+  }));
+  const test = () => {
+    console.log(11);
   };
 
   return (
@@ -100,4 +106,7 @@ export default function CalendarSel() {
       <div id="calendar-inline-container"></div>
     </div>
   );
-}
+};
+export default React.forwardRef((props, ref) => (
+  <CalendarSel props={props} ref={ref} />
+));

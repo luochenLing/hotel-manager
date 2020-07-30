@@ -8,10 +8,14 @@
     border-bottom: 1px solid;
   }
 }
+
 .calendar-day-selected {
   .calendar-day-number {
     background-color: rgba(63, 255, 120, 0.1) !important;
     color: #000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .active {
     background-color: #4cd964 !important;
