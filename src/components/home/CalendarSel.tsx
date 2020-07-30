@@ -2,8 +2,9 @@ import React, { useEffect, useImperativeHandle } from "react";
 import { f7 } from "framework7-react";
 import { Dom7 } from "framework7";
 let selDateArr: string[] = [];
-const CalendarSel = (props: any, ref: any) => {
+function CalendarSel (props: any) {
   // const [selDateArr, setSelDateArr] = useState([""]); //点击选中日期的时候存储的数组
+  const {calendarRef} =props;
   useEffect(() => {
     initCalendar();
   }, []);
@@ -92,14 +93,16 @@ const CalendarSel = (props: any, ref: any) => {
       },
     });
   };
-  useImperativeHandle(ref, () => ({
-    test: () => {
-      test()
+  useImperativeHandle(calendarRef, () => ({
+    initCalendarActive: () => {
+      document.querySelectorAll(".active").forEach((item) => {
+        item.classList.remove("active");
+      });
+      document.querySelectorAll(".calendar-day-selected").forEach((item) => {
+        item.classList.remove("calendar-day-selected");
+      });
     },
   }));
-  const test = () => {
-    console.log(11);
-  };
 
   return (
     <div className="block block-strong no-padding no-margin">
@@ -108,5 +111,5 @@ const CalendarSel = (props: any, ref: any) => {
   );
 };
 export default React.forwardRef((props, ref) => (
-  <CalendarSel props={props} ref={ref} />
+  <CalendarSel {...props} calendarRef={ref} />
 ));

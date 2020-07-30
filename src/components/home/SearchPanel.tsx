@@ -18,7 +18,7 @@ type stateType = {
   calendarInline: any;
 };
 type propsType = {};
-const calendarRef = React.createRef();
+const calendarRef = React.createRef<any>();
 class Index extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
@@ -38,12 +38,7 @@ class Index extends React.Component<propsType, stateType> {
    */
   initCalendarByClose() {
     console.log(calendarRef);
-    // document.querySelectorAll(".active").forEach((item) => {
-    //   item.classList.remove("active");
-    // });
-    // document.querySelectorAll(".calendar-day-selected").forEach((item) => {
-    //   item.classList.remove("calendar-day-selected");
-    // });
+    calendarRef.current.initCalendarActive()
   }
   render() {
     return (
