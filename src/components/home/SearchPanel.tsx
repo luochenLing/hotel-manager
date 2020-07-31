@@ -12,6 +12,7 @@ import {
   Icon,
 } from "framework7-react";
 import CalendarSel from "components/home/CalendarSel";
+import pubSub from "pubsub-js";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
 type stateType = {
   showCalendar: boolean;
@@ -26,19 +27,26 @@ class Index extends React.Component<propsType, stateType> {
       showCalendar: false,
       calendarInline: "",
     };
-    
   }
-  
-  getCalendar = (val: boolean) => {
-    this.setState({ showCalendar: val });
-  };
+  componentDidMount(){
+    this.initSubscribeEve();
+  }
 
+  getCalendar=(val: boolean)=> {
+    this.setState({ showCalendar: val });
+    calendarRef.current.openCalendar();
+  }
+
+  initSubscribeEve() {
+    pubSub.subscribe("closeCalendarPanel", (val:any[]) => {
+      this.setState({ showCalendar: false });
+    });
+  }
   /**
    * 弹层关闭的时候初始化日历
    */
   initCalendarByClose() {
-    console.log(calendarRef);
-    calendarRef.current.initCalendarActive()
+    calendarRef.current.initCalendarActive();
   }
   render() {
     return (
@@ -106,7 +114,7 @@ class Index extends React.Component<propsType, stateType> {
                 </Link>
               </NavRight>
             </Navbar>
-            <CalendarSel ref={calendarRef}/>
+            <CalendarSel ref={calendarRef} />
           </Page>
         </Popup>
       </div>

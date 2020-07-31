@@ -1,10 +1,13 @@
 import React, { useEffect, useImperativeHandle } from "react";
 import { f7 } from "framework7-react";
 import { Dom7 } from "framework7";
+import pubSub from "pubsub-js";
+import { Calendar } from "framework7/components/calendar/calendar";
 let selDateArr: string[] = [];
-function CalendarSel (props: any) {
-  // const [selDateArr, setSelDateArr] = useState([""]); //点击选中日期的时候存储的数组
-  const {calendarRef} =props;
+let calendarInline: Calendar.Calendar;
+function CalendarSel(props: any) {
+  const { calendarRef } = props;
+
   useEffect(() => {
     initCalendar();
   }, []);
@@ -24,7 +27,7 @@ function CalendarSel (props: any) {
       "十一月",
       "十二月",
     ];
-    var calendarInline = f7.calendar.create({
+    calendarInline = f7.calendar.create({
       containerEl: "#calendar-inline-container",
       weekHeader: false,
       rangePicker: true,
@@ -32,6 +35,7 @@ function CalendarSel (props: any) {
         to: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
       },
       value: [new Date(), new Date(new Date().getTime() + 24 * 60 * 60 * 4000)],
+      // rangesClasses:['calendar-day-number'],
       renderToolbar: () => {
         return (
           '<div class="toolbar calendar-custom-toolbar no-shadow">' +
@@ -78,15 +82,14 @@ function CalendarSel (props: any) {
         ) => {
           //点击两次以上的时候清空样式再加样式
           let selDate = `${year}-${month}-${day}`;
-          // setSelDateArr([...selDateArr, selDate]);
           selDateArr.push(selDate);
           //点击两个以内加样式
-          if (selDateArr.length <= 2) {
-            dayEl.children[0].classList.remove("calendar-day-number");
-            dayEl.children[0].classList.add("active");
-          } else {
-            // setSelDateArr([""]);
-            // selDateArr.splice(0);
+          dayEl.children[0].classList.remove("calendar-day-number");
+          dayEl.children[0].classList.add("active");
+
+          if (selDateArr.length >= 2) {
+            // calendarInline.destroy();
+            pubSub.publish("closeCalendarPanel", false);
           }
           //两次以上的时候关闭界面
         },
@@ -102,6 +105,10 @@ function CalendarSel (props: any) {
         item.classList.remove("calendar-day-selected");
       });
     },
+    openCalendar: () => {
+      // calendarInline.open();
+      selDateArr.splice(0);
+    },
   }));
 
   return (
@@ -109,7 +116,7 @@ function CalendarSel (props: any) {
       <div id="calendar-inline-container"></div>
     </div>
   );
-};
+}
 export default React.forwardRef((props, ref) => (
   <CalendarSel {...props} calendarRef={ref} />
 ));
