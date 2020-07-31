@@ -1,7 +1,7 @@
 import React, { useEffect, useImperativeHandle } from "react";
 import { f7 } from "framework7-react";
 import { Dom7 } from "framework7";
-import pubSub from "pubsub-js";
+// import pubSub from "pubsub-js";
 import { Calendar } from "framework7/components/calendar/calendar";
 let selDateArr: string[] = [];
 let calendarInline: Calendar.Calendar;
@@ -73,25 +73,30 @@ function CalendarSel(props: any) {
             monthNames[c.currentMonth] + ", " + c.currentYear
           );
         },
-        dayClick: (
-          calendar: any,
-          dayEl: HTMLElement,
-          year: number,
-          month: number,
-          day: number
-        ) => {
-          //点击两次以上的时候清空样式再加样式
-          let selDate = `${year}-${month}-${day}`;
-          selDateArr.push(selDate);
-          //点击两个以内加样式
-          dayEl.children[0].classList.remove("calendar-day-number");
-          dayEl.children[0].classList.add("active");
+        dayClick: function (calendar, dayEl, year, month, day) {
+          var previousSelectedDays: any = calendar.$el.find(
+            ".calendar-day-selected-range"
+          );
 
-          if (selDateArr.length >= 2) {
-            // calendarInline.destroy();
-            pubSub.publish("closeCalendarPanel", false);
+          if (previousSelectedDays.length > 1) {
+            previousSelectedDays.forEach(function (el: any) {
+              el.classList.remove("calendar-day-selected-range");
+            });
           }
-          //两次以上的时候关闭界面
+
+          dayEl.classList.add("calendar-day-selected-range");
+        },
+        opened: function (calendar) {
+          console.log(calendar);
+          var selectedDays = calendar.$el.find(
+            ".calendar-day-selected:not(.calendar-day-prev):not(.calendar-day-next)"
+          );
+          if (selectedDays.length) {
+            selectedDays[0].classList.add("calendar-day-selected-range");
+            selectedDays[selectedDays.length - 1].classList.add(
+              "calendar-day-selected-range"
+            );
+          }
         },
       },
     });

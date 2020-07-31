@@ -9,6 +9,20 @@
   }
 }
 
+.calendar-range {
+  .calendar-day {
+    .calendar-day-selected {
+      // align-items: center;
+      .calendar-day-selected-range {
+        // align-items: stretch;
+        .calendar-day-number {
+          background: #ff0000 !important;
+        }
+      }
+    }
+  }
+}
+
 .calendar-day-selected {
   .calendar-day-number {
     background-color: rgba(63, 255, 120, 0.1) !important;
@@ -29,4 +43,3 @@
     justify-content: center;
   }
 }
-
