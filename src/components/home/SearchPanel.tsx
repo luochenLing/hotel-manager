@@ -17,6 +17,8 @@ const SearchForm = React.lazy(() => import("components/home/SearcForm"));
 type stateType = {
   showCalendar: boolean;
   calendarInline: any;
+  startDay: string;
+  endDay: string;
 };
 type propsType = {};
 const calendarRef = React.createRef<any>();
@@ -26,29 +28,33 @@ class Index extends React.Component<propsType, stateType> {
     this.state = {
       showCalendar: false,
       calendarInline: "",
+      startDay: "2020-08-15",
+      endDay: "2020-08-30",
     };
   }
-  componentDidMount(){
-    this.initSubscribeEve();
+  componentDidMount() {
+    this.initEvent();
   }
 
-  getCalendar=(val: boolean)=> {
-    this.setState({ showCalendar: val });
+  getCalendar = (showCalendar: boolean, startDay: string, endDay: string) => {
+    console.log(startDay, endDay);
+    if (startDay && endDay) {
+      this.setState({ startDay, endDay });
+    }
+    this.setState({ showCalendar });
     calendarRef.current.openCalendar();
-  }
+  };
 
-  initSubscribeEve() {
-    pubSub.subscribe("closeCalendarPanel", (val:any[]) => {
-      this.setState({ showCalendar: false });
+  initEvent() {
+    pubSub.subscribe("closeCalendarPanel", (...val: any) => {
+      this.setState({ showCalendar: val[1] });
+    });
+    pubSub.subscribe("setDate", (...val: [any, string[]]) => {
+      this.setState({ startDay: val[1][0], endDay: val[1][1] });
     });
   }
-  /**
-   * 弹层关闭的时候初始化日历
-   */
-  initCalendarByClose() {
-    calendarRef.current.initCalendarActive();
-  }
   render() {
+    const { startDay, endDay } = this.state;
     return (
       <div className="search-panel">
         <Toolbar tabbar bottom>
@@ -68,7 +74,11 @@ class Index extends React.Component<propsType, stateType> {
                 backgroundColor: "#fff",
               }}
             >
-              <SearchForm getCalendar={this.getCalendar} />
+              <SearchForm
+                startDay={startDay}
+                endDay={endDay}
+                getCalendar={this.getCalendar}
+              />
             </div>
           </Tab>
           <Tab id="tab-2" className="page-content">
@@ -80,7 +90,11 @@ class Index extends React.Component<propsType, stateType> {
                 backgroundColor: "#fff",
               }}
             >
-              <SearchForm getCalendar={this.getCalendar} />
+              <SearchForm
+                startDay={startDay}
+                endDay={endDay}
+                getCalendar={this.getCalendar}
+              />
             </div>
           </Tab>
           <Tab id="tab-3" className="page-content">
@@ -92,16 +106,16 @@ class Index extends React.Component<propsType, stateType> {
                 backgroundColor: "#fff",
               }}
             >
-              <SearchForm getCalendar={this.getCalendar} />
+              <SearchForm
+                startDay={startDay}
+                endDay={endDay}
+                getCalendar={this.getCalendar}
+              />
             </div>
           </Tab>
         </Tabs>
         {/* 日历条件 */}
-        <Popup
-          opened={this.state.showCalendar}
-          onPopupClosed={this.initCalendarByClose}
-          className="demo-popup-swipe"
-        >
+        <Popup opened={this.state.showCalendar} className="demo-popup-swipe">
           <Page>
             <Navbar title="选择日期">
               <NavRight>
@@ -114,7 +128,7 @@ class Index extends React.Component<propsType, stateType> {
                 </Link>
               </NavRight>
             </Navbar>
-            <CalendarSel ref={calendarRef} />
+            <CalendarSel ref={calendarRef} {...{ startDay, endDay }} />
           </Page>
         </Popup>
       </div>
