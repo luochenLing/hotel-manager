@@ -37,7 +37,6 @@ class Index extends React.Component<propsType, stateType> {
   }
 
   getCalendar = (showCalendar: boolean, startDay: string, endDay: string) => {
-    console.log(startDay, endDay);
     if (startDay && endDay) {
       this.setState({ startDay, endDay });
     }
