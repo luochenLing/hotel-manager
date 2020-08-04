@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import 'css/common/calendar.scss'
+import React, { useState, useEffect, Fragment } from "react";
+import "css/common/calendar.scss";
 type propsTypes = {};
 export default function Calendar(props: propsTypes) {
   const [dateArr, setDateArr] = useState<string[]>([]);
@@ -18,14 +18,24 @@ export default function Calendar(props: propsTypes) {
       dateArr.push(dateItem);
     }
     setDateArr(dateArr);
-  },[]);
+  }, []);
+  const [pageHeight,setPageHeight]=useState(0);
+  let dom=document.documentElement||document.body;
+  /**
+   * 设置日历部分的高度
+   */
+  useEffect(()=>{
+    setPageHeight(dom.clientHeight-72);
+  },[dom.clientHeight])
 
   return (
     <div className="cal">
-      {/* <div className="cal-header">
-        <span>取消</span>
-        <span>选择日历</span>
-        <ul>
+      <div className="cal-header">
+        <div className="bar">
+          <span className="cancel">取消</span>
+          <span className="title">选择日历</span>
+        </div>
+        <ul className="week">
           <li>日</li>
           <li>一</li>
           <li>二</li>
@@ -34,10 +44,10 @@ export default function Calendar(props: propsTypes) {
           <li>五</li>
           <li>六</li>
         </ul>
-      </div> */}
-      <div className="cal-body">
-        <div>
-          {dateArr.map((item,idx) => {
+      </div>
+      <div style={{ height: pageHeight,paddingTop:72 }}>
+        <section className="cal-body">
+          {dateArr.map((item, idx) => {
             let curYear = parseInt(item.split("-")[0]);
             let curMonth = parseInt(item.split("-")[1]);
             let dayCount = new Date(curYear, curMonth, 0).getDate();
@@ -46,17 +56,22 @@ export default function Calendar(props: propsTypes) {
               dayArr.push(i);
             }
             return (
-              <div key={idx}>
-                <h5>{item}</h5>
-                <ul>
-                  {dayArr.map((dayItem,dayIdx) => {
-                    return <li key={dayIdx}>{dayItem}</li>;
+              <Fragment key={idx}>
+                <h4 className="cal-body-month">{`${item.replace('-','年')}月`}</h4>
+                <ul className="cal-body-grid">
+                  {dayArr.map((dayItem, dayIdx) => {
+                    return (
+                      <li key={dayIdx}>
+                        <span>{dayItem}</span>
+                        <span></span>
+                      </li>
+                    );
                   })}
                 </ul>
-              </div>
+              </Fragment>
             );
           })}
-        </div>
+        </section>
       </div>
     </div>
   );
