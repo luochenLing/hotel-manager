@@ -6,7 +6,7 @@ import "./theme";
 import "css/App.scss";
 import "framework7-icons";
 const Home = React.lazy(() => import("views/home/Index"));
-
+const Calendar = React.lazy(() => import("components/common/Calendar"));
 function App() {
   return (
     <Suspense fallback="loading...">
@@ -14,7 +14,8 @@ function App() {
         <HashRouter>
           <Switch>
             <Route path="/Home" exact component={Home}></Route>
-            <Route path="/" component={Home}></Route>
+            {/* <Route path="/" component={Home}></Route> */}
+            <Route path="/" component={Calendar}></Route>  
           </Switch>
         </HashRouter>
       </F7App>
