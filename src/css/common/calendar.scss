@@ -71,7 +71,16 @@ h6 {
         span {
           width: 100%;
           display: block;
+          z-index: -1;
         }
+      }
+      .range{
+        background-color:#4cd964;
+        color: #fff;
+      }
+      .selected{
+        background-color: rgba(63, 255, 120, 0.1);
+        color: #000;
       }
     }
   }
