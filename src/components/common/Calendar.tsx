@@ -30,7 +30,7 @@ export default function Calendar(props: propsTypes) {
   }, [dom.clientHeight]);
 
   const selDomHandle = (e: any) => {
-    if(selDomArr.findIndex(x=>x===e.currentTarget)>=0){
+    if (selDomArr.findIndex((x) => x === e.currentTarget) >= 0) {
       return;
     }
     switchDomHandle(selDomArr.length, e.currentTarget);
@@ -48,16 +48,36 @@ export default function Calendar(props: propsTypes) {
         //两个的时候记录dom，把之间的dom染色
         selDomArr.push(selDom);
         selDom.classList.add("range");
-        let dom = document.querySelector(".range")?.nextSibling as any;
-        while (true) {
-          // debugger
-          if (dom==null||dom.classList.contains("range")) {
-            break;
-          } else {
-            dom.classList.add("selected");
-            dom = dom.nextSibling;
+        let count = 0;
+        document.querySelectorAll(".cal-body-grid").forEach((ulItem: any) => {
+          let liArr = ulItem.childNodes;
+          let idx = -1;
+          if (count === 1) {
+            //中间的全部染色
+            idx = 0;
+          } else if (count <= 2 && count !== 1) {
+            idx = Array.from(liArr).findIndex((liItem: any) =>
+              liItem.classList.contains("range")
+            );
+            if (idx >= 0) {
+              count++;
+              //找到了开始li的位置才操作，没找到就不操作,找到第二个count的时候视为结束
+              for (let i = idx; i <= liArr; i++) {
+                liArr[i].classList.add("selected");
+              }
+            }
           }
-        }
+        });
+        // let dom = document.querySelector(".range")?.nextSibling as any;
+        // while (true) {
+        //   // debugger
+        //   if (dom==null||dom.classList.contains("range")) {
+        //     break;
+        //   } else {
+        //     dom.classList.add("selected");
+        //     dom = dom.nextSibling;
+        //   }
+        // }
         break;
       case 2:
         //三个的时候清除所有颜色样式和选中数组并且按照1操作
