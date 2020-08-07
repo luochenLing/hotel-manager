@@ -1,6 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "css/common/calendar.scss";
-type propsTypes = {};
+type propsTypes = {
+  curDay:string;//当前日期
+  //不可选日期(从x天到X天)
+  disableDay:{
+    from:string,
+    to:string
+  },
+   
+};
 export default function Calendar(props: propsTypes) {
   const selDomArr: HTMLElement[] = []; //选中的dom（开始结束两天）
   const [dateMonthArr, setDateMonthArr] = useState<string[]>([]); //日历上一年的所有月份
