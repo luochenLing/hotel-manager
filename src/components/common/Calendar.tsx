@@ -1,16 +1,17 @@
 import React, { useState, useEffect, Fragment } from "react";
 import "css/common/calendar.scss";
-type propsTypes = {
-  curDay:string;//当前日期
+interface propsTypes {
+  //当前日期
+  curDay:Date,
   //不可选日期(从x天到X天)
   disableDay:{
-    from:string,
-    to:string
-  },
-   
+    from: Date;
+    to: Date;
+  };
 };
 export default function Calendar(props: propsTypes) {
   const selDomArr: HTMLElement[] = []; //选中的dom（开始结束两天）
+  //#region 获取所有需要显示的月份
   const [dateMonthArr, setDateMonthArr] = useState<string[]>([]); //日历上一年的所有月份
   /**
    * 获取包括当前日期后面的十二个月
@@ -28,6 +29,9 @@ export default function Calendar(props: propsTypes) {
     }
     setDateMonthArr(dateArr);
   }, []);
+  //#endregion
+
+  //#region 日历高度设置
   const [pageHeight, setPageHeight] = useState(0); //页面的高度
   let dom = document.documentElement || document.body;
   /**
@@ -37,6 +41,22 @@ export default function Calendar(props: propsTypes) {
     setPageHeight(dom.clientHeight - 72);
   }, [dom.clientHeight]);
 
+  //#endregion
+
+  //#region 初始日历
+  const [curDay, setCurDay] = useState("");
+  useEffect(() => {
+    console.log(props.curDay)
+    if (props.curDay) {
+      setCurDay(props.curDay.Format("yyyy-MM-dd"));
+    }
+  },[props.curDay]);
+
+  //#endregion
+  /**
+   * 选择日期
+   * @param e 当前的dom方法
+   */
   const selDomHandle = (e: any) => {
     if (selDomArr.findIndex((x) => x === e.currentTarget) >= 0) {
       return;
@@ -44,7 +64,11 @@ export default function Calendar(props: propsTypes) {
     switchDomHandle(selDomArr.length, e.currentTarget);
   };
 
-  //点击DOM的时候做处理的辅助类
+  /**
+   * 点击DOM的时候做处理的辅助类
+   * @param count 选了几个
+   * @param selDom 当前选中的dom
+   */
   const switchDomHandle = (count: number, selDom: HTMLElement) => {
     switch (count) {
       case 0:
@@ -55,22 +79,32 @@ export default function Calendar(props: propsTypes) {
       case 1:
         //两个的时候记录dom，把之间的dom染色
         selDom.classList.add("range");
-        let firstSelDay=new Date(selDomArr[0].getAttribute('data-day') as string).getTime();
-        let secondSelDay=new Date(selDom.getAttribute('data-day') as string).getTime();
+        let firstSelDay = new Date(
+          selDomArr[0].getAttribute("data-day") as string
+        ).getTime();
+        let secondSelDay = new Date(
+          selDom.getAttribute("data-day") as string
+        ).getTime();
         //选中的两天里数值小的是第一天数值大的是第二天
-        if(firstSelDay<=secondSelDay){
+        if (firstSelDay <= secondSelDay) {
           selDomArr.push(selDom);
-        }else{
+        } else {
           selDomArr.unshift(selDom);
         }
         let dayDomArr = document.querySelectorAll("li[data-day]");
-        let idx= Array.from(dayDomArr).findIndex(x=>x.getAttribute('data-day')===selDomArr[0].getAttribute('data-day'));
-        for(let i = idx+1;i<dayDomArr.length;i++){
+        let idx = Array.from(dayDomArr).findIndex(
+          (x) =>
+            x.getAttribute("data-day") === selDomArr[0].getAttribute("data-day")
+        );
+        for (let i = idx + 1; i < dayDomArr.length; i++) {
           //第一个
-          if(dayDomArr[i].getAttribute('data-day')===selDomArr[1].getAttribute('data-day')){
+          if (
+            dayDomArr[i].getAttribute("data-day") ===
+            selDomArr[1].getAttribute("data-day")
+          ) {
             break;
           }
-          dayDomArr[i].classList.add('selected');
+          dayDomArr[i].classList.add("selected");
         }
         break;
       case 2:
@@ -86,6 +120,7 @@ export default function Calendar(props: propsTypes) {
         selDom.classList.add("range");
     }
   };
+
   return (
     <div className="cal">
       <div className="cal-header">
@@ -122,7 +157,14 @@ export default function Calendar(props: propsTypes) {
                 <ul className="cal-body-grid">
                   {dayArr.map((dayItem, dayIdx) => {
                     return (
-                      <li data-day={`${item}-${dayItem}`} onClick={selDomHandle} key={dayIdx}>
+                      <li
+                        className={
+                          curDay === `${item}-${dayItem}` ? "cur-day" : ""
+                        }
+                        data-day={`${item}-${dayItem}`}
+                        onClick={selDomHandle}
+                        key={dayIdx}
+                      >
                         <span>{dayItem}</span>
                         <span></span>
                       </li>
