@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import "css/common/calendar.scss";
 type propsTypes = {};
 export default function Calendar(props: propsTypes) {
-  const selDomArr: HTMLElement[] = []; //选中的dom
+  const selDomArr: HTMLElement[] = []; //选中的dom（开始结束两天）
   const [dateMonthArr, setDateMonthArr] = useState<string[]>([]); //日历上一年的所有月份
   /**
    * 获取包括当前日期后面的十二个月
@@ -46,59 +46,24 @@ export default function Calendar(props: propsTypes) {
         break;
       case 1:
         //两个的时候记录dom，把之间的dom染色
-        selDomArr.push(selDom);
         selDom.classList.add("range");
-        let grids = document.querySelectorAll(".cal-body-grid"); //所有的ul
-        let isEnd = false; //最后一个选中后，剩下的ul的就不循环了的开关
-        let firstLiUl = 0;
-        for (let j = 0; j < grids.length; j++) {
-          let liArr = grids[j].childNodes as any;
-          let idx = Array.from(liArr).findIndex((liItem: any) =>
-            liItem.classList.contains("range")
-          );
-          if (isEnd) {
+        let firstSelDay=new Date(selDomArr[0].getAttribute('data-day') as string).getTime();
+        let secondSelDay=new Date(selDom.getAttribute('data-day') as string).getTime();
+        //选中的两天里数值小的是第一天数值大的是第二天
+        if(firstSelDay<=secondSelDay){
+          selDomArr.push(selDom);
+        }else{
+          selDomArr.unshift(selDom);
+        }
+        let dayDomArr = document.querySelectorAll("li[data-day]");
+        let idx= Array.from(dayDomArr).findIndex(x=>x.getAttribute('data-day')===selDomArr[0].getAttribute('data-day'));
+        for(let i = idx+1;i<dayDomArr.length;i++){
+          //第一个
+          if(dayDomArr[i].getAttribute('data-day')===selDomArr[1].getAttribute('data-day')){
             break;
           }
-          if (idx >= 0) {
-            firstLiUl = j;
-            if (j === firstLiUl) {
-              //开始和结束的li不计入类添加
-              for (let i = idx + 1; i <= liArr.length - 1; i++) {
-                if (liArr[i].classList.contains("range")) {
-                  //最后一个
-
-                  isEnd = true;
-                  break;
-                }
-                liArr[i].classList.add("selected");
-              }
-            } else {
-              //开始和结束的li不计入类添加
-              for (let i = 0; i < liArr.length - 1; i++) {
-                if (liArr[i].classList.contains("range")) {
-                  //最后一个
-                  isEnd = true;
-                  break;
-                }
-                liArr[i].classList.add("selected");
-              }
-            }
-          }
+          dayDomArr[i].classList.add('selected');
         }
-
-        // document.querySelectorAll(".cal-body-grid").forEach((ulItem: any) => {
-
-        // });
-        // let dom = document.querySelector(".range")?.nextSibling as any;
-        // while (true) {
-        //   // debugger
-        //   if (dom==null||dom.classList.contains("range")) {
-        //     break;
-        //   } else {
-        //     dom.classList.add("selected");
-        //     dom = dom.nextSibling;
-        //   }
-        // }
         break;
       case 2:
         //三个的时候清除所有颜色样式和选中数组并且按照1操作
@@ -149,7 +114,7 @@ export default function Calendar(props: propsTypes) {
                 <ul className="cal-body-grid">
                   {dayArr.map((dayItem, dayIdx) => {
                     return (
-                      <li onClick={selDomHandle} key={dayIdx}>
+                      <li data-day={`${item}-${dayItem}`} onClick={selDomHandle} key={dayIdx}>
                         <span>{dayItem}</span>
                         <span></span>
                       </li>
