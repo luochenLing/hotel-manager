@@ -4,14 +4,9 @@ import {
   Tabs,
   Tab,
   Toolbar,
-  Link,
-  Popup,
-  Page,
-  Navbar,
-  NavRight,
-  Icon,
+  Link
 } from "framework7-react";
-import CalendarSel from "components/home/CalendarSel";
+import Calendar from "components/common/Calendar";
 import pubSub from "pubsub-js";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
 type stateType = {
@@ -21,7 +16,6 @@ type stateType = {
   endDay: string;
 };
 type propsType = {};
-const calendarRef = React.createRef<any>();
 class Index extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
@@ -41,7 +35,6 @@ class Index extends React.Component<propsType, stateType> {
       this.setState({ startDay, endDay });
     }
     this.setState({ showCalendar });
-    calendarRef.current.openCalendar();
   };
 
   initEvent() {
@@ -113,23 +106,7 @@ class Index extends React.Component<propsType, stateType> {
             </div>
           </Tab>
         </Tabs>
-        {/* 日历条件 */}
-        <Popup opened={this.state.showCalendar} className="demo-popup-swipe">
-          <Page>
-            <Navbar title="选择日期">
-              <NavRight>
-                <Link
-                  onClick={() => {
-                    this.setState({ showCalendar: false });
-                  }}
-                >
-                  <Icon f7="multiply"></Icon>
-                </Link>
-              </NavRight>
-            </Navbar>
-            <CalendarSel ref={calendarRef} {...{ startDay, endDay }} />
-          </Page>
-        </Popup>
+        <Calendar curDay={new Date()} />
       </div>
     );
   }

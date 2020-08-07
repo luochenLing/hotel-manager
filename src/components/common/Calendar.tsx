@@ -2,13 +2,13 @@ import React, { useState, useEffect, Fragment } from "react";
 import "css/common/calendar.scss";
 interface propsTypes {
   //当前日期
-  curDay:Date,
+  curDay?: Date;
   //不可选日期(从x天到X天)
-  disableDay:{
+  disableDay?: {
     from: Date;
     to: Date;
   };
-};
+}
 export default function Calendar(props: propsTypes) {
   const selDomArr: HTMLElement[] = []; //选中的dom（开始结束两天）
   //#region 获取所有需要显示的月份
@@ -45,12 +45,16 @@ export default function Calendar(props: propsTypes) {
 
   //#region 初始日历
   const [curDay, setCurDay] = useState("");
+  /**
+   * 获取当天
+   */
   useEffect(() => {
-    console.log(props.curDay)
+    console.log(props.curDay);
     if (props.curDay) {
-      setCurDay(props.curDay.Format("yyyy-MM-dd"));
+      console.log(props.curDay.Format("yyyy-M-d"));
+      setCurDay(props.curDay.Format("yyyy-M-d"));
     }
-  },[props.curDay]);
+  }, [props.curDay]);
 
   //#endregion
   /**
@@ -158,9 +162,9 @@ export default function Calendar(props: propsTypes) {
                   {dayArr.map((dayItem, dayIdx) => {
                     return (
                       <li
-                        className={
+                        className={`${
                           curDay === `${item}-${dayItem}` ? "cur-day" : ""
-                        }
+                        }`}
                         data-day={`${item}-${dayItem}`}
                         onClick={selDomHandle}
                         key={dayIdx}

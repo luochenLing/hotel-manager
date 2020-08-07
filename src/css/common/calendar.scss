@@ -16,6 +16,10 @@ h6 {
 .cal {
   overflow: auto;
   color: #333;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #fff;
   &-header {
     display: flex;
     text-align: center;
@@ -74,13 +78,20 @@ h6 {
           z-index: -1;
         }
       }
-      .range{
-        background-color:#4cd964;
+      .range {
+        background-color: #4cd964;
         color: #fff;
       }
-      .selected{
+      .selected {
         background-color: rgba(63, 255, 120, 0.1);
         color: #000;
+      }
+      .cur-day {
+        background-color: #4cd964;
+        color: #fff;
+      }
+      .disable-day {
+        color: #999;
       }
     }
   }
