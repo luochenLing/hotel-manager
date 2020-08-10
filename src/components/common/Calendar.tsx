@@ -5,8 +5,8 @@ interface propsTypes {
   curDay?: Date;
   //不可选日期(从x天到X天)
   disableDay?: {
-    from: Date;
-    to: Date;
+    from?: Date;
+    to?: Date;
   };
   //选中日期
   selDay?: {
@@ -63,11 +63,16 @@ export default function Calendar(props: propsTypes) {
   }, [props.curDay, props.selDay]);
 
   //#endregion
+
   /**
    * 选择日期
    * @param e 当前的dom方法
    */
   const selDomHandle = (e: any) => {
+    if (e.currentTarget.classList.contains("disable-day")) {
+      //禁止的日期范围不能选中
+      return;
+    }
     //不能重复选择某天
     let rangeArr = document.querySelectorAll(".range");
     if (rangeArr.length >= 0) {
@@ -127,6 +132,7 @@ export default function Calendar(props: propsTypes) {
         break;
     }
   };
+
   /**
    * 清除之前选中的dom重新
    * @param selDom 选中的DOM
@@ -162,7 +168,7 @@ export default function Calendar(props: propsTypes) {
         return "range";
       } else {
         if (isStart) {
-          if(isEnd){
+          if (isEnd) {
             return "";
           }
           return "selected";
@@ -178,6 +184,37 @@ export default function Calendar(props: propsTypes) {
       }
     }
   };
+
+  /**
+   * 设置禁止日期范围
+   */
+  const setDisableRange = (dayItem: string) => {
+    if (props.disableDay?.from && !props.disableDay?.to) {
+      //从XX天开始以后的时间禁止
+      let fromDate = props.disableDay?.from.getTime();
+      let curDate = new Date(dayItem).getTime();
+      if (fromDate <= curDate) {
+        return true;
+      }
+    } else if (!props.disableDay?.from && props.disableDay?.to) {
+      //从XX天以前的时间都禁止
+      let toDate = props.disableDay?.to.getTime();
+      let curDate = new Date(dayItem).getTime();
+      if (toDate >= curDate) {
+        return true;
+      }
+    } else if (props.disableDay?.from && props.disableDay?.to) {
+      //XX天到XX天之内的时间禁止
+      let fromDate = props.disableDay?.from.getTime();
+      let toDate = props.disableDay?.to.getTime();
+      let curDate = new Date(dayItem).getTime();
+      if (toDate >= curDate && fromDate <= curDate) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div className="cal">
       <div className="cal-header">
@@ -215,7 +252,11 @@ export default function Calendar(props: propsTypes) {
                   {dayArr.map((dayItem, dayIdx) => {
                     return (
                       <li
-                        className={setRange(`${item}-${dayItem}`)}
+                        className={`${setRange(`${item}-${dayItem}`)} ${
+                          setDisableRange(`${item}-${dayItem}`)
+                            ? "disable-day"
+                            : ""
+                        }`}
                         data-day={`${item}-${dayItem}`}
                         onClick={selDomHandle}
                         key={dayIdx}

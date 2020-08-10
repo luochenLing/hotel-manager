@@ -106,7 +106,7 @@ class Index extends React.Component<propsType, stateType> {
             </div>
           </Tab>
         </Tabs>
-        <Calendar curDay={new Date()} selDay={{from:new Date('2020-8-10'),to:new Date('2020-8-20')}} />
+        <Calendar curDay={new Date()} selDay={{from:new Date('2020-8-10'),to:new Date('2020-8-20')}} disableDay={{to:new Date()}}/>
       </div>
     );
   }
