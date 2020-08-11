@@ -16,7 +16,7 @@ interface propsTypes {
   //是否显示日历
   showCalendar: boolean;
   //关闭日历
-  closeCalendar:Function
+  closeCalendar: Function;
 }
 export default function Calendar(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
@@ -172,7 +172,7 @@ export default function Calendar(props: propsTypes) {
   // 初始化区间开关
   let isEnd = false,
     isStart = false;
-  
+
   /**
    * 根据传递过来的当天时间或者是时间段去设置样式
    * @param dayItem 渲染中的列表项
@@ -252,7 +252,7 @@ export default function Calendar(props: propsTypes) {
   };
 
   return (
-    <div className="cal" style={{ display: `${show ? "block" : "none"}` }}>
+    <div className={`cal ${show ? "slide-in" : "slide-out"}`}>
       <div className="cal-header">
         <div className="bar">
           <span className="cancel" onClick={closeCalendar}>

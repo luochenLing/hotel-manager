@@ -92,5 +92,28 @@ h6 {
       }
     }
   }
-  
+}
+// 日历显示动画
+.slide-in {
+  animation: slide-in 0.2s forwards;
+}
+.slide-out {
+  animation: slide-out 0.2s forwards;
+}
+@keyframes slide-in {
+  0% {
+    transform: translate(0, 100%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 100%);
+  }
 }
