@@ -1,11 +1,6 @@
 import React from "react";
 import "css/home/search-panel.scss";
-import {
-  Tabs,
-  Tab,
-  Toolbar,
-  Link
-} from "framework7-react";
+import { Tabs, Tab, Toolbar, Link } from "framework7-react";
 import Calendar from "components/common/Calendar";
 import pubSub from "pubsub-js";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
@@ -14,6 +9,7 @@ type stateType = {
   calendarInline: any;
   startDay: string;
   endDay: string;
+  yesterday: string;
 };
 type propsType = {};
 class Index extends React.Component<propsType, stateType> {
@@ -24,11 +20,20 @@ class Index extends React.Component<propsType, stateType> {
       calendarInline: "",
       startDay: "2020-08-15",
       endDay: "2020-08-30",
+      yesterday: "",
     };
   }
+  
   componentDidMount() {
     this.initEvent();
+    this.getYesterday();
   }
+
+  getYesterday = () => {
+    let day = new Date(this.state.startDay);
+    day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
+    this.setState({ yesterday: day.Format("yyyy-M-d") });
+  };
 
   getCalendar = (showCalendar: boolean, startDay: string, endDay: string) => {
     if (startDay && endDay) {
@@ -45,8 +50,9 @@ class Index extends React.Component<propsType, stateType> {
       this.setState({ startDay: val[1][0], endDay: val[1][1] });
     });
   }
+
   render() {
-    const { startDay, endDay } = this.state;
+    const { startDay, endDay, yesterday, showCalendar } = this.state;
     return (
       <div className="search-panel">
         <Toolbar tabbar bottom>
@@ -106,7 +112,15 @@ class Index extends React.Component<propsType, stateType> {
             </div>
           </Tab>
         </Tabs>
-        <Calendar curDay={new Date()} selDay={{from:new Date('2020-8-10'),to:new Date('2020-8-20')}} disableDay={{to:new Date()}}/>
+        <Calendar
+          showCalendar={showCalendar}
+          curDay={new Date()}
+          selDay={{ from: new Date(startDay), to: new Date(endDay) }}
+          disableDay={{ to: new Date(yesterday) }}
+          closeCalendar={()=>{
+            this.setState({showCalendar:false})
+          }}
+        />
       </div>
     );
   }

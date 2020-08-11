@@ -13,8 +13,24 @@ interface propsTypes {
     from: Date;
     to: Date;
   };
+  //是否显示日历
+  showCalendar: boolean;
+  //关闭日历
+  closeCalendar:Function
 }
 export default function Calendar(props: propsTypes) {
+  let from = props.selDay?.from.Format("yyyy-M-d");
+  let to = props.selDay?.to.Format("yyyy-M-d");
+  //初始时间段
+  const [startDay, setStartDay] = useState<string | null>(from);
+  const [endDay, setEndDay] = useState<string | null>(to);
+
+  //是否显示日历界面
+  const [show, setShow] = useState(props.showCalendar);
+  useEffect(() => {
+    setShow(props.showCalendar);
+  }, [props.showCalendar]);
+
   //#region 获取所有需要显示的月份
   const [dateMonthArr, setDateMonthArr] = useState<string[]>([]); //日历上一年的所有月份
   /**
@@ -98,6 +114,7 @@ export default function Calendar(props: propsTypes) {
       case 0:
         //只有一个dom的时候，记录到选中数组并且着色
         selDom.classList.add("range");
+        setStartDay(selDom.getAttribute("data-day"));
         break;
       case 1:
         //两个的时候记录dom，把之间的dom染色
@@ -113,6 +130,7 @@ export default function Calendar(props: propsTypes) {
           clearAllDom(selDom);
           break;
         }
+        setEndDay(selDom.getAttribute("data-day"));
         let dayDomArr = document.querySelectorAll("li[data-day]");
         let idx = Array.from(dayDomArr).findIndex(
           (x) =>
@@ -145,15 +163,16 @@ export default function Calendar(props: propsTypes) {
     document.querySelectorAll(".selected").forEach((item) => {
       item.classList.remove("selected");
     });
+    setStartDay("");
+    setEndDay("");
+    setStartDay(selDom.getAttribute("data-day"));
     selDom.classList.add("range");
   };
-
-  let from = props.selDay?.from.Format("yyyy-M-d");
-  let to = props.selDay?.to.Format("yyyy-M-d");
 
   // 初始化区间开关
   let isEnd = false,
     isStart = false;
+  
   /**
    * 根据传递过来的当天时间或者是时间段去设置样式
    * @param dayItem 渲染中的列表项
@@ -182,6 +201,19 @@ export default function Calendar(props: propsTypes) {
       } else {
         return "";
       }
+    }
+  };
+
+  /**
+   * 初始化设置日期的文字
+   */
+  const initDateText = (dayItem: string) => {
+    if (dayItem === curDay) {
+      return "今天";
+    } else if (startDay === dayItem) {
+      return "入住";
+    } else if (endDay === dayItem) {
+      return "离店";
     }
   };
 
@@ -215,11 +247,17 @@ export default function Calendar(props: propsTypes) {
     return false;
   };
 
+  const closeCalendar = () => {
+    props.closeCalendar();
+  };
+
   return (
-    <div className="cal">
+    <div className="cal" style={{ display: `${show ? "block" : "none"}` }}>
       <div className="cal-header">
         <div className="bar">
-          <span className="cancel">取消</span>
+          <span className="cancel" onClick={closeCalendar}>
+            取消
+          </span>
           <span className="title">选择日历</span>
         </div>
         <ul className="week">
@@ -262,7 +300,7 @@ export default function Calendar(props: propsTypes) {
                         key={dayIdx}
                       >
                         <span>{dayItem}</span>
-                        <span></span>
+                        <span>{initDateText(`${item}-${dayItem}`)}</span>
                       </li>
                     );
                   })}
