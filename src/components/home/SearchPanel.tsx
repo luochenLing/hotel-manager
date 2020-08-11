@@ -2,8 +2,8 @@ import React from "react";
 import "css/home/search-panel.scss";
 import { Tabs, Tab, Toolbar, Link } from "framework7-react";
 import Calendar from "components/common/Calendar";
-import pubSub from "pubsub-js";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
+let dayDiff = 1; //日差
 type stateType = {
   showCalendar: boolean;
   calendarInline: any;
@@ -23,9 +23,8 @@ class Index extends React.Component<propsType, stateType> {
       yesterday: "",
     };
   }
-  
+
   componentDidMount() {
-    this.initEvent();
     this.getYesterday();
   }
 
@@ -35,21 +34,17 @@ class Index extends React.Component<propsType, stateType> {
     this.setState({ yesterday: day.Format("yyyy-M-d") });
   };
 
-  getCalendar = (showCalendar: boolean, startDay: string, endDay: string) => {
-    if (startDay && endDay) {
-      this.setState({ startDay, endDay });
-    }
+  getCalendar = (showCalendar: boolean) => {
     this.setState({ showCalendar });
   };
 
-  initEvent() {
-    pubSub.subscribe("closeCalendarPanel", (...val: any) => {
-      this.setState({ showCalendar: val[1] });
-    });
-    pubSub.subscribe("setDate", (...val: [any, string[]]) => {
-      this.setState({ startDay: val[1][0], endDay: val[1][1] });
-    });
-  }
+  setDateRange = (dateArr: string[]) => {
+    let sDay = new Date(dateArr[0]);
+    let eDay = new Date(dateArr[1]);
+    dayDiff = Math.abs(sDay.getTime() - eDay.getTime()) / 1000 / 60 / 60 / 24;
+
+    this.setState({ startDay: dateArr[0], endDay: dateArr[1] });
+  };
 
   render() {
     const { startDay, endDay, yesterday, showCalendar } = this.state;
@@ -76,6 +71,7 @@ class Index extends React.Component<propsType, stateType> {
                 startDay={startDay}
                 endDay={endDay}
                 getCalendar={this.getCalendar}
+                dayDiff={dayDiff}
               />
             </div>
           </Tab>
@@ -92,6 +88,7 @@ class Index extends React.Component<propsType, stateType> {
                 startDay={startDay}
                 endDay={endDay}
                 getCalendar={this.getCalendar}
+                dayDiff={dayDiff}
               />
             </div>
           </Tab>
@@ -108,6 +105,7 @@ class Index extends React.Component<propsType, stateType> {
                 startDay={startDay}
                 endDay={endDay}
                 getCalendar={this.getCalendar}
+                dayDiff={dayDiff}
               />
             </div>
           </Tab>
@@ -117,8 +115,11 @@ class Index extends React.Component<propsType, stateType> {
           curDay={new Date()}
           selDay={{ from: new Date(startDay), to: new Date(endDay) }}
           disableDay={{ to: new Date(yesterday) }}
-          closeCalendar={()=>{
-            this.setState({showCalendar:false})
+          closeCalendar={() => {
+            this.setState({ showCalendar: false });
+          }}
+          getSelDateArr={(dateArr: string[]) => {
+            this.setDateRange(dateArr);
           }}
         />
       </div>

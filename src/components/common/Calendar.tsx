@@ -17,6 +17,8 @@ interface propsTypes {
   showCalendar: boolean;
   //关闭日历
   closeCalendar: Function;
+  //获取选中时间段
+  getSelDateArr?: Function;
 }
 export default function Calendar(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
@@ -29,6 +31,12 @@ export default function Calendar(props: propsTypes) {
   const [show, setShow] = useState(props.showCalendar);
   useEffect(() => {
     setShow(props.showCalendar);
+    if (props.showCalendar === false && props.getSelDateArr) {
+      props.getSelDateArr!([startDay, endDay]);
+    }
+
+    //去掉依赖提示，因为这里只是依赖于是否显示日历，不显示的时候就会输出一个开始和结束的日期到调用层
+    // eslint-disable-next-line
   }, [props.showCalendar]);
 
   //#region 获取所有需要显示的月份
@@ -131,6 +139,7 @@ export default function Calendar(props: propsTypes) {
           break;
         }
         setEndDay(selDom.getAttribute("data-day"));
+
         let dayDomArr = document.querySelectorAll("li[data-day]");
         let idx = Array.from(dayDomArr).findIndex(
           (x) =>
@@ -144,6 +153,7 @@ export default function Calendar(props: propsTypes) {
           }
           dayDomArr[i].classList.add("selected");
         }
+        props.closeCalendar();
         break;
       case 2:
         clearAllDom(selDom);
@@ -169,6 +179,14 @@ export default function Calendar(props: propsTypes) {
     selDom.classList.add("range");
   };
 
+  /**
+   * 根据天数获取周几
+   */
+  const getWeek = (dayItem: string) => {
+    let day = new Date(dayItem).getDay();
+    var weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+    return weeks[day];
+  };
   // 初始化区间开关
   let isEnd = false,
     isStart = false;
@@ -296,6 +314,7 @@ export default function Calendar(props: propsTypes) {
                             : ""
                         }`}
                         data-day={`${item}-${dayItem}`}
+                        data-week={getWeek(`${item}-${dayItem}`)}
                         onClick={selDomHandle}
                         key={dayIdx}
                       >
