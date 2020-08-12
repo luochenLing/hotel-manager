@@ -28,6 +28,15 @@ Date.prototype.Format = function (fmt: string) {
       );
   return fmt;
 };
+/**
+ * 根据当天推断是周几
+ * @param curDay 当天日期
+ */
+export const getWeek = (curDay: string) => {
+  let day = new Date(curDay).getDay();
+  var weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  return weeks[day];
+};
 
 export default {
   Date,

@@ -6,6 +6,8 @@ type propsType = {
   getCalendar: Function;
   startDay: string;
   endDay: string;
+  fromWeek: string;
+  toWeek: string;
   dayDiff: number;
 };
 class SearcForm extends React.Component<propsType, stateType> {
@@ -43,7 +45,7 @@ class SearcForm extends React.Component<propsType, stateType> {
               <span ref={this.startDayDom} data-seldate={startDay}>
                 {`${startDay.split("-")[1]}月${startDay.split("-")[2]}日`}
               </span>
-              <i>今天</i>
+              <i>{this.props.fromWeek}</i>
             </div>
             <h4 className="date-count">{this.props.dayDiff}晚</h4>
             <div>
@@ -51,7 +53,7 @@ class SearcForm extends React.Component<propsType, stateType> {
               <span ref={this.endDayDom} data-seldate={endDay}>
                 {`${endDay.split("-")[1]}月${endDay.split("-")[2]}日`}
               </span>
-              <i>周六</i>
+              <i>{this.props.toWeek}</i>
             </div>
           </li>
           <li className="search-key">
