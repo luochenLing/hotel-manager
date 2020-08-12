@@ -5,15 +5,14 @@ import Calendar from "components/common/Calendar";
 import { getWeek } from "utils/common";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
 let dayDiff = 1; //日差
-
+let fromWeek = "",
+  toWeek = "";
 type stateType = {
   showCalendar: boolean;
   calendarInline: any;
   startDay: string;
   endDay: string;
   yesterday: string;
-  fromWeek: string;
-  toWeek: string;
 };
 type propsType = {};
 class SearchPanel extends React.Component<propsType, stateType> {
@@ -22,11 +21,9 @@ class SearchPanel extends React.Component<propsType, stateType> {
     this.state = {
       showCalendar: false,
       calendarInline: "",
-      startDay: "2020-08-15",
-      endDay: "2020-08-30",
+      startDay: "2020-08-10",
+      endDay: "2020-08-20",
       yesterday: "",
-      fromWeek:'',
-      toWeek:''
     };
   }
 
@@ -34,10 +31,10 @@ class SearchPanel extends React.Component<propsType, stateType> {
     this.getYesterday();
     this.initWeekDay();
   }
-  initWeekDay=()=>{
-    // this.setState({fromWeek:getWeek(this.state.startDay),toWeek:getWeek(this.state.endDay)});
-    this.setState({fromWeek:'周一',toWeek:'周二'});
-  }
+  initWeekDay = () => {
+    fromWeek = getWeek(this.state.startDay);
+    toWeek = getWeek(this.state.endDay);
+  };
   getYesterday = () => {
     let day = new Date(this.state.startDay);
     day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
@@ -54,15 +51,19 @@ class SearchPanel extends React.Component<propsType, stateType> {
     fromWeek: string;
     toWeek: string;
   }) => {
-    console.log(dateArr.fromWeek,dateArr.toWeek)
     let sDay = new Date(dateArr.startDay);
     let eDay = new Date(dateArr.endDay);
     dayDiff = Math.abs(sDay.getTime() - eDay.getTime()) / 1000 / 60 / 60 / 24;
-    this.setState({ startDay: dateArr.startDay, endDay: dateArr.endDay,fromWeek:dateArr.fromWeek,toWeek:dateArr.toWeek });
+    this.setState({
+      startDay: dateArr.startDay,
+      endDay: dateArr.endDay,
+    });
+    fromWeek = dateArr.fromWeek;
+    toWeek = dateArr.toWeek;
   };
 
   render() {
-    const { startDay, endDay, yesterday, showCalendar,fromWeek,toWeek } = this.state;
+    const { startDay, endDay, yesterday, showCalendar } = this.state;
     return (
       <>
         <div className="search-panel">

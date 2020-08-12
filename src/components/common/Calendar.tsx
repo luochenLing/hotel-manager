@@ -21,11 +21,12 @@ interface propsTypes {
   //获取选中时间段
   getSelDateArr?: Function;
 }
+//变量不放在外部的话，可能会被父组件加载导致重新渲染给冲掉变量值
+let fromWeek = "",
+toWeek = "";
 export default function Calendar(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
   let to = props.selDay?.to.Format("yyyy-M-d");
-  let fromWeek = "",
-    toWeek = "";
   //初始时间段
   const [startDay, setStartDay] = useState<string | null>(from);
   const [endDay, setEndDay] = useState<string | null>(to);
@@ -180,6 +181,7 @@ export default function Calendar(props: propsTypes) {
     setStartDay("");
     setEndDay("");
     setStartDay(selDom.getAttribute("data-day"));
+    fromWeek=selDom.getAttribute('data-week')!;
     selDom.classList.add("range");
   };
 
