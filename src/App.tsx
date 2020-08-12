@@ -6,7 +6,6 @@ import "./theme";
 import "css/App.scss";
 import "framework7-icons";
 const Home = React.lazy(() => import("views/home/Index"));
-
 function App() {
   return (
     <Suspense fallback="loading...">
