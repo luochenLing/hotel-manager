@@ -23,7 +23,7 @@ interface propsTypes {
   showCalendar: boolean;
   //关闭日历
   closeCalendar: Function;
-  
+
   myRef: any;
 }
 //变量不放在外部的话，可能会被父组件加载导致重新渲染给冲掉变量值
@@ -133,7 +133,7 @@ function CalendarDom(props: propsTypes) {
         //只有一个dom的时候，记录到选中数组并且着色
         selDom.classList.add("range");
         setStartDay(selDom.getAttribute("data-day"));
-        fromWeek=selDom.getAttribute('data-week')!;
+        fromWeek = selDom.getAttribute("data-week")!;
         break;
       case 1:
         //两个的时候记录dom，把之间的dom染色
@@ -150,8 +150,8 @@ function CalendarDom(props: propsTypes) {
           break;
         }
         setEndDay(selDom.getAttribute("data-day"));
-        console.log(selDom.getAttribute("data-day"))
-        toWeek=selDom.getAttribute('data-week')!;
+        console.log(selDom.getAttribute("data-day"));
+        toWeek = selDom.getAttribute("data-week")!;
         let dayDomArr = document.querySelectorAll("li[data-day]");
         let idx = Array.from(dayDomArr).findIndex(
           (x) =>
@@ -188,7 +188,7 @@ function CalendarDom(props: propsTypes) {
     setStartDay("");
     setEndDay("");
     setStartDay(selDom.getAttribute("data-day"));
-    fromWeek=selDom.getAttribute('data-week')!;
+    fromWeek = selDom.getAttribute("data-week")!;
     selDom.classList.add("range");
   };
 
@@ -275,7 +275,7 @@ function CalendarDom(props: propsTypes) {
   };
 
   return (
-    <div className={`cal ${show ? "slide-in" : "slide-out"}`}>
+    <div className={`${show ? "slide-in" : "slide-out"}`}>
       <div className="cal-header">
         <div className="bar">
           <span className="cancel" onClick={closeCalendar}>
@@ -293,57 +293,59 @@ function CalendarDom(props: propsTypes) {
           <li>日</li>
         </ul>
       </div>
-      <div style={{ height: pageHeight, paddingTop: 72 }}>
-        <section className="cal-body">
-          {dateMonthArr.map((item, idx) => {
-            let curYear = parseInt(item.split("-")[0]);
-            let curMonth = parseInt(item.split("-")[1]);
-            let dayCount = new Date(curYear, curMonth, 0).getDate();
-            let dayArr = [];
-            let curWeek = new Date(curYear, curMonth - 1, 1).getDay() || 7; //周日的话会返回0此时用7替代
-            dayCount += curWeek; //加上是周几的信息
-            let isFirstDay = false;
-            for (let i = 1; i < dayCount; i++) {
-              if (curWeek !== i && !isFirstDay) {
-                dayArr.push(-1);
-              } else {
-                isFirstDay = true;
-                dayArr.push(i - curWeek + 1);
+      <div className="cal">
+        <div style={{ height: pageHeight, paddingTop: 72 }}>
+          <section className="cal-body">
+            {dateMonthArr.map((item, idx) => {
+              let curYear = parseInt(item.split("-")[0]);
+              let curMonth = parseInt(item.split("-")[1]);
+              let dayCount = new Date(curYear, curMonth, 0).getDate();
+              let dayArr = [];
+              let curWeek = new Date(curYear, curMonth - 1, 1).getDay() || 7; //周日的话会返回0此时用7替代
+              dayCount += curWeek; //加上是周几的信息
+              let isFirstDay = false;
+              for (let i = 1; i < dayCount; i++) {
+                if (curWeek !== i && !isFirstDay) {
+                  dayArr.push(-1);
+                } else {
+                  isFirstDay = true;
+                  dayArr.push(i - curWeek + 1);
+                }
               }
-            }
-            return (
-              <Fragment key={idx}>
-                <h4 className="cal-body-month">{`${item.replace(
-                  "-",
-                  "年"
-                )}月`}</h4>
-                <ul className="cal-body-grid">
-                  {dayArr.map((dayItem, dayIdx) => {
-                    if (dayItem === -1) {
-                      return <li key={dayIdx}></li>;
-                    }
-                    return (
-                      <li
-                        className={`${setRange(`${item}-${dayItem}`)} ${
-                          setDisableRange(`${item}-${dayItem}`)
-                            ? "disable-day"
-                            : ""
-                        }`}
-                        data-day={`${item}-${dayItem}`}
-                        data-week={getWeek(`${item}-${dayItem}`)}
-                        onClick={selDomHandle}
-                        key={dayIdx}
-                      >
-                        <span>{dayItem}</span>
-                        <span>{initDateText(`${item}-${dayItem}`)}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </Fragment>
-            );
-          })}
-        </section>
+              return (
+                <Fragment key={idx}>
+                  <h4 className="cal-body-month">{`${item.replace(
+                    "-",
+                    "年"
+                  )}月`}</h4>
+                  <ul className="cal-body-grid">
+                    {dayArr.map((dayItem, dayIdx) => {
+                      if (dayItem === -1) {
+                        return <li key={dayIdx}></li>;
+                      }
+                      return (
+                        <li
+                          className={`${setRange(`${item}-${dayItem}`)} ${
+                            setDisableRange(`${item}-${dayItem}`)
+                              ? "disable-day"
+                              : ""
+                          }`}
+                          data-day={`${item}-${dayItem}`}
+                          data-week={getWeek(`${item}-${dayItem}`)}
+                          onClick={selDomHandle}
+                          key={dayIdx}
+                        >
+                          <span>{dayItem}</span>
+                          <span>{initDateText(`${item}-${dayItem}`)}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Fragment>
+              );
+            })}
+          </section>
+        </div>
       </div>
     </div>
   );

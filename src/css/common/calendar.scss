@@ -15,10 +15,6 @@ h6 {
 }
 .cal {
   overflow: auto;
-  color: #333;
-  position: fixed;
-  top: 0;
-  z-index: 999;
   background: #fff;
   &-header {
     display: flex;
@@ -27,6 +23,8 @@ h6 {
     background-color: #f5f5f5;
     position: fixed;
     width: 100%;
+    top: 0;
+    z-index: 1000;
     .bar {
       display: flex;
       margin-bottom: 15px;
@@ -62,6 +60,9 @@ h6 {
     text-align: center;
     &-month {
       margin-bottom: 40px;
+      position: sticky;
+      top: 71px;
+      background: #fff;
     }
     &-grid {
       display: flex;
@@ -95,9 +96,17 @@ h6 {
 }
 // 日历显示动画
 .slide-in {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
   animation: slide-in 0.2s forwards;
 }
 .slide-out {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
   animation: slide-out 0.2s forwards;
 }
 @keyframes slide-in {
