@@ -1,5 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
-import {getWeek} from 'utils/common'
+import React, {
+  useState,
+  useEffect,
+  Fragment,
+  useImperativeHandle,
+} from "react";
+import { getWeek } from "utils/common";
 import "css/common/calendar.scss";
 interface propsTypes {
   //当前日期
@@ -18,29 +23,24 @@ interface propsTypes {
   showCalendar: boolean;
   //关闭日历
   closeCalendar: Function;
-  //获取选中时间段
-  getSelDateArr?: Function;
+  
+  myRef: any;
 }
 //变量不放在外部的话，可能会被父组件加载导致重新渲染给冲掉变量值
 let fromWeek = "",
-toWeek = "";
-export default function Calendar(props: propsTypes) {
+  toWeek = "";
+function CalendarDom(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
   let to = props.selDay?.to.Format("yyyy-M-d");
   //初始时间段
   const [startDay, setStartDay] = useState<string | null>(from);
   const [endDay, setEndDay] = useState<string | null>(to);
+  const { myRef } = props;
 
   //是否显示日历界面
   const [show, setShow] = useState(props.showCalendar);
   useEffect(() => {
     setShow(props.showCalendar);
-    if (props.showCalendar === false && props.getSelDateArr) {
-      props.getSelDateArr!({ startDay, endDay,fromWeek,toWeek });
-    }
-
-    //去掉依赖提示，因为这里只是依赖于是否显示日历，不显示的时候就会输出一个开始和结束的日期到调用层
-    // eslint-disable-next-line
   }, [props.showCalendar]);
 
   //#region 获取所有需要显示的月份
@@ -91,6 +91,12 @@ export default function Calendar(props: propsTypes) {
   }, [props.curDay, props.selDay]);
 
   //#endregion
+
+  useImperativeHandle(myRef, () => ({
+    getSelDateArr: () => {
+      return { startDay, endDay, fromWeek, toWeek };
+    },
+  }));
 
   /**
    * 选择日期
@@ -144,6 +150,7 @@ export default function Calendar(props: propsTypes) {
           break;
         }
         setEndDay(selDom.getAttribute("data-day"));
+        console.log(selDom.getAttribute("data-day"))
         toWeek=selDom.getAttribute('data-week')!;
         let dayDomArr = document.querySelectorAll("li[data-day]");
         let idx = Array.from(dayDomArr).findIndex(
@@ -341,3 +348,7 @@ export default function Calendar(props: propsTypes) {
     </div>
   );
 }
+const Calendar = React.forwardRef((props: any, ref: any) => {
+  return <CalendarDom {...props} myRef={ref}></CalendarDom>;
+});
+export default Calendar;
