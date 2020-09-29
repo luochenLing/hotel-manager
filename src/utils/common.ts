@@ -28,6 +28,7 @@ Date.prototype.Format = function (fmt: string) {
       );
   return fmt;
 };
+
 /**
  * 根据当天推断是周几
  * @param curDay 当天日期
@@ -45,6 +46,44 @@ export const getWeek = (curDay: string) => {
  */
 export const getDayByNum=(curTime:Date,num:number)=>{
   return new Date(curTime.getTime()+num*24*60*60*1000)
+}
+
+/**
+ * 指定数组内的数组项位置交换
+ * @param arr 选定的数组
+ * @param index1 交换的目标索引
+ * @param index2 要换到哪个位置的索引
+ */
+export const swapArray=(arr:[], index1:number, index2:number)=>{
+  arr[index1] = arr.splice(index2, 1, arr[index1])[0]
+  return arr
+}
+
+/**
+ * 数组去重
+ * @param arr 选中的数组
+ */
+export const duplicateRemoval=(arr:[])=>{
+  return arr.reduce((cur, next) => {
+    return cur.includes(next) ? cur : cur.concat(next);
+  }, [])
+}
+
+/**
+ * 对象数组去重
+ * @param arr 选中的数组 
+ * @param file 选中数组项的对象字段
+ */
+export const duplicateRemovalByObjArr=(arr:[],file:string)=>{
+  return arr.reduce((cur, next) => {
+    if (cur.length > 0 && cur.filter(x => x[file] === next[file]).length > 0) {
+      return cur
+    }
+    else {
+      cur.push(next)
+      return cur
+    }
+  }, [])
 }
 
 export default {
