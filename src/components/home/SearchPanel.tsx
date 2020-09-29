@@ -2,7 +2,7 @@ import React from "react";
 import "css/home/search-panel.scss";
 import { Tabs, Tab, Toolbar, Link } from "framework7-react";
 import Calendar from "components/common/Calendar";
-import { getWeek } from "utils/common";
+import { getWeek,getDayByNum } from "utils/common";
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
 let dayDiff = 1; //日差
 type stateType = {
@@ -22,8 +22,8 @@ class SearchPanel extends React.Component<propsType, stateType> {
     this.state = {
       showCalendar: false,
       calendarInline: "",
-      startDay: "2020-08-15",
-      endDay: "2020-08-20",
+      startDay:"",
+      endDay:"",
       yesterday: "",
       fromWeek: "",
       toWeek: "",
@@ -31,7 +31,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
   }
 
   componentDidMount() {
-    this.getYesterday();
     this.initCalendarDate();
   }
 
@@ -40,13 +39,17 @@ class SearchPanel extends React.Component<propsType, stateType> {
    */
   initCalendarDate = () => {
     let calendarInfo = {
-      startDay: "2020-08-16",
-      endDay: "2020-08-22",
-      fromWeek: getWeek("2020-08-16"),
-      toWeek: getWeek("2020-08-22"),
+      startDay:  new Date().Format('yyyy-MM-dd'),
+      endDay: getDayByNum(new Date(),7).Format('yyyy-MM-dd'),
+      fromWeek: "",
+      toWeek:"",
     };
-
-    this.setState(calendarInfo);
+    calendarInfo.fromWeek = getWeek(calendarInfo.startDay);
+    calendarInfo.fromWeek = getWeek(calendarInfo.toWeek);
+    this.setState(calendarInfo,()=>{
+      //setstate的异步原因，所以要初始化state以后再去根据新的state做操作
+      this.getYesterday();
+    });
 
     console.log(this.state);
   };
@@ -56,8 +59,8 @@ class SearchPanel extends React.Component<propsType, stateType> {
    */
   getYesterday = () => {
     let day = new Date(this.state.startDay);
-    day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
-    this.setState({ yesterday: day.Format("yyyy-M-d") });
+    let yesterday = getDayByNum(day,-1)
+    this.setState({ yesterday: yesterday.Format("yyyy-M-d") });
   };
 
   /**

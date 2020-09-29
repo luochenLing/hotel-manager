@@ -33,8 +33,12 @@ function CalendarDom(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
   let to = props.selDay?.to.Format("yyyy-M-d");
   //初始时间段
-  const [startDay, setStartDay] = useState<string | null>(from);
-  const [endDay, setEndDay] = useState<string | null>(to);
+  const [startDay, setStartDay] = useState<string | null>();
+  const [endDay, setEndDay] = useState<string | null>();
+  useEffect(()=>{
+    setStartDay(from);
+    setEndDay(to)
+  },[from,to])
   const { myRef } = props;
 
   //是否显示日历界面

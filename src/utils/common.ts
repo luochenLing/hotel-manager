@@ -38,6 +38,15 @@ export const getWeek = (curDay: string) => {
   return weeks[day];
 };
 
+/**
+ * 根据当前时间获取指定日期
+ * @param curTime 指定的当前时间
+ * @param num  指定的天数，向前是负数，向后是正数
+ */
+export const getDayByNum=(curTime:Date,num:number)=>{
+  return new Date(curTime.getTime()+num*24*60*60*1000)
+}
+
 export default {
   Date,
 };
