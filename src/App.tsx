@@ -5,7 +5,9 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import "./theme";
 import "css/App.scss";
 import "framework7-icons";
-const Home = React.lazy(() => import("views/home/Index"));
+// const Home = React.lazy(() => import("views/home/Index"));
+const Home = React.lazy(() => import("components/home/keyWord/Index"));
+
 function App() {
   return (
     <Suspense fallback="loading...">
