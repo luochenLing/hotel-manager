@@ -1,0 +1,21 @@
+.keyword {
+  &-title {
+    display: flex;
+    .icon {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 0.1rem;
+      display: block;
+      background-size: 5rem 3rem;
+    }
+    span {
+      font-size: 0.65rem;
+      color: #999;
+      font-weight: 300;
+    }
+  }
+  &-content {
+    &-item {
+    }
+  }
+}

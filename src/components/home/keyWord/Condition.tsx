@@ -1,13 +1,17 @@
-import { Button } from "framework7-react";
 import React from "react";
-interface propsTypes {
-}
-function ConditionDom(props:propsTypes){
-return (<div>
-          <input type="text" placeholder="关键字/位置/品牌/酒店名"/>
-          <Button>搜索</Button>
-        </div>
-        )
+import NavBar from "components/common/NavBar";
+import InputSearch from "components/common/InputSearch";
+import { Button } from "framework7-react";
+import "css/home/keyWord/condition.scss";
+
+interface propsTypes {}
+function ConditionDom(props: propsTypes) {
+  return (
+    <NavBar>
+      <InputSearch slot="center"></InputSearch>
+      <Button slot="right">搜索</Button>
+    </NavBar>
+  );
 }
 
 const Condition = React.forwardRef((props: any, ref: any) => {
