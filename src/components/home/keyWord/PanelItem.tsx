@@ -1,33 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import "css/home/keyWord/panel-list.scss";
 interface propsTypes {
   imgUrl: string;
   title: string;
   listItem: {};
+  panelItemData: { name: ""; data: any[] };
+  celsCount: number;
+  needMore: boolean; //是否显示更多按钮
 }
 function PanelItemDom(props: propsTypes) {
+  const [rows] = useState(2);
+  const [showItem, setShowItem] = useState(false); //是否显示剩下的列表项
+  // useEffect(() => {
+  //   setShowItem(props.needMore);
+  // }, [props.needMore]);
+  const [isUp, setIsUp] = useState(false);
+  const setPanel = () => {
+    setIsUp(!isUp);
+    setShowItem(!showItem);
+  };
   return (
     <div className="keyword">
       <div className="keyword-title">
-        <i
-          className="icon"
-          style={{
-            backgroundImage: `url(${require("img/common/keyword.png")})`,
-            backgroundColor: "#92dbf9",
-            backgroundPosition: "0.2rem 0.1rem",
-          }}
-        />
-        <span>热搜关键字</span>
+        <span style={{ display: "flex", flex: 1 }}>
+          <i
+            className="icon"
+            style={{
+              backgroundImage: `url(${require("img/common/keyword.png")})`,
+              backgroundColor: "#92dbf9",
+              backgroundPosition: "0.2rem 0.1rem",
+            }}
+          />
+          <span className="sub-title">{props.panelItemData.name}</span>
+        </span>
+        <div className="tool">
+          {!props.needMore ? (
+            <i
+              className={`arrow ${isUp ? "up" : "down"}`}
+              onClick={setPanel}
+            ></i>
+          ) : (
+            <span>清空</span>
+          )}
+        </div>
       </div>
       <ul className="keyword-content">
-        <li className="keyword-content-item">迪士尼度假区</li>
-        <li className="keyword-content-item">外滩</li>
-        <li className="keyword-content-item">崇明区</li>
-        <li className="keyword-content-item">浦东国际机场</li>
-        <li className="keyword-content-item">虹桥火车站</li>
-        <li className="keyword-content-item">松江区</li>
-        <li className="keyword-content-item">浦东新区</li>
-        <li className="keyword-content-item">虹桥国际机场</li>
+        {(props.panelItemData.data || []).map((item, index) => {
+          let dom: any = [];
+          if (index < props.celsCount * rows) {
+            dom = (
+              <li key={index} className="keyword-content-item">
+                {item}
+              </li>
+            );
+          } else {
+            dom = (
+              <li
+                key={index}
+                style={{ display: `${showItem ? "block" : "none"}` }}
+                className="keyword-content-item"
+              >
+                {item}
+              </li>
+            );
+          }
+          return dom;
+        })}
+        {(() => {
+          let dom: any = [];
+          if (!props.needMore) {
+            return;
+          }
+          for (let i = 0; i < props.celsCount; i++) {
+            if (i === props.celsCount - 1) {
+              dom.push(
+                <li key={i} className="keyword-content-item">
+                  更多
+                </li>
+              );
+            } else {
+              dom.push(<li key={i} className="keyword-content-item"></li>);
+            }
+          }
+          return dom;
+        })()}
       </ul>
     </div>
   );
