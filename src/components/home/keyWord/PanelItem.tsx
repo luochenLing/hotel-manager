@@ -4,17 +4,21 @@ interface propsTypes {
   imgUrl: string;
   title: string;
   listItem: {};
-  panelItemData: { name: ""; data: any[] };
+  panelItemData: {
+    name: "";
+    data: any[];
+    bgColor: string;
+    bgPosition: string;
+    needMore: string; //是否显示更多按钮
+  };
   celsCount: number;
-  needMore: boolean; //是否显示更多按钮
 }
+// "0.2rem 0.1rem",
 function PanelItemDom(props: propsTypes) {
   const [rows] = useState(2);
   const [showItem, setShowItem] = useState(false); //是否显示剩下的列表项
-  // useEffect(() => {
-  //   setShowItem(props.needMore);
-  // }, [props.needMore]);
-  const [isUp, setIsUp] = useState(false);
+
+  const [isUp, setIsUp] = useState(false); //展开收起图标
   const setPanel = () => {
     setIsUp(!isUp);
     setShowItem(!showItem);
@@ -26,49 +30,57 @@ function PanelItemDom(props: propsTypes) {
           <i
             className="icon"
             style={{
-              backgroundImage: `url(${require("img/common/keyword.png")})`,
-              backgroundColor: "#92dbf9",
-              backgroundPosition: "0.2rem 0.1rem",
+              backgroundColor: props.panelItemData.bgColor,
+              backgroundPosition: props.panelItemData.bgPosition,
             }}
           />
           <span className="sub-title">{props.panelItemData.name}</span>
         </span>
         <div className="tool">
-          {!props.needMore ? (
+          {props.panelItemData.needMore === "1" ? (
             <i
               className={`arrow ${isUp ? "up" : "down"}`}
               onClick={setPanel}
             ></i>
           ) : (
-            <span>清空</span>
+            ""
           )}
         </div>
       </div>
       <ul className="keyword-content">
         {(props.panelItemData.data || []).map((item, index) => {
           let dom: any = [];
-          if (index < props.celsCount * rows) {
+          if (props.panelItemData.needMore !== "2") {
+            if (index < props.celsCount * rows) {
+              dom = (
+                <li key={index} className="keyword-content-item">
+                  {item}
+                </li>
+              );
+            } else {
+              dom = (
+                <li
+                  key={index}
+                  style={{ display: `${showItem ? "block" : "none"}` }}
+                  className="keyword-content-item"
+                >
+                  {item}
+                </li>
+              );
+            }
+          } else {
             dom = (
               <li key={index} className="keyword-content-item">
                 {item}
               </li>
             );
-          } else {
-            dom = (
-              <li
-                key={index}
-                style={{ display: `${showItem ? "block" : "none"}` }}
-                className="keyword-content-item"
-              >
-                {item}
-              </li>
-            );
           }
+
           return dom;
         })}
         {(() => {
           let dom: any = [];
-          if (!props.needMore) {
+          if (props.panelItemData.needMore !== "2") {
             return;
           }
           for (let i = 0; i < props.celsCount; i++) {

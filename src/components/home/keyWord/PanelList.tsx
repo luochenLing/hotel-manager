@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PanelItem from "./PanelItem";
+import keyWordsEnums from "utils/enums/keyWordsEnums";
 interface propsTypes {}
 function IndexDOM(props: propsTypes) {
   const [panelData, setPanelData] = useState<any>();
@@ -10,6 +11,7 @@ function IndexDOM(props: propsTypes) {
     let data: any[] = [
       {
         name: "热搜关键字",
+        code: "keyWord",
         data: [
           "迪士尼度假区",
           "外滩",
@@ -23,6 +25,7 @@ function IndexDOM(props: propsTypes) {
       },
       {
         name: "品牌",
+        code: "brand",
         data: [
           "全季",
           "汉庭",
@@ -44,6 +47,15 @@ function IndexDOM(props: propsTypes) {
         ],
       },
     ];
+    data = data.map((item) => {
+      let bgOption = (keyWordsEnums as any)[item.code];
+      return {
+        ...item,
+        bgColor: bgOption.split(";")[0],
+        bgPosition: bgOption.split(";")[1],
+        needMore: bgOption.split(";")[2],
+      };
+    });
     setPanelData(data);
   }, []);
 
@@ -62,7 +74,14 @@ function IndexDOM(props: propsTypes) {
             }
           }
         }
-        return <PanelItem key={index} panelItemData={item} celsCount={celsCount} needMore={false}></PanelItem>;
+        return (
+          <PanelItem
+            key={index}
+            panelItemData={item}
+            celsCount={celsCount}
+            needMore={false}
+          ></PanelItem>
+        );
       })}
     </ul>
   );
