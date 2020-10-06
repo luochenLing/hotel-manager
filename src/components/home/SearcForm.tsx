@@ -1,7 +1,18 @@
 import React from "react";
 import "css/home/search-form.scss";
-import { F7Button, Icon } from "framework7-react";
-type stateType = {};
+import {
+  Block,
+  F7Button,
+  Icon,
+  Link,
+  Navbar,
+  NavRight,
+  Page,
+  Popup,
+} from "framework7-react";
+type stateType = {
+  popupOpened: boolean;
+};
 type propsType = {
   getCalendar: Function;
   startDay: string;
@@ -13,11 +24,15 @@ type propsType = {
 class SearcForm extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      popupOpened: false,
+    };
   }
   startDayDom = React.createRef<HTMLElement>();
   endDayDom = React.createRef<HTMLElement>();
-
+  openPanel = () => {
+    this.setState({ popupOpened: true });
+  };
   render() {
     const { startDay, endDay } = this.props;
     return (
@@ -59,7 +74,7 @@ class SearcForm extends React.Component<propsType, stateType> {
           <li className="search-key">
             <span>关键字/位置/品牌/酒店名</span>
           </li>
-          <li className="search-price">
+          <li className="search-price" onClick={this.openPanel}>
             <span>价格/星级</span>
           </li>
           <li>
@@ -68,6 +83,32 @@ class SearcForm extends React.Component<propsType, stateType> {
             </F7Button>
           </li>
         </ul>
+        <Popup
+          className="condition-pop"
+          opened={this.state.popupOpened}
+          onPopupClosed={() => this.setState({ popupOpened: false })}
+        >
+          <Page>
+            <Navbar title="Popup Title">
+              <NavRight>
+                <Link popupClose>Close</Link>
+              </NavRight>
+            </Navbar>
+            <Block>
+              <p>
+                Here comes popup. You can put here anything, even independent
+                view with its own navigation. Also not, that by default popup
+                looks a bit different on iPhone/iPod and iPad, on iPhone it is
+                fullscreen.
+              </p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+              <p>
+                Duis ut mauris sollicitudin, venenatis nisi sed, luctus
+                ligula...
+              </p>
+            </Block>
+          </Page>
+        </Popup>
       </>
     );
   }
