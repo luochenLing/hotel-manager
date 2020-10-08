@@ -192,7 +192,7 @@ class SearcForm extends React.Component<propsType, stateType> {
                         this.checkStart(3);
                       }}
                     >
-                      二星(钻)高档
+                      四星(钻)高档
                     </li>
                     <li
                       className={`start-list-item ${
@@ -202,7 +202,7 @@ class SearcForm extends React.Component<propsType, stateType> {
                         this.checkStart(4);
                       }}
                     >
-                      二星(钻)豪华
+                      五星(钻)豪华
                     </li>
                   </ul>
                 </li>
