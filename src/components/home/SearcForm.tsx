@@ -1,17 +1,20 @@
 import React from "react";
 import "css/home/search-form.scss";
 import {
-  Block,
+  Range,
   F7Button,
   Icon,
-  Link,
-  Navbar,
-  NavRight,
   Page,
   Popup,
+  Block,
+  Button,
 } from "framework7-react";
 type stateType = {
   popupOpened: boolean;
+  maxRange: number;
+  minRange: number;
+  curPrice: number;
+  startselect: number;
 };
 type propsType = {
   getCalendar: Function;
@@ -26,13 +29,50 @@ class SearcForm extends React.Component<propsType, stateType> {
     super(props);
     this.state = {
       popupOpened: false,
+      maxRange: 900,
+      minRange: 0,
+      curPrice: 0,
+      startselect: 1,
     };
   }
   startDayDom = React.createRef<HTMLElement>();
   endDayDom = React.createRef<HTMLElement>();
+  /**
+   * 打开价格筛选框
+   */
   openPanel = () => {
     this.setState({ popupOpened: true });
   };
+
+  /**
+   * 选中星级
+   */
+  checkStart(num: number) {
+    this.setState({ startselect: num });
+  }
+
+  /**
+   * 选择价格区间
+   */
+  getPriceRange = (e: any) => {
+    this.setState({ curPrice: e });
+  };
+
+  /**
+   * 条件筛选
+   */
+  searchList = () => {
+    this.setState({ popupOpened: false });
+  };
+
+  /**
+   * 重置条件
+   */
+  resetCondition = () => {
+    this.setState({ curPrice: 0 });
+    this.setState({ startselect: 1 });
+  };
+
   render() {
     const { startDay, endDay } = this.props;
     return (
@@ -89,23 +129,96 @@ class SearcForm extends React.Component<propsType, stateType> {
           onPopupClosed={() => this.setState({ popupOpened: false })}
         >
           <Page>
-            <Navbar title="Popup Title">
-              <NavRight>
-                <Link popupClose>Close</Link>
-              </NavRight>
-            </Navbar>
             <Block>
-              <p>
-                Here comes popup. You can put here anything, even independent
-                view with its own navigation. Also not, that by default popup
-                looks a bit different on iPhone/iPod and iPad, on iPhone it is
-                fullscreen.
-              </p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-              <p>
-                Duis ut mauris sollicitudin, venenatis nisi sed, luctus
-                ligula...
-              </p>
+              <ul className="price">
+                <li className="price-title">
+                  <span style={{ marginRight: ".5rem" }}>价格</span>
+                  {this.state.curPrice ? (
+                    <span className="num">￥{this.state.curPrice}以上</span>
+                  ) : (
+                    ""
+                  )}
+                </li>
+                <li className="price-slider">
+                  <Range
+                    value={this.state.curPrice}
+                    min={this.state.minRange}
+                    max={this.state.maxRange}
+                    label={true}
+                    step={5}
+                    className="price-slider-bar"
+                    onRangeChange={this.getPriceRange}
+                  >
+                    <span className="min-prince">￥{this.state.minRange}</span>
+                    <span className="max-prince">
+                      ￥{this.state.maxRange}以上
+                    </span>
+                  </Range>
+                  <div className="range-knob end-knob"></div>
+                </li>
+              </ul>
+              <ul className="star-rating">
+                <li className="star-rating-title">
+                  <h3>星级</h3>
+                  <span>(可多选)</span>
+                </li>
+                <li className="star-rating-content">
+                  <ul className="start-list">
+                    <li
+                      className={`start-list-item ${
+                        this.state.startselect === 1 ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        this.checkStart(1);
+                      }}
+                    >
+                      二星(钻)及以下经济
+                    </li>
+                    <li
+                      className={`start-list-item ${
+                        this.state.startselect === 2 ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        this.checkStart(2);
+                      }}
+                    >
+                      三星(钻)舒适
+                    </li>
+                    <li
+                      className={`start-list-item ${
+                        this.state.startselect === 3 ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        this.checkStart(3);
+                      }}
+                    >
+                      二星(钻)高档
+                    </li>
+                    <li
+                      className={`start-list-item ${
+                        this.state.startselect === 4 ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        this.checkStart(4);
+                      }}
+                    >
+                      二星(钻)豪华
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <div className="btn-tools">
+                <Button
+                  className="btn-reset"
+                  outline
+                  onClick={this.resetCondition}
+                >
+                  重置
+                </Button>
+                <Button className="btn-ok" fill onClick={this.searchList}>
+                  完成
+                </Button>
+              </div>
             </Block>
           </Page>
         </Popup>

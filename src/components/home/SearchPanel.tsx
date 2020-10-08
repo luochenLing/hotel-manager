@@ -50,8 +50,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
       //setstate的异步原因，所以要初始化state以后再去根据新的state做操作
       this.getYesterday();
     });
-
-    console.log(this.state);
   };
 
   /**
@@ -110,7 +108,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
       fromWeek,
       toWeek,
     } = this.state;
-    console.log(this.state);
     return (
       <>
         <div className="search-panel">
