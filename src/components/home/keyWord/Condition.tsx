@@ -24,4 +24,5 @@ function ConditionDom(props: propsTypes) {
 const Condition = React.forwardRef((props: any, ref: any) => {
   return <ConditionDom {...props} myRef={ref}></ConditionDom>;
 });
+
 export default connect((state:any)=>({keyWord:state.keyWorkOption}),{setShowKeyWord})(Condition);

@@ -35,7 +35,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
       yesterday: "",
       fromWeek: "",
       toWeek: "",
-      // showKeyWork:false,
     };
   }
   componentDidMount() {
@@ -82,7 +81,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
    * @param showCalendar
    */
   getCalendar = (showCalendar: boolean) => {
-    // debugger
     this.setState({ showCalendar });
   };
   
@@ -215,10 +213,13 @@ class SearchPanel extends React.Component<propsType, stateType> {
           //如果方法带了括号就会立即执行，会导致state更新出现死循环
           closeCalendar={this.closeCalendar}
         />
+        {/* 这里不再用state去控制开关，在redux中的话，使用props的属性去读取state状态，
+        这是因为使用了reactredux所以让状态的读取通过外面的（app.js）Provider的store就可以达到读取属性的效果 */}
         <KeyWord showKeyWord={this.props.keyWord}/>
       </>
     );
   }
 }
 //state这里放的是reducer里面指定方法的state，比如reducer的keyWorkOption方法的state这里就可以取到
+//第二个参数是需要用到的action的方法，这些方法在这里注册以后可以用props的方式调用
 export default connect((state:any)=>({keyWord:state.keyWorkOption}),{setShowKeyWord})(SearchPanel);
