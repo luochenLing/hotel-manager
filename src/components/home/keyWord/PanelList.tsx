@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PanelItem from "./PanelItem";
 import keyWordsEnums from "utils/enums/keyWordsEnums";
+
 interface propsTypes {}
-function IndexDOM(props: propsTypes) {
+function PanelListDOM(props: propsTypes) {
   const [panelData, setPanelData] = useState<any>();
   /**
    * 初始化数据
@@ -86,7 +87,7 @@ function IndexDOM(props: propsTypes) {
     </ul>
   );
 }
-const Index = React.forwardRef((props: any, ref: any) => {
-  return <IndexDOM {...props} myRef={ref}></IndexDOM>;
+const PanelList = React.forwardRef((props: any, ref: any) => {
+  return <PanelListDOM {...props} myRef={ref}></PanelListDOM>;
 });
-export default Index;
+export default PanelList;

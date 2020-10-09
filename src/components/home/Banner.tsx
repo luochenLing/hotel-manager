@@ -4,7 +4,7 @@ type stateType = {
   navList: object[];
 };
 type propsType = {};
-class Index extends React.Component<propsType, stateType> {
+class Banner extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -45,4 +45,4 @@ class Index extends React.Component<propsType, stateType> {
   }
 }
 
-export default Index;
+export default Banner;

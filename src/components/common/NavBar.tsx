@@ -2,6 +2,7 @@ import React from "react";
 import "css/common/nav.scss";
 interface propsTypes {
   children: any;
+  goBack:Function
 }
 function NavBarDom(props: propsTypes) {
   let children = Array.isArray(props.children || [])
@@ -19,7 +20,7 @@ function NavBarDom(props: propsTypes) {
   );
   return (
     <div className="nav-condition">
-      <div className="left">{slots["left"] || <i className="back"></i>}</div>
+      <div className="left">{slots["left"] || <i className="back" onClick={()=>{props.goBack()}}></i>}</div>
       <div className="center">{slots["center"] || <div>center</div>}</div>
       <div className="right">{slots["right"] || <div>right</div>}</div>
     </div>

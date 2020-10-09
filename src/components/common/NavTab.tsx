@@ -74,8 +74,8 @@ function NavTabDOM(props: propsTypes) {
           })}
         </ul>
         <ul className="tab-panel">
-          {props.panels.map((item) => {
-            return <li className="tab-panel-item">{item}</li>;
+          {props.panels.map((item,index) => {
+            return <li key={index} className="tab-panel-item">{item}</li>;
           })}
         </ul>
       </div>

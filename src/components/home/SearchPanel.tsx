@@ -2,8 +2,13 @@ import React from "react";
 import "css/home/search-panel.scss";
 import { Tabs, Tab, Toolbar, Link } from "framework7-react";
 import Calendar from "components/common/Calendar";
+import KeyWord from "components/home/keyWord/Index";
 import { getWeek,getDayByNum } from "utils/common";
+import {connect} from 'react-redux'
+import {setShowKeyWord} from 'redux/action'
+
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
+
 let dayDiff = 1; //日差
 type stateType = {
   showCalendar: boolean;
@@ -14,7 +19,10 @@ type stateType = {
   fromWeek: string;
   toWeek: string;
 };
-type propsType = {};
+type propsType = {
+  setShowKeyWord:Function;
+  keyWord:boolean;
+};
 const calendarRef = React.createRef<any>();
 class SearchPanel extends React.Component<propsType, stateType> {
   constructor(props: any) {
@@ -27,11 +35,19 @@ class SearchPanel extends React.Component<propsType, stateType> {
       yesterday: "",
       fromWeek: "",
       toWeek: "",
+      // showKeyWork:false,
     };
   }
-
   componentDidMount() {
     this.initCalendarDate();
+    this.initKeyWordPanel();
+  }
+
+  /**
+   * 初始化关键字面板
+   */
+  initKeyWordPanel(){
+    this.props.setShowKeyWord(false)
   }
 
   /**
@@ -66,9 +82,18 @@ class SearchPanel extends React.Component<propsType, stateType> {
    * @param showCalendar
    */
   getCalendar = (showCalendar: boolean) => {
+    // debugger
     this.setState({ showCalendar });
   };
-
+  
+  /**
+   * 打开关键词面板
+   * @param showKeyWork 
+   */
+  openKeyWord= () => {
+    this.props.setShowKeyWord(true)
+  };
+  
   /**
    * 设置范围
    * @param dateArr
@@ -134,6 +159,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   fromWeek={fromWeek}
                   toWeek={toWeek}
                   getCalendar={this.getCalendar}
+                  openKeyWord={this.openKeyWord}
                   dayDiff={dayDiff}
                 />
               </div>
@@ -153,6 +179,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   fromWeek={fromWeek}
                   toWeek={toWeek}
                   getCalendar={this.getCalendar}
+                  openKeyWord={this.openKeyWord}
                   dayDiff={dayDiff}
                 />
               </div>
@@ -172,6 +199,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   fromWeek={fromWeek}
                   toWeek={toWeek}
                   getCalendar={this.getCalendar}
+                  openKeyWord={this.openKeyWord}
                   dayDiff={dayDiff}
                 />
               </div>
@@ -187,8 +215,9 @@ class SearchPanel extends React.Component<propsType, stateType> {
           //如果方法带了括号就会立即执行，会导致state更新出现死循环
           closeCalendar={this.closeCalendar}
         />
+        <KeyWord showKeyWord={this.props.keyWord}/>
       </>
     );
   }
 }
-export default SearchPanel;
+export default connect((state:stateType)=>({keyWord:false}),{setShowKeyWord})(SearchPanel);

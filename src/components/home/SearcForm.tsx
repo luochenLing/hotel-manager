@@ -7,7 +7,7 @@ import {
   Page,
   Popup,
   Block,
-  Button,
+  Button
 } from "framework7-react";
 type stateType = {
   popupOpened: boolean;
@@ -18,6 +18,7 @@ type stateType = {
 };
 type propsType = {
   getCalendar: Function;
+  openKeyWord:Function;
   startDay: string;
   endDay: string;
   fromWeek: string;
@@ -73,6 +74,13 @@ class SearcForm extends React.Component<propsType, stateType> {
     this.setState({ startselect: 1 });
   };
 
+  /**
+   * 开启关键词页面
+   */
+  openKeyWord=()=>{
+    this.props.openKeyWord(true)
+  }
+
   render() {
     const { startDay, endDay } = this.props;
     return (
@@ -111,7 +119,7 @@ class SearcForm extends React.Component<propsType, stateType> {
               <i>{this.props.toWeek}</i>
             </div>
           </li>
-          <li className="search-key">
+          <li className="search-key" onClick={this.openKeyWord}>
             <span>关键字/位置/品牌/酒店名</span>
           </li>
           <li className="search-price" onClick={this.openPanel}>

@@ -13,7 +13,7 @@ interface propsTypes {
   };
   celsCount: number;
 }
-// "0.2rem 0.1rem",
+
 function PanelItemDom(props: propsTypes) {
   const [rows] = useState(2);
   const [showItem, setShowItem] = useState(false); //是否显示剩下的列表项
