@@ -220,4 +220,5 @@ class SearchPanel extends React.Component<propsType, stateType> {
     );
   }
 }
-export default connect((state:stateType)=>({keyWord:false}),{setShowKeyWord})(SearchPanel);
+//state这里放的是reducer里面指定方法的state，比如reducer的keyWorkOption方法的state这里就可以取到
+export default connect((state:any)=>({keyWord:state.keyWorkOption}),{setShowKeyWord})(SearchPanel);
