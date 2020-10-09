@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {SET_ShowKeyWord,GET_ShowKeyWord} from './actionTypes'
+import {SET_ShowKeyWord} from './actionTypes'
 type action={
   type:string,
   payload:any
@@ -15,8 +15,6 @@ function keyWorkOption(state=defaultKeyWorkOption,action:action){
   switch(action.type){
     case SET_ShowKeyWord:
       return action.payload;
-    case GET_ShowKeyWord:
-      return state;
     default:
       return state;
   }
