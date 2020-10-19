@@ -43,7 +43,6 @@ h6 {
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
       width: 1.5rem;
       height: 1.5rem;
-      top: 0.2rem;
     }
     .range-slider-min:not(.range-slider-dual) {
       .range-knob {
@@ -80,6 +79,9 @@ h6 {
       &-slider {
         display: flex;
         position: relative;
+        .range-knob-wrap{
+          top:60%;
+        }
         &-bar {
           .min-prince {
             position: absolute;

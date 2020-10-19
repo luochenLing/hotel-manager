@@ -20,7 +20,7 @@ function keyWorkOption(state=defaultKeyWorkOption,action:action){
   }
 }
 function setName(state=[]){
-return state
+  return state
 }
 //reducers是处理action 逻辑的方法存放处
 export default combineReducers({keyWorkOption,setName})
