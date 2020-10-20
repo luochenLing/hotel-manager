@@ -1,7 +1,7 @@
 import React from "react";
 type stateType = {};
 type propsType = {};
-class Index extends React.Component<propsType, stateType> {
+class Condition extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
     this.state = {};
@@ -11,4 +11,4 @@ class Index extends React.Component<propsType, stateType> {
   }
 }
 
-export default Index;
+export default Condition;
