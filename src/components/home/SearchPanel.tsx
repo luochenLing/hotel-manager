@@ -5,7 +5,7 @@ import Calendar from 'components/common/Calendar'
 import KeyWord from 'components/home/keyWord/Index'
 import { getWeek, getDayByNum } from 'utils/common'
 import { connect } from 'react-redux'
-import { setShowKeyWord } from 'redux/action'
+import { keyWordPanelOption } from 'redux/action'
 
 const SearchForm = React.lazy(() => import('components/home/SearcForm'))
 
@@ -20,7 +20,7 @@ type stateType = {
   toWeek: string
 }
 type propsType = {
-  setShowKeyWord: Function
+  keyWordPanelOption: Function
   keyWord: boolean
 }
 const calendarRef = React.createRef<any>()
@@ -47,7 +47,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
    * 初始化关键字面板
    */
   initKeyWordPanel() {
-    this.props.setShowKeyWord(false)
+    this.props.keyWordPanelOption(false)
   }
 
   /**
@@ -92,7 +92,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
    * @param showKeyWork
    */
   openKeyWord = () => {
-    this.props.setShowKeyWord(true)
+    this.props.keyWordPanelOption(true)
   }
 
   /**
@@ -222,8 +222,8 @@ class SearchPanel extends React.Component<propsType, stateType> {
     )
   }
 }
-//state这里放的是reducer里面指定方法的state，比如reducer的keyWorkOption方法的state这里就可以取到
+//state这里放的是reducer里面指定方法的state，比如reducer的keyWorkPanelOption方法的state这里就可以取到
 //第二个参数是需要用到的action的方法，这些方法在这里注册以后可以用props的方式调用
-export default connect((state: any) => ({ keyWord: state.keyWorkOption }), {
-  setShowKeyWord,
+export default connect((state: any) => ({ keyWord: state.keyWordPanelReducer }), {
+  keyWordPanelOption,
 })(SearchPanel)

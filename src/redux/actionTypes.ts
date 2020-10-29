@@ -1,1 +1,2 @@
-export const SET_ShowKeyWord='SET_ShowKeyWord'
+export const SET_ShowKeyWordPanel='SET_ShowKeyWordPanel'
+export const SET_KeyWordConditon='SET_KeyWordConditon'

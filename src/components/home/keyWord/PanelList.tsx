@@ -60,7 +60,7 @@ function PanelListDOM(props: propsTypes) {
     setPanelData(data);
   }, []);
 
-  const [celsCount] = useState(4);
+  const [celsCount] = useState(4);//默认显示4行再有更多按钮的时候多余的行都被隐藏
 
   return (
     <ul>

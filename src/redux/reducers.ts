@@ -1,26 +1,34 @@
-import {combineReducers} from 'redux'
-import {SET_ShowKeyWord} from './actionTypes'
-type action={
-  type:string,
-  payload:any
+import { combineReducers } from 'redux'
+import { SET_ShowKeyWordPanel, SET_KeyWordConditon } from './actionTypes'
+type action = {
+  type: string
+  payload: any
 }
 
-const defaultKeyWorkOption=false
+const defaultKeyWorkOption = false
 /**
- * 系统相关操作
- * @param state 
- * @param action 
+ * 是否显示关键字页面
+ * @param state
+ * @param action
  */
-function keyWorkOption(state=defaultKeyWorkOption,action:action){
-  switch(action.type){
-    case SET_ShowKeyWord:
-      return action.payload;
+function keyWordPanelReducer(state = defaultKeyWorkOption, action: action) {
+  // debugger
+  switch (action.type) {
+    case SET_ShowKeyWordPanel:
+      return action.payload
     default:
-      return state;
+      return state
   }
 }
-function setName(state=[]){
-  return state
+const defaultCondition = ''
+function keyWordConditionReducer(state = defaultCondition, action: action) {
+  // debugger
+  switch (action.type) {
+    case SET_KeyWordConditon:
+      return action.payload
+    default:
+      return state
+  }
 }
 //reducers是处理action 逻辑的方法存放处
-export default combineReducers({keyWorkOption,setName})
+export default combineReducers({ keyWordPanelReducer, keyWordConditionReducer })

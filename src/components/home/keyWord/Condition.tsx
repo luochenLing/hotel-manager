@@ -2,16 +2,16 @@ import React from "react";
 import NavBar from "components/common/NavBar";
 import InputSearch from "components/common/InputSearch";
 import { Button } from "framework7-react";
-import {setShowKeyWord} from 'redux/action'
+import {keyWordPanelOption} from 'redux/action'
 import {connect} from 'react-redux'
 import "css/home/keyWord/condition.scss";
 
 interface propsTypes {
-  setShowKeyWord:Function
+  keyWordPanelOption:Function
 }
 function ConditionDom(props: propsTypes) {
   const goBack=()=>{
-    props.setShowKeyWord(false)
+    props.keyWordPanelOption(false)
   }
   return (
     <NavBar goBack={goBack}>
@@ -25,4 +25,4 @@ const Condition = React.forwardRef((props: any, ref: any) => {
   return <ConditionDom {...props} myRef={ref}></ConditionDom>;
 });
 
-export default connect((state:any)=>({keyWord:state.keyWorkOption}),{setShowKeyWord})(Condition);
+export default connect((state:any)=>({keyWord:state.keyWordPanelReducer}),{keyWordPanelOption})(Condition);

@@ -9,6 +9,8 @@ import {
   Block,
   Button,
 } from 'framework7-react'
+import { connect } from 'react-redux'
+import { keyWordConditionOption } from 'redux/action'
 type stateType = {
   popupOpened: boolean
   maxRange: number
@@ -25,6 +27,7 @@ type propsType = {
   fromWeek: string
   toWeek: string
   dayDiff: number
+  condition: string
 }
 class SearcForm extends React.Component<propsType, stateType> {
   constructor(props: any) {
@@ -144,15 +147,19 @@ class SearcForm extends React.Component<propsType, stateType> {
             </div>
           </li>
           <li className='search-key' onClick={this.openKeyWord}>
-            <span>关键字/位置/品牌/酒店名</span>
+            <span>
+              {this.props.condition
+                ? this.props.condition
+                : '关键字/位置/品牌/酒店名'}
+            </span>
           </li>
           <li className='search-price' onClick={this.openPanel}>
             <span>
               {(() => {
                 if (this.state.curPrice && this.state.selStartList.length > 0) {
-                  return `${this.state.curPrice}以上/${this.state.selStartList.join(
-                    '、'
-                  )}`
+                  return `${
+                    this.state.curPrice
+                  }以上/${this.state.selStartList.join('、')}`
                 } else if (this.state.curPrice) {
                   return `${this.state.curPrice}以上`
                 } else if (this.state.selStartList.length > 0) {
@@ -243,5 +250,9 @@ class SearcForm extends React.Component<propsType, stateType> {
     )
   }
 }
-
-export default SearcForm
+export default connect(
+  (state: any) => ({ condition: state.keyWordConditionReducer }),
+  {
+    keyWordConditionOption,
+  }
+)(SearcForm)

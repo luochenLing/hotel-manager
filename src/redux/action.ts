@@ -1,7 +1,13 @@
-import {SET_ShowKeyWord} from './actionTypes'
+import {SET_ShowKeyWordPanel,SET_KeyWordConditon} from './actionTypes'
 
 /**
- * 设置返回方法
- * @param show 是否显示panel
+ * 控制keyword面板显示
+ * @param payload 是否显示panel
  */
-export const setShowKeyWord=(keyWord:boolean)=>({type:SET_ShowKeyWord,payload:keyWord})
+export const keyWordPanelOption=(keyWord:boolean)=>({type:SET_ShowKeyWordPanel,payload:keyWord})
+
+/**
+ * 控制keyword关键字
+ * @param keyWord 
+ */
+export const keyWordConditionOption=(condition:string)=>({type:SET_KeyWordConditon,payload:condition})
