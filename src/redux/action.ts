@@ -1,4 +1,4 @@
-import {SET_ShowKeyWordPanel,SET_KeyWordConditon} from './actionTypes'
+import {SET_ShowKeyWordPanel,SET_KeyWordConditon,SET_ShowNavPanelPanel} from './actionTypes'
 
 /**
  * 控制keyword面板显示
@@ -11,3 +11,9 @@ export const keyWordPanelOption=(keyWord:boolean)=>({type:SET_ShowKeyWordPanel,p
  * @param keyWord 
  */
 export const keyWordConditionOption=(condition:string)=>({type:SET_KeyWordConditon,payload:condition})
+
+/**
+ * 控制竖导航面板显示
+ * @param show 
+ */
+export const navPanelShowOption=(show:boolean)=>({type:SET_ShowNavPanelPanel,payload:show})
