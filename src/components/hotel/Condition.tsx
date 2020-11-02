@@ -7,7 +7,7 @@ class Condition extends React.Component<propsType, stateType> {
     this.state = {};
   }
   render() {
-    return <div></div>;
+    return <div>condition</div>;
   }
 }
 

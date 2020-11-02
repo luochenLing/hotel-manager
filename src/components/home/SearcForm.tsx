@@ -11,7 +11,9 @@ import {
 } from 'framework7-react'
 import { connect } from 'react-redux'
 import { keyWordConditionOption } from 'redux/action'
-type stateType = {
+import { withRouter } from 'react-router'
+import { RouteComponentProps } from 'react-router-dom'
+interface stateType {
   popupOpened: boolean
   maxRange: number
   minRange: number
@@ -19,7 +21,7 @@ type stateType = {
   startList: { name: string; checked: boolean; code: string }[]
   selStartList: string[]
 }
-type propsType = {
+interface propsType {
   getCalendar: Function
   openKeyWord: Function
   startDay: string
@@ -29,7 +31,11 @@ type propsType = {
   dayDiff: number
   condition: string
 }
-class SearcForm extends React.Component<propsType, stateType> {
+interface RouterProps extends RouteComponentProps {
+  // custom properties passed to component
+}
+type mapPropsType = RouterProps & propsType
+class SearcForm extends React.Component<mapPropsType, stateType> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -88,6 +94,12 @@ class SearcForm extends React.Component<propsType, stateType> {
     })
   }
 
+  /**
+   * 查询条件界面按钮事件
+   */
+  search = () => {
+    this.props.history.push('/hotel')
+  }
   /**
    * 重置条件
    */
@@ -171,7 +183,12 @@ class SearcForm extends React.Component<propsType, stateType> {
             </span>
           </li>
           <li>
-            <F7Button fill large round style={{ width: '100%' }}>
+            <F7Button
+              fill
+              large
+              round
+              style={{ width: '100%' }}
+              onClick={this.search}>
               查询
             </F7Button>
           </li>
@@ -255,4 +272,4 @@ export default connect(
   {
     keyWordConditionOption,
   }
-)(SearcForm)
+)(withRouter(SearcForm))
