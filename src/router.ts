@@ -1,10 +1,12 @@
 import { ComponentType, lazy, LazyExoticComponent } from 'react'
-import { RouteConfig } from 'react-router-config'
+import { RouteConfig, RouteConfigComponentProps } from 'react-router-config'
 const Home = lazy(() => import('views/home/Index'))
 const Hotel = lazy(() => import('views/hotel/Index'))
-//兼容懒加载属性，所以就加了个继承属性
+// import Home from 'views/home/Index'
+// import Hotel from 'views/hotel/Index'
+//兼容懒加载属性，所以就加了个继承属性，这里可以兼容lazy的写法和常规引入写法
 interface routeType extends RouteConfig{
-  component:LazyExoticComponent<ComponentType<any>>
+  component:LazyExoticComponent<ComponentType<any>>|React.ComponentType<RouteConfigComponentProps<any>> | React.ComponentType;
 }
 
 const routes: routeType[] = [
