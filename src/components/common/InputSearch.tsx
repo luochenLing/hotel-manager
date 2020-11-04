@@ -1,13 +1,18 @@
 import React from "react";
 import "css/common/input-search.scss";
-interface propsTypes {}
+interface propsTypes {
+  placeholderName:string
+}
+NavBarDom.defaultProps={
+  placeholderName:'关键字/位置/品牌/酒店名'
+}
 function NavBarDom(props: propsTypes) {
   return (
     <div className="search-bar">
       <input
         className="input-search"
         type="text"
-        placeholder="关键字/位置/品牌/酒店名"
+        placeholder={props.placeholderName}
       />
     </div>
   );

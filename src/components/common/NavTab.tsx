@@ -77,7 +77,7 @@ function NavTabDOM(props: propsTypes) {
   }
 
   return (
-    <div style={{ height: clientHeight }}>
+    <div className="nav-tab" style={{ height: clientHeight }}>
       <NavBar goBack={goBack}>
         <span slot='center'>品牌</span>
         <span slot='right'></span>

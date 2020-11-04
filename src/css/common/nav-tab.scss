@@ -1,4 +1,4 @@
-.nav-condition {
+.nav-tab {
   min-height: 2.2rem;
   .left {
     margin-right: 1rem;
@@ -7,34 +7,34 @@
     background-color: #fff;
     flex: 1;
   }
-}
 
-.content {
-  display: flex;
-  height: calc(100% - 2.5rem);
-  .tab {
-    overflow: auto;
-    &-item {
-      &:not(:first-child) {
-        border-top: 1px solid #ddd;
+  .content {
+    display: flex;
+    height: calc(100% - 2.5rem);
+    .tab {
+      overflow: auto;
+      &-item {
+        &:not(:first-child) {
+          border-top: 1px solid #ddd;
+        }
+        color: #666;
+        padding: 0.75rem 1rem;
       }
-      color: #666;
-      padding: 0.75rem 1rem;
+      .active {
+        background-color: #fff;
+      }
     }
-    .active {
-      background-color: #fff;
-    }
-  }
-  .tab-panel {
-    flex: 1;
-    overflow: auto;
-    background: #fff;
-    &-item {
-      padding: 0.1rem 0.5rem;
-      color: #666;
-      min-height: 2.2rem;
-      &:not(:first-child) {
-        border-top: 1px solid #f5f5f5;
+    .tab-panel {
+      flex: 1;
+      overflow: auto;
+      background: #fff;
+      &-item {
+        padding: 0.1rem 0.5rem;
+        color: #666;
+        min-height: 2.2rem;
+        &:not(:first-child) {
+          border-top: 1px solid #f5f5f5;
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { F7App } from 'framework7-react'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import './theme'
 import 'css/App.scss'
 import 'framework7-icons'
@@ -16,14 +16,14 @@ function App() {
     <Suspense fallback='loading...'>
       <Provider store={store}>
         <F7App>
-          <HashRouter>
+          <BrowserRouter>
             {/* <Switch> */}
             {/* <Route path='/home' exact component={Home}></Route>
               <Route path='/hotel' exact component={Hotel}></Route>
               <Route path='/' component={Home}></Route> */}
             {/* </Switch> */}
             {renderRoutes(routes)}
-          </HashRouter>
+          </BrowserRouter>
         </F7App>
       </Provider>
     </Suspense>
