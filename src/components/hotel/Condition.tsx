@@ -3,6 +3,7 @@ import NavBar from 'components/common/NavBar'
 import InputSearch from 'components/common/InputSearch'
 import {withRouter} from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
+import 'css/hotel/condition.scss'
 type stateType = {}
 type propsType = {}
 class Condition extends React.Component<RouteComponentProps&propsType, stateType> {
@@ -15,19 +16,24 @@ class Condition extends React.Component<RouteComponentProps&propsType, stateType
   }
   render() {
     return (
-      <div>
+      <div className="pro-condition">
         <NavBar goBack={this.goBack}>
-          <span slot='center'>
-            <span></span>
-            <div>
-              <span>
-                <span>住</span>
-                <span>11-1</span>
+          <span className="container" slot='center'>
+            <span className="city">
+              上海
+            </span>
+            <div className="cal-bar">
+              <div className="container">
+              <span className="s-day">
+                <i>住</i>
+                <em>11-1</em>
               </span>
-              <span>
-                <span>离</span>
-                <span>11-1</span>
+              <span className="e-day">
+                <i>离</i>
+                <em>11-1</em>
               </span>
+              </div>
+             
             </div>
             <InputSearch placeholderName="关键字/位置/酒店名"></InputSearch>
           </span>
