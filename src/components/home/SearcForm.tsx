@@ -1,18 +1,11 @@
 import React from 'react'
 import 'css/home/search-form.scss'
-import {
-  Range,
-  F7Button,
-  Icon,
-  Page,
-  Popup,
-  Block,
-  Button,
-} from 'framework7-react'
+import { F7Button, Icon, Page, Popup, Block } from 'framework7-react'
 import { connect } from 'react-redux'
 import { keyWordConditionOption } from 'redux/action'
 import { withRouter } from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
+import PricePanel from 'components/common/PricePanel'
 interface stateType {
   popupOpened: boolean
   maxRange: number
@@ -64,7 +57,7 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
   /**
    * 选中星级
    */
-  checkStart(code: string) {
+  checkStart=(code: string)=> {
     const curList = [...this.state.startList]
     let item = curList.find((x) => x.code === code)
     if (item) {
@@ -199,67 +192,16 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
           onPopupClosed={() => this.setState({ popupOpened: false })}>
           <Page>
             <Block>
-              <ul className='price'>
-                <li className='price-title'>
-                  <span style={{ marginRight: '.5rem' }}>价格</span>
-                  {this.state.curPrice ? (
-                    <span className='num'>￥{this.state.curPrice}以上</span>
-                  ) : (
-                    ''
-                  )}
-                </li>
-                <li className='price-slider'>
-                  <Range
-                    value={this.state.curPrice}
-                    min={this.state.minRange}
-                    max={this.state.maxRange}
-                    label={true}
-                    step={5}
-                    className='price-slider-bar'
-                    onRangeChange={this.getPriceRange}>
-                    <span className='min-prince'>￥{this.state.minRange}</span>
-                    <span className='max-prince'>
-                      ￥{this.state.maxRange}以上
-                    </span>
-                  </Range>
-                  <div className='range-knob end-knob'></div>
-                </li>
-              </ul>
-              <ul className='star-rating'>
-                <li className='star-rating-title'>
-                  <h3>星级</h3>
-                  <span>(可多选)</span>
-                </li>
-                <li className='star-rating-content'>
-                  <ul className='start-list'>
-                    {this.state.startList.map((item) => {
-                      return (
-                        <li
-                          className={`start-list-item ${
-                            item.checked ? 'active' : ''
-                          }`}
-                          onClick={() => {
-                            this.checkStart(item.code)
-                          }}
-                          key={item.code}>
-                          {item.name}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </li>
-              </ul>
-              <div className='btn-tools'>
-                <Button
-                  className='btn-reset'
-                  outline
-                  onClick={this.resetCondition}>
-                  重置
-                </Button>
-                <Button className='btn-ok' fill onClick={this.searchList}>
-                  完成
-                </Button>
-              </div>
+              <PricePanel
+                curPrice={this.state.curPrice}
+                minRange={this.state.minRange}
+                maxRange={this.state.maxRange}
+                startList={this.state.startList}
+                getPriceRange={this.getPriceRange}
+                checkStart={this.checkStart}
+                resetCondition={this.resetCondition}
+                searchList={this.searchList}
+              />
             </Block>
           </Page>
         </Popup>
