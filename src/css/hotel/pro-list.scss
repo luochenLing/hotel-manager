@@ -1,0 +1,11 @@
+.pro-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  .item {
+    .pro-img {
+      width: 5.5rem;
+    }
+  }
+}

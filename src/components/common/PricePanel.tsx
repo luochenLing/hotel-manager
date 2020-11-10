@@ -14,7 +14,7 @@ interface propsTypes {
 
 function PricePanelDom(props: propsTypes) {
   return (
-    <div className=''>
+    <>
       <ul className='price'>
         <li className='price-title'>
           <span style={{ marginRight: '.5rem' }}>价格</span>
@@ -69,7 +69,7 @@ function PricePanelDom(props: propsTypes) {
           完成
         </Button>
       </div>
-    </div>
+    </>
   )
 }
 
