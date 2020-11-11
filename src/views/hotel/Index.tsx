@@ -11,7 +11,7 @@ class Index extends React.Component<propsType, stateType> {
   }
   render() {
     return (
-      <div className='hotel'>
+      <div className='hotel' style={{height:'100%'}}>
         <SearchBar />
         <Condition />
         <ProList />

@@ -1,40 +1,195 @@
 import React from 'react'
 import 'css/hotel/pro-list.scss'
-type stateType = {}
+type stateType = {
+  apiData: {
+    proUrl: string
+    title: string
+    intro: string
+    tagList: {
+      key: string
+      value: string
+    }[]
+    startLevel: number
+    score: number
+    priceUint: string
+    priceNum: number
+  }[]
+}
 type propsType = {}
 class ProList extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props)
-    this.state = {}
+    this.state = {
+      apiData: [
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 4, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+      ],
+    }
+  }
+  /**
+   * 产品列表数据初始化
+   */
+  initData = () => {
+    this.setState({
+      apiData: [
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 5, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 4, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 4, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 4, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 4, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        },
+        {
+          proUrl: 'assets/images/hotel/p-img1.webp', //产品图片
+          title: '上海陆家嘴酒店', //产品标题
+          intro:
+            '位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区',
+          tagList: [
+            { key: '0', value: '商务出行' },
+            { key: '1', value: '精品酒店' },
+            { key: '2', value: '近地铁' },
+          ], //标签
+          startLevel: 1, //星级
+          score: 4.7, //分数
+          priceUint: '￥', //价格单元
+          priceNum: 470, //价格
+        }
+      ],
+    })
+  }
+  componentDidMount() {
+    this.initData()
   }
   render() {
+    const { apiData } = this.state
     return (
-      <ul className='pro-list'>
-        <li className='item'>
-          <img className="pro-img" src='assets/images/hotel/p-img1.webp' alt='这是一张图片' />
-          <div>
-            <h3 className='title'>上海陆家嘴酒店</h3>
-            <div className='intro'>
-              位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区,位于上海市陆家嘴环境优美的一处偏僻地区
-            </div>
-            <div className='container'>
-              <div className='tag'>
-                {/* 多出来的隐藏掉 */}
-                <i>商务出行</i>
-                <i>精品酒店</i>
-                <i>近地铁</i>
-              </div>
-              <span className="score">4.7<em>分</em></span>
-            </div>
-            <div className='other'>
-              <i className='star-level'>星级</i>
-              <i className='price'>
-                ￥437<em>起</em>
-              </i>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <div className='pro-container'>
+        <ul className='pro-list'>
+          {apiData.map((item, idx) => {
+            return (
+              <li className='item' key={idx}>
+                <img className='pro-img' src={item.proUrl} alt='商品展示' />
+                <div className='content'>
+                  <h3 className='title'>{item.title}</h3>
+                  <section className='intro'>{item.intro}</section>
+                  <section className='tag'>
+                    {/* 多出来的隐藏掉 */}
+                    {(item.tagList || []).map((tagEle,tagIdx) => {
+                      return <em className='tag-item' key={tagIdx}>{tagEle.value}</em>
+                    })}
+                  </section>
+                  <article className='other'>
+                    <section className='left'>
+                      <ul className='star-list'>
+                        {(() => {
+                          let dom=[]
+                          if (item.startLevel) {
+                            for (let i = 0; i < item.startLevel; i++) {
+                              dom.push(<li className='star-item' key={i}></li>)
+                            }
+                          }
+                          return dom
+                        })()}
+                      </ul>
+                      <section className='score'>
+                        <b className='num'>{item.score}</b>
+                        <em className='unit'>分</em>
+                      </section>
+                    </section>
+                    <section className='price'>
+                      <small className='unit'>{item.priceUint}</small>
+                      <b className='num'>{item.priceNum}</b>
+                      <em className='end'>起</em>
+                    </section>
+                  </article>
+                </div>
+              
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     )
   }
 }
