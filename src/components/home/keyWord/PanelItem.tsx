@@ -36,7 +36,7 @@ function PanelItemDom(props: propsTypes) {
     setIsUp(!isUp)
     setShowItem(!showItem)
   }
-  const setKeyWordCondition = (val: string) => {
+  const setKeyWordCondition = (val: { key: any; value: string }) => {
     props.keyWordConditionOption(val)
     props.keyWordPanelOption(false)
   }
@@ -83,7 +83,7 @@ function PanelItemDom(props: propsTypes) {
                     onClick={() => {
                       setKeyWordCondition(item)
                     }}>
-                    {item}
+                    {item.value}
                   </li>
                 )
               } else {
@@ -95,7 +95,7 @@ function PanelItemDom(props: propsTypes) {
                       setKeyWordCondition(item)
                     }}
                     className='keyword-content-item'>
-                    {item}
+                    {item.value}
                   </li>
                 )
               }
@@ -108,7 +108,7 @@ function PanelItemDom(props: propsTypes) {
                   onClick={() => {
                     setKeyWordCondition(item)
                   }}>
-                  {item}
+                  {item.value}
                 </li>
               )
             }

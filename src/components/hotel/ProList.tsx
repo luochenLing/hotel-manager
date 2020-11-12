@@ -184,7 +184,6 @@ class ProList extends React.Component<propsType, stateType> {
                     </section>
                   </article>
                 </div>
-              
               </li>
             )
           })}

@@ -10,7 +10,7 @@ export const keyWordPanelOption=(keyWord:boolean)=>({type:SET_ShowKeyWordPanel,p
  * 控制keyword关键字
  * @param keyWord 
  */
-export const keyWordConditionOption=(condition:string)=>({type:SET_KeyWordConditon,payload:condition})
+export const keyWordConditionOption=(condition:{ key: any; value: string })=>({type:SET_KeyWordConditon,payload:condition})
 
 /**
  * 控制竖导航面板显示

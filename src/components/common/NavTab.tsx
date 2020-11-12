@@ -9,8 +9,8 @@ import {
 } from 'redux/action'
 //设置默认类型
 interface propsTypes {
-  tabs: []
-  panels: []
+  tabs: { key: any; value: string }[]
+  panels: { key: any; value: string }[]
   showNavPanel: boolean
   keyWordConditionOption: Function
   navPanelShowOption: Function
@@ -18,28 +18,33 @@ interface propsTypes {
 }
 //设置默认值
 NavTabDOM.defaultProps = {
-  tabs: ['高端连锁', '中国连锁', '快捷连锁', '其他品牌'],
+  tabs: [
+    { key: '1', value: '高端连锁' },
+    { key: '2', value: '中国连锁' },
+    { key: '3', value: '快捷连锁' },
+    { key: '4', value: '其他品牌' },
+  ],
   panels: [
-    '万豪',
-    '凯悦酒店',
-    '诺富特',
-    '万丽',
-    '日航',
-    '君越酒店',
-    'JW万豪',
-    '书香世家',
-    '迪士尼',
-    '美伦',
-    '居舍系列',
-    '丽晶',
-    '星河湾',
-    '瑞士',
-    '桔子水晶',
-    '费尔德',
-    '臻品之选',
-    '丽呈',
-    '悦容庄',
-    'Radisson Blu',
+    { key: '1', value: '万豪' },
+    { key: '2', value: '凯悦酒店' },
+    { key: '3', value: '诺富特' },
+    { key: '4', value: '万丽' },
+    { key: '5', value: '日航' },
+    { key: '6', value: '君越酒店' },
+    { key: '7', value: 'JW万豪' },
+    { key: '8', value: '书香世家' },
+    { key: '9', value: '迪士尼' },
+    { key: '10', value: '美伦' },
+    { key: '11', value: '居舍系列' },
+    { key: '12', value: '丽晶' },
+    { key: '13', value: '星河湾' },
+    { key: '14', value: '瑞士' },
+    { key: '15', value: '桔子水晶' },
+    { key: '16', value: '费尔德' },
+    { key: '17', value: '臻品之选' },
+    { key: '18', value: '丽呈' },
+    { key: '19', value: '悦容庄' },
+    { key: '20', value: 'Radisson Blu' },
   ],
 }
 function NavTabDOM(props: propsTypes) {
@@ -58,7 +63,7 @@ function NavTabDOM(props: propsTypes) {
     setClientHeight((document.documentElement || document.body).clientHeight)
   }
 
-  const getActive = (num: number) => {
+  const getActive = (num: number, key: any) => {
     setTabActive(num)
   }
 
@@ -66,7 +71,7 @@ function NavTabDOM(props: propsTypes) {
    * 选中一个项
    * @param val 选中项的值
    */
-  const selItem = (val: string) => {
+  const selItem = (val: { key: any; value: string }) => {
     props.keyWordConditionOption(val)
     props.navPanelShowOption(false)
     props.keyWordPanelOption(false)
@@ -77,7 +82,7 @@ function NavTabDOM(props: propsTypes) {
   }
 
   return (
-    <div className="nav-tab" style={{ height: clientHeight }}>
+    <div className='nav-tab' style={{ height: clientHeight }}>
       <NavBar goBack={goBack}>
         <span slot='center'>品牌</span>
         <span slot='right'></span>
@@ -89,10 +94,10 @@ function NavTabDOM(props: propsTypes) {
               <li
                 key={index}
                 onClick={() => {
-                  getActive(index)
+                  getActive(index, item.key)
                 }}
                 className={`tab-item ${tabActive === index ? 'active' : ''}`}>
-                {item}
+                {item.value}
               </li>
             )
           })}
@@ -104,9 +109,9 @@ function NavTabDOM(props: propsTypes) {
                 key={index}
                 className='tab-panel-item'
                 onClick={() => {
-                  selItem(item)
+                  selItem(item.key)
                 }}>
-                {item}
+                {item.value}
               </li>
             )
           })}
