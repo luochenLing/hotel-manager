@@ -12,6 +12,8 @@ interface propsTypes {
   tabs: { key: any; value: string }[]
   panels: { key: any; value: string }[]
   showNavPanel: boolean
+  navTitle: string
+  showNavBar: boolean//是否显示导航栏
   keyWordConditionOption: Function
   navPanelShowOption: Function
   keyWordPanelOption: Function
@@ -46,6 +48,8 @@ NavTabDOM.defaultProps = {
     { key: '19', value: '悦容庄' },
     { key: '20', value: 'Radisson Blu' },
   ],
+  navTitle: '品牌',
+  showNavBar: true,
 }
 function NavTabDOM(props: propsTypes) {
   const [tabActive, setTabActive] = useState(0) //tab的active样式
@@ -83,11 +87,15 @@ function NavTabDOM(props: propsTypes) {
 
   return (
     <div className='nav-tab' style={{ height: clientHeight }}>
-      <NavBar goBack={goBack}>
-        <span slot='center'>品牌</span>
-        <span slot='right'></span>
-      </NavBar>
-      <div className='content'>
+      {props.showNavBar ? (
+        <NavBar goBack={goBack}>
+          <span slot='center'>{props.navTitle}</span>
+          <span slot='right'></span>
+        </NavBar>
+      ) : (
+        ''
+      )}
+      <div className='content' style={{height:props.showNavBar?'':'100%'}}>
         <ul className='tab'>
           {props.tabs.map((item, index) => {
             return (

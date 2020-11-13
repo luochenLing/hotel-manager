@@ -38,3 +38,36 @@
     }
   }
 }
+
+.condition-sheet {
+  top: 5rem;
+  .page-content {
+    overflow: hidden;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    .nav-tab {
+      height: 100% !important;
+    }
+    .greet-condition-list {
+      margin: 0;
+      overflow: auto;
+      height: 100%;
+    }
+    .price {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .star-rating {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .btn-tools {
+      width: 90%;
+      margin: 1rem auto 0.5rem auto;
+    }
+  }
+}
+.backdrop-in {
+  top: 6rem;
+}

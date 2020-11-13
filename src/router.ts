@@ -23,7 +23,7 @@ const routes: routeType[] = [
   },
   {
     path: '/',
-    component: Hotel,
+    component: Home,
   },
   // 嵌套子路由children，这里说明一下不一定必须用children，你可以用其它的词代替
   // {

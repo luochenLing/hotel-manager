@@ -1,5 +1,6 @@
 import React from 'react'
 import 'css/common/input-search.scss'
+import 'css/common/price-panel.scss'
 import { Button, Range } from 'framework7-react'
 interface propsTypes {
   curPrice: string
