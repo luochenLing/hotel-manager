@@ -14,11 +14,11 @@
       align-items: center;
       font-size: 0.6rem;
       &::after {
-        content: '\f0d7';
+        content: "\f0d7";
         display: flex;
         line-height: 0.75rem;
         font-weight: 900;
-        font-family: 'Font Awesome 5 Free';
+        font-family: "Font Awesome 5 Free";
         font-size: 0.5rem;
         margin-left: 0.2rem;
         color: #999;
@@ -26,11 +26,11 @@
     }
     .active {
       &::after {
-        content: '\f0d8';
+        content: "\f0d8";
         display: flex;
         line-height: 0.75rem;
         font-weight: 900;
-        font-family: 'Font Awesome 5 Free';
+        font-family: "Font Awesome 5 Free";
         font-size: 0.5rem;
         margin-left: 0.2rem;
         color: #999;
@@ -41,11 +41,23 @@
 
 .condition-sheet {
   top: 5rem;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  // background: rgba(0, 0, 0, 0.4);
+  &-bg{
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
   .page-content {
-    overflow: hidden;
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
+    background-color: #fff;
+    height: 40%;
+    width: 100%;
+    z-index: 999;
     .nav-tab {
       height: 100% !important;
     }
@@ -53,6 +65,11 @@
       margin: 0;
       overflow: auto;
       height: 100%;
+      box-sizing: border-box;
+      ul {
+        width: 100%;
+        height: 100%;
+      }
     }
     .price {
       width: 90%;
@@ -67,7 +84,4 @@
       margin: 1rem auto 0.5rem auto;
     }
   }
-}
-.backdrop-in {
-  top: 6rem;
 }
