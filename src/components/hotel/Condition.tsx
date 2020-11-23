@@ -2,7 +2,7 @@ import React from 'react'
 import { Sheet, PageContent, F7List, ListItem } from 'framework7-react'
 import NavTab from 'components/common/NavTab'
 import PricePanel from 'components/common/PricePanel'
-
+import PubSub from 'pubsub-js'
 import 'css/hotel/condition.scss'
 type stateType = {
   sheetOpened: boolean
@@ -45,6 +45,23 @@ class Condition extends React.Component<propsType, stateType> {
       ],
       selGreetCondition: { key: -1, value: '欢迎度排序' }, //获取欢迎度排名条件
     }
+  }
+
+  componentDidMount() {
+    this.busEvent()
+  }
+
+  componentWillUnmount(){
+    PubSub.clearAllSubscriptions();
+  }
+  /**
+   * 事件绑定
+   */
+  busEvent() {
+    PubSub.subscribe('setConditionState', (...data: any) => {
+      console.log(data[1])
+      this.setState({ sheetOpened: data[1]})
+    })
   }
 
   /**
@@ -177,6 +194,7 @@ class Condition extends React.Component<propsType, stateType> {
     } = this.state
     return (
       <div className='hotel-condition'>
+        {/* 条件工具栏 */}
         <ul className='list'>
           <li
             className={`item ${panelType === 1 ? 'active' : ''}`}
@@ -211,8 +229,12 @@ class Condition extends React.Component<propsType, stateType> {
           className='condition-sheet'
           backdrop
           opened={this.state.sheetOpened}
+          //这里只靠opened属性在路由跳转的时候动画不能把整个面板收回，所以再加个display属性可以做到路由改变的时候面板完美隐藏
+          style={{display:!this.state.sheetOpened?'none':''}}
           position='top'
-          onSheetClosed={() => this.setState({ sheetOpened: false,panelType:-1 })}>
+          onSheetClosed={() =>
+            this.setState({ sheetOpened: false, panelType: -1 })
+          }>
           <PageContent>
             {(() => {
               switch (this.state.panelType) {
