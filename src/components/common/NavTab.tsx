@@ -114,10 +114,10 @@ function NavTabDOM(props: propsTypes) {
           {props.panels.map((item, index) => {
             return (
               <li
-                key={index}
+                key={item.key}
                 className='tab-panel-item'
                 onClick={() => {
-                  selItem(item.key)
+                  selItem(item)
                 }}>
                 {item.value}
               </li>

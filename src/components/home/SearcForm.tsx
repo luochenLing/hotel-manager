@@ -22,7 +22,7 @@ interface propsType {
   fromWeek: string
   toWeek: string
   dayDiff: number
-  condition: string
+  condition: {key:any,value:string}
 }
 interface RouterProps extends RouteComponentProps {
   // custom properties passed to component
@@ -115,7 +115,7 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
   }
 
   render() {
-    const { startDay, endDay } = this.props
+    const { startDay, endDay ,fromWeek,dayDiff,getCalendar,toWeek,condition} = this.props
     return (
       <>
         <ul className='search-form'>
@@ -128,7 +128,7 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
           </li>
           <li
             onClick={() => {
-              this.props.getCalendar(
+              getCalendar(
                 true,
                 this.startDayDom.current?.getAttribute('data-seldate'),
                 this.endDayDom.current?.getAttribute('data-seldate')
@@ -140,21 +140,21 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
               <span ref={this.startDayDom} data-seldate={startDay}>
                 {`${startDay.split('-')[1]}月${startDay.split('-')[2]}日`}
               </span>
-              <i>{this.props.fromWeek}</i>
+              <i>{fromWeek}</i>
             </div>
-            <h4 className='date-count'>{this.props.dayDiff}晚</h4>
+            <h4 className='date-count'>{dayDiff}晚</h4>
             <div>
               <h4>离店</h4>
               <span ref={this.endDayDom} data-seldate={endDay}>
                 {`${endDay.split('-')[1]}月${endDay.split('-')[2]}日`}
               </span>
-              <i>{this.props.toWeek}</i>
+              <i>{toWeek}</i>
             </div>
           </li>
           <li className='search-key' onClick={this.openKeyWord}>
             <span>
-              {this.props.condition
-                ? this.props.condition
+              {condition
+                ? condition.value
                 : '关键字/位置/品牌/酒店名'}
             </span>
           </li>
