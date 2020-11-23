@@ -3,8 +3,9 @@ import NavBar from 'components/common/NavBar'
 import InputSearch from 'components/common/InputSearch'
 import {withRouter} from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
-import 'css/hotel/search-bar.scss'
 import PubSub from 'pubsub-js'
+import 'css/hotel/search-bar.scss'
+
 type stateType = {}
 type propsType = {}
 class SearchBar extends React.Component<RouteComponentProps&propsType, stateType> {
@@ -13,7 +14,7 @@ class SearchBar extends React.Component<RouteComponentProps&propsType, stateType
     this.state = {}
   }
   goBack=()=>{
-    PubSub.publish("setConditionState",false)
+    PubSub.publishSync("sheetOpened",false)
     this.props.history.goBack()
   }
   render() {
@@ -35,7 +36,6 @@ class SearchBar extends React.Component<RouteComponentProps&propsType, stateType
                 <em>11-1</em>
               </span>
               </div>
-             
             </div>
             <InputSearch placeholderName="关键字/位置/酒店名"></InputSearch>
           </span>
