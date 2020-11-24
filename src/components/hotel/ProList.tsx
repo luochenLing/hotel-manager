@@ -1,5 +1,6 @@
 import React from 'react'
 import 'css/hotel/pro-list.scss'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 type stateType = {
   apiData: {
     proUrl: string
@@ -16,7 +17,7 @@ type stateType = {
   }[]
 }
 type propsType = {}
-class ProList extends React.Component<propsType, stateType> {
+class ProList extends React.Component<RouteComponentProps&propsType, stateType> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -138,6 +139,12 @@ class ProList extends React.Component<propsType, stateType> {
       ],
     })
   }
+  /**
+   * 酒店详情页面
+   */
+  getInfoPage=()=>{
+    this.props.history.push('/hotelInfo')
+  }
   componentDidMount() {
     this.initData()
   }
@@ -148,7 +155,7 @@ class ProList extends React.Component<propsType, stateType> {
         <ul className='pro-list'>
           {apiData.map((item, idx) => {
             return (
-              <li className='item' key={idx}>
+              <li className='item' key={idx} onClick={this.getInfoPage}>
                 <img className='pro-img' src={item.proUrl} alt='商品展示' />
                 <div className='content'>
                   <h3 className='title'>{item.title}</h3>
@@ -193,4 +200,4 @@ class ProList extends React.Component<propsType, stateType> {
   }
 }
 
-export default ProList
+export default withRouter(ProList)

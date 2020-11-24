@@ -2,6 +2,7 @@ import { ComponentType, lazy, LazyExoticComponent } from 'react'
 import { RouteConfig, RouteConfigComponentProps } from 'react-router-config'
 const Home = lazy(() => import('views/home/Index'))
 const Hotel = lazy(() => import('views/hotel/Index'))
+const HotelInfo = lazy(() => import('views/hotel/Info'))
 // import Home from 'views/home/Index'
 // import Hotel from 'views/hotel/Index'
 //兼容懒加载属性，所以就加了个继承属性，这里可以兼容lazy的写法和常规引入写法
@@ -22,8 +23,13 @@ const routes: routeType[] = [
     exact: true,
   },
   {
+    path: '/hotelInfo',
+    component: HotelInfo,
+    exact: true,
+  },
+  {
     path: '/',
-    component: Home,
+    component: HotelInfo,
   },
   // 嵌套子路由children，这里说明一下不一定必须用children，你可以用其它的词代替
   // {
