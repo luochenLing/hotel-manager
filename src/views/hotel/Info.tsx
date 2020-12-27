@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import "css/hotel/hotel-info.scss";
+import Banner from "components/hotel/Banner";
 type stateTypes = {};
 type propsTypes = {};
 class Info extends React.Component<propsTypes, stateTypes> {
@@ -7,7 +9,11 @@ class Info extends React.Component<propsTypes, stateTypes> {
     this.state = {};
   }
   render() {
-    return <div></div>;
+    return (
+      <>
+        <Banner></Banner>
+      </>
+    );
   }
 }
 export default Info;

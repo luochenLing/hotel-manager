@@ -1,7 +1,6 @@
 import React from "react";
 import Banner from "components/home/Banner";
-import SearchPanel from "components/home/SearchPanel";
-
+import SearchPanel from "components/home/SearchPanel"
 import "css/home/index.scss";
 
 type stateType = {
