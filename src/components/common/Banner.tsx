@@ -21,8 +21,8 @@ function BannerDom(props: propsTypes) {
           )
         })}
       </Swiper>
-      <span onClick={backFunc}>
-        <Icon f7='chevron_left' className='chevron-left'></Icon>
+      <span className='chevron-left' onClick={backFunc}>
+        <Icon f7='chevron_left'></Icon>
       </span>
     </>
   )
