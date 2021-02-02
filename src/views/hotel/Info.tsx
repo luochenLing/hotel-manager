@@ -1,4 +1,5 @@
 import React from 'react'
+import 'css/hotel/hotel-info.scss'
 import 'css/common/nav.scss'
 import Banner from 'components/common/Banner'
 import IntroCard from 'components/hotel/IntroCard'
@@ -44,10 +45,10 @@ class Info extends React.Component<
   render() {
     const { infoList,info } = this.state
     return (
-      <>
+      <div className="info-page">
         <Banner infoList={infoList} backFunc={this.backFunc}></Banner>
         <IntroCard info={info}></IntroCard>
-      </>
+      </div>
     )
   }
 }

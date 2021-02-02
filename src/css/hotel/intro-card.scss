@@ -1,3 +1,76 @@
 .intro-card{
-  
+  position: absolute;
+  top: 80%;
+  z-index: 1;
+  background: #fff;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  width: 95%;
+  .card-head{
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 0.1px solid #f6f6f6;
+    padding-bottom: 0.3rem;
+    .card-score{
+      border-radius: 50%;
+      background: #00c37d;
+      padding: 0.5rem 0.1rem;
+      font-weight: 600;
+      color: #fff;
+      font-size: 1rem;
+      .card-unit{
+        font-size: 0.45rem;
+      }
+    }
+    .card-title{
+      color: #00c37d;
+      margin-left: 0.5rem;
+      font-weight: 300;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+    }
+  }
+  .card-body{
+    margin-top: 0.5rem;
+    font-weight: 300;
+    display: flex;
+    flex-direction: column;
+    .card-addr{
+      color:#333;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+    }
+    .card-map-content{
+      margin-top: 0.2rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+    }
+  }
+  .card-footer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0 0 0;
+    border-top: 0.1px solid #f6f6f6;
+    .card-sub-title{
+      color:#333;
+    }
+    .card-tag{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.2rem;
+    }
+  }
 }

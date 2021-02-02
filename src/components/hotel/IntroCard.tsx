@@ -18,31 +18,25 @@ function IntroCardDom(props: propsTypes) {
       <div className='intro-card'>
         <div className='card-head'>
           <span className='card-score'>
-            {info?.score}
+            {info?.score} 
             <span className='card-unit'>分</span>
           </span>
-          <span className="card-title"></span>
+          <span className='card-title'>假日一级酒店</span>
         </div>
 
         <div className='card-body'>
           <span className='card-addr'>
             {info?.addr}【{info?.landmark}】
           </span>
-          <span className='card-map-content'>
-            {info?.mapContent}
-          </span>
+          <span className='card-map-content'>{info?.mapContent}</span>
         </div>
 
         <div className='card-footer'>
-          <span className='card-sub-title'>
-            {info?.subTitle}
-          </span>
+          <span className='card-sub-title'>{info?.subTitle}</span>
           <ul className='card-tag'>
-            {
-              (info?.tag||[]).map(item=>{
-                return <li key={item}>{item}</li>
-              })
-            }
+            {(info?.tag || []).map((item) => {
+              return <li key={item}>{item}</li>
+            })}
           </ul>
         </div>
       </div>
