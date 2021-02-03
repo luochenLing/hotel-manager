@@ -13,7 +13,7 @@ type stateTypes = {
     landmark: string
     mapContent: string //地图内容
     subTitle: string //副标题
-    tag: string[] //标签
+    tag: { label: string; code: string }[] //标签
   }
 }
 type propsTypes = {}
@@ -35,7 +35,12 @@ class Info extends React.Component<
         landmark: '徐家汇',
         mapContent: '距离上海体育场地铁站680米，步行约10分钟', //地图内容
         subTitle: '2019年开业', //副标题
-        tag: ['快速办理入住', '客房WIFI免费', '中餐厅', '餐厅'], //标签
+        tag: [
+          { label: '快速办理入住', code: 'fast_processing' },
+          { label: '客房WIFI免费', code: 'wifi' },
+          { label: '中餐厅', code: 'c_restaurant' },
+          // { label: '餐厅', code: 'restaurant' },
+        ], //标签
       },
     }
   }
@@ -43,9 +48,9 @@ class Info extends React.Component<
     this.props.history.goBack()
   }
   render() {
-    const { infoList,info } = this.state
+    const { infoList, info } = this.state
     return (
-      <div className="info-page">
+      <div className='info-page'>
         <Banner infoList={infoList} backFunc={this.backFunc}></Banner>
         <IntroCard info={info}></IntroCard>
       </div>

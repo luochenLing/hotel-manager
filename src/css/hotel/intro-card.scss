@@ -68,9 +68,21 @@
     }
     .card-tag{
       width: 100%;
-      display: flex;
+      // display: flex;
       justify-content: space-between;
       margin-top: 0.2rem;
+      &-item{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+        width: 25%;
+        .item-icon{
+          font-size: 16px;
+          margin-right: 0.2rem;
+          color: #00c37d;
+        }
+      }
     }
   }
 }
