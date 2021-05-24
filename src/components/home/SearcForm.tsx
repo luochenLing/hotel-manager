@@ -129,9 +129,9 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
           <li
             onClick={() => {
               getCalendar(
-                true,
-                this.startDayDom.current?.getAttribute('data-seldate'),
-                this.endDayDom.current?.getAttribute('data-seldate')
+                true
+                // this.startDayDom.current?.getAttribute('data-seldate'),
+                // this.endDayDom.current?.getAttribute('data-seldate')
               )
             }}
             className='date-condition'>
