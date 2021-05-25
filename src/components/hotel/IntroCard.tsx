@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "css/hotel/intro-card.scss";
+import { getDayByNum } from "utils/common";
 import { Icon } from "framework7-react";
 import DateSelector from "components/common/DateSelector";
 interface propsTypes {
@@ -16,6 +17,8 @@ interface propsTypes {
 
 function IntroCardDom(props: propsTypes) {
   const { info } = props;
+  const [startDate, setStartDate] = useState(new Date().Format("yyyy-MM-dd")); //从周几
+  const [endDate, setEndDate] = useState(getDayByNum(new Date(), 7).Format("yyyy-MM-dd")); //到周几
   /**
    * 根据标签获取图标
    * @param val 标签Code
@@ -31,6 +34,11 @@ function IntroCardDom(props: propsTypes) {
       case "restaurant":
         return "poultry_leg";
     }
+  };
+
+  const updateTime = (data: { startDay: string; endDay: string }) => {
+    setStartDate(data.startDay);
+    setEndDate(data.endDay);
   };
   return (
     <>
@@ -66,7 +74,11 @@ function IntroCardDom(props: propsTypes) {
             })}
           </ul>
         </div>
-        <DateSelector />
+        <DateSelector
+          startDate={startDate}
+          endDate={endDate}
+          updateTime={updateTime}
+        />
       </div>
     </>
   );
