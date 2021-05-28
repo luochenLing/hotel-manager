@@ -1,13 +1,17 @@
 import React from "react";
 import Condition from "./Condition";
 import PanelList from "./PanelList";
-import 'css/home/keyWord/index.scss'
+import "css/home/keyWord/index.scss";
 interface propsTypes {
-  showKeyWord:boolean,
+  showKeyWord: boolean;
 }
 function KeyWordDom(props: propsTypes) {
   return (
-    <div className={`keyword-page ${props.showKeyWord ? "slide-in" : "slide-out"}`}>
+    <div
+      className={`keyword-page ${
+        props.showKeyWord ? "keyword-slide-in" : "keyword-slide-out"
+      }`}
+    >
       <Condition></Condition>
       <PanelList></PanelList>
     </div>

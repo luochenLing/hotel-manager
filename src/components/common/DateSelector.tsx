@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Calendar from "components/common/Calendar";
 import { getDayByNum } from "utils/common";
 import "css/common/date-selector.scss";
@@ -21,7 +22,7 @@ interface propsTypes {
 DataSelectorDom.defaultProps = {
   startDate: new Date().Format("yyyy-MM-dd"),
   endDate: getDayByNum(new Date(), 7).Format("yyyy-MM-dd"),
-  updateTime:()=>{}
+  updateTime: () => {},
 };
 function DataSelectorDom(props: propsTypes) {
   /**
@@ -62,8 +63,9 @@ function DataSelectorDom(props: propsTypes) {
     }
     let dateArr = (calendarRef?.current as any).getSelDateArr();
     let dayDiff = getDayDiff({
-      startDay: dateArr.startDay,
-      endDay: dateArr.endDay,
+      //这里props的属性还没有默认值
+      startDay: dateArr.startDay || DataSelectorDom.defaultProps.startDate,
+      endDay: dateArr.endDay || DataSelectorDom.defaultProps.endDate,
     });
     setFromWeek(dateArr.fromWeek);
     setToWeek(dateArr.toWeek);
@@ -75,14 +77,7 @@ function DataSelectorDom(props: propsTypes) {
       startDay: dateArr.startDay,
       endDay: dateArr.endDay,
     });
-    // this.setState({
-    //   startDay: dateArr.startDay,
-    //   endDay: dateArr.endDay,
-    //   fromWeek: dateArr.fromWeek,
-    //   toWeek: dateArr.toWeek,
-    //   dayDiff,
-    // });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showCalendar]);
 
   /**
@@ -91,9 +86,6 @@ function DataSelectorDom(props: propsTypes) {
    */
   const getCalendar = (showCalendar: boolean) => {
     setShowCalendar(showCalendar);
-    // this.setState({ showCalendar })
-    // startDayDom.current?.getAttribute('data-seldate'),
-    // endDayDom.current?.getAttribute('data-seldate')
   };
 
   /**
@@ -101,7 +93,6 @@ function DataSelectorDom(props: propsTypes) {
    */
   const closeCalendar = () => {
     setShowCalendar(false);
-    // this.setState({ showCalendar: false }, );
   };
 
   /**
@@ -111,6 +102,26 @@ function DataSelectorDom(props: propsTypes) {
     let day = new Date(startDate);
     let yesterday = getDayByNum(day, -1);
     setYesterday(yesterday.Format("yyyy-M-d"));
+  };
+
+  /**
+   * 获取日历组件挂载到root下面
+   * @returns 返回一个挂载到root下面的日历组件
+   */
+  const getCalendarComp = () => {
+    const root = document.getElementById("root") as Element;
+    return createPortal(
+      <Calendar
+        ref={calendarRef}
+        showCalendar={showCalendar}
+        curDay={new Date()}
+        selDay={{ from: new Date(startDate), to: new Date(endDate) }}
+        disableDay={{ to: new Date(yesterday) }}
+        //如果方法带了括号就会立即执行，会导致state更新出现死循环
+        closeCalendar={closeCalendar}
+      />,
+      root
+    );
   };
 
   const { startDate, endDate } = props;
@@ -138,15 +149,7 @@ function DataSelectorDom(props: propsTypes) {
           <i>{toWeek}</i>
         </div>
       </div>
-      <Calendar
-        ref={calendarRef}
-        showCalendar={showCalendar}
-        curDay={new Date()}
-        selDay={{ from: new Date(startDate), to: new Date(endDate) }}
-        disableDay={{ to: new Date(yesterday) }}
-        //如果方法带了括号就会立即执行，会导致state更新出现死循环
-        closeCalendar={closeCalendar}
-      />
+      {getCalendarComp()}
     </>
   );
 }

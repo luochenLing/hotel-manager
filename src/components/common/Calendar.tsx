@@ -35,10 +35,10 @@ function CalendarDom(props: propsTypes) {
   //初始时间段
   const [startDay, setStartDay] = useState<string | null>();
   const [endDay, setEndDay] = useState<string | null>();
-  useEffect(()=>{
+  useEffect(() => {
     setStartDay(from);
-    setEndDay(to)
-  },[from,to])
+    setEndDay(to);
+  }, [from, to]);
   const { myRef } = props;
 
   //是否显示日历界面
@@ -107,12 +107,13 @@ function CalendarDom(props: propsTypes) {
    * @param e 当前的dom方法
    */
   const selDomHandle = (e: any) => {
+    // debugger;
     if (e.currentTarget.classList.contains("disable-day")) {
       //禁止的日期范围不能选中
       return;
     }
     //不能重复选择某天
-    let rangeArr = document.querySelectorAll(".range");
+    let rangeArr = document.querySelectorAll(".calendar-slide-in .range");
     if (rangeArr.length >= 0) {
       if (
         rangeArr[0].getAttribute("data-day") ===
@@ -131,7 +132,7 @@ function CalendarDom(props: propsTypes) {
    * @param selDom 当前选中的dom
    */
   const switchDomHandle = (count: number, selDom: HTMLElement) => {
-    let rangeDomArr = document.querySelectorAll(".range");
+    let rangeDomArr = document.querySelectorAll(".calendar-slide-in .range");
     switch (count) {
       case 0:
         //只有一个dom的时候，记录到选中数组并且着色
@@ -174,6 +175,10 @@ function CalendarDom(props: propsTypes) {
       case 2:
         clearAllDom(selDom);
         break;
+      default:
+        //如果有很多個起止點超過兩個的話就輸出錯誤提示
+        console.log(`日历逻辑出现了问题，当前的选中dom节点为：${count}`);
+        break;
     }
   };
 
@@ -182,8 +187,8 @@ function CalendarDom(props: propsTypes) {
    * @param selDom 选中的DOM
    */
   const clearAllDom = (selDom: HTMLElement) => {
-    //三个的时候清除所有颜色样式和选中数组并且按照1操作
-    document.querySelectorAll(".range").forEach((item) => {
+    //三个的时候清除所有颜色样式和选中数组并且按照1操作,这里如果有多个日历组件，就只取打开的这个组件
+    document.querySelectorAll(".calendar-slide-in .range").forEach((item) => {
       item.classList.remove("range");
     });
     document.querySelectorAll(".selected").forEach((item) => {
@@ -279,7 +284,7 @@ function CalendarDom(props: propsTypes) {
   };
 
   return (
-    <div className={`${show ? "slide-in" : "slide-out"}`}>
+    <div className={`${show ? "calendar-slide-in" : "calendar-slide-out"}`}>
       <div className="cal-header">
         <div className="bar">
           <span className="cancel" onClick={closeCalendar}>

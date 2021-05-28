@@ -22,23 +22,7 @@
   .search-price:active {
     background-color: #e5e5e5;
   }
-  .date-condition {
-    position: relative;
-    span {
-      display: inline-block;
-      margin-right: 5px;
-      color: #23cc77;
-    }
-    i {
-      font-style: normal;
-    }
-    .date-count {
-      position: absolute;
-      bottom: 12%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
+
   .cur-position {
     display: inline;
     img {
@@ -51,8 +35,3 @@
     }
   }
 }
-// .search-form-pop{
-//   // .backdrop-in {
-//   //   top: 0;
-//   // }
-// }
