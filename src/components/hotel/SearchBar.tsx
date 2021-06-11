@@ -4,7 +4,7 @@ import InputSearch from 'components/common/InputSearch'
 import {withRouter} from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
 import PubSub from 'pubsub-js'
-import 'css/hotel/search-bar.scss'
+import styles from 'css/hotel/search-bar.module.scss'
 
 type stateType = {}
 type propsType = {}
@@ -19,19 +19,19 @@ class SearchBar extends React.Component<RouteComponentProps&propsType, stateType
   }
   render() {
     return (
-      <div className="pro-condition">
+      <div className={styles["pro-condition"]}>
         <NavBar goBack={this.goBack}>
-          <span className="container" slot='center'>
-            <span className="city">
+          <span className={styles["container"]} slot='center'>
+            <span className={styles["city"]}>
               上海
             </span>
-            <div className="cal-bar">
-              <div className="container">
-              <span className="s-day">
+            <div className={styles["cal-bar"]}>
+              <div className={styles["container"]}>
+              <span className={styles["s-day"]}>
                 <i>住</i>
                 <em>11-1</em>
               </span>
-              <span className="e-day">
+              <span className={styles["e-day"]}>
                 <i>离</i>
                 <em>11-1</em>
               </span>

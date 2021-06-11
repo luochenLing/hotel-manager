@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
-import 'css/common/nav-tab.scss'
+import styles from 'css/common/nav-tab.module.scss'
 import { connect } from 'react-redux'
 import {
   navPanelShowOption,
@@ -86,7 +86,7 @@ function NavTabDOM(props: propsTypes) {
   }
 
   return (
-    <div className='nav-tab' style={{ height: clientHeight }}>
+    <div className={styles['nav-tab']} style={{ height: clientHeight }}>
       {props.showNavBar ? (
         <NavBar goBack={goBack}>
           <span slot='center'>{props.navTitle}</span>
@@ -95,8 +95,8 @@ function NavTabDOM(props: propsTypes) {
       ) : (
         ''
       )}
-      <div className='content' style={{height:props.showNavBar?'':'100%'}}>
-        <ul className='tab'>
+      <div className={styles['content']} style={{height:props.showNavBar?'':'100%'}}>
+        <ul className={styles['tab']}>
           {props.tabs.map((item, index) => {
             return (
               <li
@@ -104,18 +104,18 @@ function NavTabDOM(props: propsTypes) {
                 onClick={() => {
                   getActive(index, item.key)
                 }}
-                className={`tab-item ${tabActive === index ? 'active' : ''}`}>
+                className={`${styles['tab-item']} ${tabActive === index ? styles['active'] : ''}`}>
                 {item.value}
               </li>
             )
           })}
         </ul>
-        <ul className='tab-panel'>
+        <ul className={styles['tab-panel']}>
           {props.panels.map((item, index) => {
             return (
               <li
                 key={item.key}
-                className='tab-panel-item'
+                className={styles['tab-panel-item']}
                 onClick={() => {
                   selItem(item)
                 }}>

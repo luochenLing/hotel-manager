@@ -1,8 +1,8 @@
 import React from 'react'
 import Banner from 'components/common/Banner'
 import SearchPanel from 'components/home/SearchPanel'
-import 'css/home/index.scss'
-import 'css/common/nav.scss'
+import styles from 'css/home/index.module.scss'
+// import 'css/common/nav.scss'
 
 type stateType = {
   showCalendar: boolean
@@ -24,7 +24,7 @@ class Index extends React.Component<propsType, stateType> {
   render() {
     const { infoList } = this.state
     return (
-      <div className='home'>
+      <div className={styles['home']}>
         <Banner infoList={infoList} />
         <SearchPanel />
       </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import Condition from 'components/hotel/Condition'
 import SearchBar from 'components/hotel/SearchBar'
 import ProList from 'components/hotel/ProList'
+import styles from 'css/hotel/hotel-info.module.scss';
 type stateType = {}
 type propsType = {}
 class Index extends React.Component<propsType, stateType> {
@@ -11,7 +12,7 @@ class Index extends React.Component<propsType, stateType> {
   }
   render() {
     return (
-      <div className='hotel' style={{height:'100%'}}>
+      <div className={styles['hotel']} style={{height:'100%'}}>
         <SearchBar />
         <Condition />
         <ProList/>

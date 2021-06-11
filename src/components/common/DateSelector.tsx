@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Calendar from "components/common/Calendar";
 import { getDayByNum } from "utils/common";
-import "css/common/date-selector.scss";
+import styles from "css/common/date-selector.module.scss";
 interface propsTypes {
   /**
    * 开始时间
@@ -140,7 +140,7 @@ function DataSelectorDom(props: propsTypes) {
           </span>
           <i>{fromWeek}</i>
         </div>
-        <h4 className="date-count">{dayDiff}晚</h4>
+        <h4 className={styles["date-count"]}>{dayDiff}晚</h4>
         <div>
           <h4>离店</h4>
           <span ref={endDayDom} data-seldate={endDate}>

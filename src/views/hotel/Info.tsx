@@ -1,6 +1,5 @@
 import React from "react";
-import "css/hotel/hotel-info.scss";
-import "css/common/nav.scss";
+import styles from "css/hotel/hotel-info.module.scss";
 import Banner from "components/common/Banner";
 import IntroCard from "components/hotel/IntroCard";
 import Evaluate from "components/hotel/Evaluate";
@@ -51,10 +50,12 @@ class Info extends React.Component<
   render() {
     const { infoList, info } = this.state;
     return (
-      <div className="info-page">
+      <div className={styles["info-page"]}>
         <Banner infoList={infoList} backFunc={this.backFunc}></Banner>
-        <IntroCard info={info}></IntroCard>
-        <Evaluate />
+        <div className={styles["info-content"]}>
+          <IntroCard info={info}></IntroCard>
+          <Evaluate />
+        </div>
       </div>
     );
   }

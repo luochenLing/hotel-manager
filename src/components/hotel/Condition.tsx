@@ -3,7 +3,7 @@ import { F7List, ListItem } from "framework7-react";
 import NavTab from "components/common/NavTab";
 import PricePanel from "components/common/PricePanel";
 import PubSub from "pubsub-js";
-import "css/hotel/condition.scss";
+import styles from "css/hotel/condition.module.scss";
 type stateType = {
   sheetOpened: boolean;
   panelType: number;
@@ -199,10 +199,10 @@ class Condition extends React.Component<propsType, stateType> {
       sheetOpened
     } = this.state;
     return (
-      <div className="hotel-condition">
-        <ul className="list">
+      <div className={styles['hotel-condition']}>
+        <ul className={styles['list']}>
           <li
-            className={`item ${panelType === 1 ? "active" : ""}`}
+            className={`${styles['item']} ${panelType === 1 ? styles['active'] : ""}`}
             onClick={() => {
               this.getPopupPanel(1);
             }}
@@ -210,7 +210,7 @@ class Condition extends React.Component<propsType, stateType> {
             {selGreetCondition.value}
           </li>
           <li
-            className={`item ${panelType === 2 ? "active" : ""}`}
+            className={`${styles['item']} ${panelType === 2 ? styles['active'] : ""}`}
             onClick={() => {
               this.getPopupPanel(2);
             }}
@@ -218,7 +218,7 @@ class Condition extends React.Component<propsType, stateType> {
             位置距离
           </li>
           <li
-            className={`item ${panelType === 3 ? "active" : ""}`}
+            className={`${styles['item']} ${panelType === 3 ? styles['active'] : ""}`}
             onClick={() => {
               this.getPopupPanel(3);
             }}
@@ -226,7 +226,7 @@ class Condition extends React.Component<propsType, stateType> {
             价格/星级
           </li>
           <li
-            className={`item ${panelType === 4 ? "active" : ""}`}
+            className={`${styles['item']} ${panelType === 4 ? styles['active'] : ""}`}
             onClick={() => {
               this.getPopupPanel(4);
             }}
@@ -234,14 +234,14 @@ class Condition extends React.Component<propsType, stateType> {
             筛选
           </li>
         </ul>
-        <div className="condition-sheet" style={{display:!sheetOpened?'none':''}}>
-          <div className="condition-sheet-bg" onClick={this.closeCoonditionPanel}></div>
-          <div className="page-content">
+        <div className={styles['condition-sheet']} style={{display:!sheetOpened?'none':''}}>
+          <div className={styles['condition-sheet-bg']} onClick={this.closeCoonditionPanel}></div>
+          <div className={styles['page-content']}>
             {(() => {
               switch (this.state.panelType) {
                 case 1:
                   return (
-                    <F7List className="greet-condition-list">
+                    <F7List className={styles['greet-condition-list']}>
                       {greetList.map((item, index) => {
                         return (
                           <ListItem

@@ -1,5 +1,5 @@
 import React from 'react'
-import 'css/hotel/pro-list.scss'
+import styles from 'css/hotel/pro-list.module.scss'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 type stateType = {
   apiData: {
@@ -151,43 +151,43 @@ class ProList extends React.Component<RouteComponentProps&propsType, stateType> 
   render() {
     const { apiData } = this.state
     return (
-      <div className='pro-container'>
-        <ul className='pro-list'>
+      <div className={styles['pro-container']}>
+        <ul className={styles['pro-list']}>
           {apiData.map((item, idx) => {
             return (
-              <li className='item' key={idx} onClick={this.getInfoPage}>
-                <img className='pro-img' src={item.proUrl} alt='商品展示' />
-                <div className='content'>
-                  <h3 className='title'>{item.title}</h3>
-                  <section className='intro'>{item.intro}</section>
-                  <section className='tag'>
+              <li className={styles['item']} key={idx} onClick={this.getInfoPage}>
+                <img className={styles['pro-img']} src={item.proUrl} alt='商品展示' />
+                <div className={styles['content']}>
+                  <h3 className={styles['title']}>{item.title}</h3>
+                  <section className={styles['intro']}>{item.intro}</section>
+                  <section className={styles['tag']}>
                     {/* 多出来的隐藏掉 */}
                     {(item.tagList || []).map((tagEle,tagIdx) => {
-                      return <em className='tag-item' key={tagIdx}>{tagEle.value}</em>
+                      return <em className={styles['tag-item']} key={tagIdx}>{tagEle.value}</em>
                     })}
                   </section>
-                  <article className='other'>
-                    <section className='left'>
-                      <ul className='star-list'>
+                  <article className={styles['other']}>
+                    <section className={styles['left']}>
+                      <ul className={styles['star-list']}>
                         {(() => {
                           let dom=[]
                           if (item.startLevel) {
                             for (let i = 0; i < item.startLevel; i++) {
-                              dom.push(<li className='star-item' key={i}></li>)
+                              dom.push(<li className={styles['star-item']} key={i}></li>)
                             }
                           }
                           return dom
                         })()}
                       </ul>
-                      <section className='score'>
-                        <b className='num'>{item.score}</b>
-                        <em className='unit'>分</em>
+                      <section className={styles['score']}>
+                        <b className={styles['num']}>{item.score}</b>
+                        <em className={styles['unit']}>分</em>
                       </section>
                     </section>
-                    <section className='price'>
-                      <small className='unit'>{item.priceUint}</small>
-                      <b className='num'>{item.priceNum}</b>
-                      <em className='end'>起</em>
+                    <section className={styles['price']}>
+                      <small className={styles['unit']}>{item.priceUint}</small>
+                      <b className={styles['num']}>{item.priceNum}</b>
+                      <em className={styles['end']}>起</em>
                     </section>
                   </article>
                 </div>

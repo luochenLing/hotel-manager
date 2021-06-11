@@ -5,7 +5,7 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { getWeek } from "utils/common";
-import "css/common/calendar.scss";
+import styles from "css/common/calendar.module.scss";
 interface propsTypes {
   //当前日期
   curDay?: Date;
@@ -284,15 +284,15 @@ function CalendarDom(props: propsTypes) {
   };
 
   return (
-    <div className={`${show ? "calendar-slide-in" : "calendar-slide-out"}`}>
-      <div className="cal-header">
-        <div className="bar">
-          <span className="cancel" onClick={closeCalendar}>
+    <div className={`${show ?  styles["calendar-slide-in"]: styles["calendar-slide-out"]}`}>
+      <div className={styles["cal-header"]}>
+        <div className={styles["bar"]}>
+          <span className={styles["cancel"]} onClick={closeCalendar}>
             取消
           </span>
-          <span className="title">选择日历</span>
+          <span className={styles["title"]}>选择日历</span>
         </div>
-        <ul className="week">
+        <ul className={styles["week"]}>
           <li>一</li>
           <li>二</li>
           <li>三</li>
@@ -304,7 +304,7 @@ function CalendarDom(props: propsTypes) {
       </div>
       <div className="cal">
         <div style={{ height: pageHeight, paddingTop: 72 }}>
-          <section className="cal-body">
+          <section className={styles["cal-body"]}>
             {dateMonthArr.map((item, idx) => {
               let curYear = parseInt(item.split("-")[0]);
               let curMonth = parseInt(item.split("-")[1]);
@@ -323,11 +323,11 @@ function CalendarDom(props: propsTypes) {
               }
               return (
                 <Fragment key={idx}>
-                  <h4 className="cal-body-month">{`${item.replace(
+                  <h4 className={styles["cal-body-month"]}>{`${item.replace(
                     "-",
                     "年"
                   )}月`}</h4>
-                  <ul className="cal-body-grid">
+                  <ul className={styles["cal-body-grid"]}>
                     {dayArr.map((dayItem, dayIdx) => {
                       if (dayItem === -1) {
                         return <li key={dayIdx}></li>;
@@ -336,7 +336,7 @@ function CalendarDom(props: propsTypes) {
                         <li
                           className={`${setRange(`${item}-${dayItem}`)} ${
                             setDisableRange(`${item}-${dayItem}`)
-                              ? "disable-day"
+                              ? styles["disable-day"]
                               : ""
                           }`}
                           data-day={`${item}-${dayItem}`}

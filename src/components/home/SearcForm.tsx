@@ -1,6 +1,6 @@
 import React from "react";
 // import { unmountComponentAtNode } from "react-dom";
-import "css/home/search-form.scss";
+import styles from "css/home/search-form.module.scss";
 import { F7Button, Icon, Page, Popup, Block } from "framework7-react";
 import { connect } from "react-redux";
 import { keyWordConditionOption } from "redux/action";
@@ -144,10 +144,10 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
     const { startDay, endDay, condition } = this.props;
     return (
       <>
-        <ul className="search-form">
+        <ul className={styles["search-form"]}>
           <li>
             <h4>杭州</h4>
-            <div className="cur-position">
+            <div className={styles["cur-position"]}>
               <Icon size="13" f7="scope" bgColor="#23cc77;"></Icon>
               <span>当前位置</span>
             </div>
@@ -159,12 +159,12 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
               updateTime={this.updateTime}
             />
           </li>
-          <li className="search-key" onClick={this.openKeyWord}>
+          <li className={styles["search-key"]} onClick={this.openKeyWord}>
             <span>
               {condition ? condition.value : "关键字/位置/品牌/酒店名"}
             </span>
           </li>
-          <li className="search-price" onClick={this.openPanel}>
+          <li className={styles["search-price"]} onClick={this.openPanel}>
             <span>
               {(() => {
                 if (this.state.curPrice && this.state.selStartList.length > 0) {
@@ -194,7 +194,7 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
           </li>
         </ul>
         <Popup
-          className="condition-pop"
+          className={styles["condition-pop"]}
           opened={this.state.popupOpened}
           onPopupClosed={() => this.setState({ popupOpened: false })}
         >

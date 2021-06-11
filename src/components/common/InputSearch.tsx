@@ -1,5 +1,5 @@
 import React from "react";
-import "css/common/input-search.scss";
+import styles from "css/common/input-search.module.scss";
 interface propsTypes {
   placeholderName:string
 }
@@ -8,9 +8,9 @@ NavBarDom.defaultProps={
 }
 function NavBarDom(props: propsTypes) {
   return (
-    <div className="search-bar">
+    <div className={styles["search-bar"]}>
       <input
-        className="input-search"
+        className={styles["input-search"]}
         type="text"
         placeholder={props.placeholderName}
       />
