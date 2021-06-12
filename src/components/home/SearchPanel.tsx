@@ -48,7 +48,8 @@ class SearchPanel extends React.Component<propsType, stateType> {
    * 初始化关键字面板
    */
   initKeyWordPanel() {
-    this.props.keyWordPanelOption(false);
+    //这里设置为第一次加载的时候防止页面弹窗闪烁
+    this.props.keyWordPanelOption("firstLoad");
   }
 
   /**

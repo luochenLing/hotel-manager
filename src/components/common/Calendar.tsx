@@ -20,7 +20,7 @@ interface propsTypes {
     to: Date;
   };
   //是否显示日历
-  showCalendar: boolean;
+  showCalendar: boolean | string;
   //关闭日历
   closeCalendar: Function;
 
@@ -282,8 +282,10 @@ function CalendarDom(props: propsTypes) {
   const closeCalendar = () => {
     props.closeCalendar();
   };
-
-  return (
+  //初始化第一次刷新页面的时候为了防止页面的日历组件进行闪烁，所以会赋值一个初始状态显示一个空的span优化视觉效果
+  return show === "firstLoad" ? (
+    <span></span>
+  ) : (
     <div className={`${show ? "calendar-slide-in" : "calendar-slide-out"}`}>
       <div className="cal-header">
         <div className="bar">

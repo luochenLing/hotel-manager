@@ -39,7 +39,9 @@ function DataSelectorDom(props: propsTypes) {
 
   const [fromWeek, setFromWeek] = useState(""); //从周几
   const [toWeek, setToWeek] = useState(""); //到周几
-  const [showCalendar, setShowCalendar] = useState(false); //显示日历组件
+  const [showCalendar, setShowCalendar] = useState<Boolean | string>(
+    "firstLoad"
+  ); //显示日历组件
   const [yesterday, setYesterday] = useState(""); //获取昨天（这里是昨天之前的都不能选择）
   const [dayDiff, setDayDiff] = useState(
     getDayDiff({
