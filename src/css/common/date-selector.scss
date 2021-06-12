@@ -1,0 +1,22 @@
+.date-condition {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  div {
+    display: flex;
+    justify-content: space-between;
+    width: 38%;
+  }
+  span {
+    display: inline-block;
+    margin-right: 5px;
+    color: #23cc77;
+  }
+  i {
+    font-style: normal;
+  }
+  .date-count {
+    transform: translateX(-50%);
+  }
+}

@@ -3,3 +3,15 @@
   --f7-theme-color-shade: #00c37d;
   --f7-theme-color-tint: #2e9900;
 }
+body {
+  background-color: #f5f5f5;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheet-modal-top.modal-out {
+  transform: translate3d(0, -150%, 0);
+}

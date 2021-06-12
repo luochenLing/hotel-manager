@@ -1,97 +1,110 @@
 import React from "react";
 import "css/home/search-panel.scss";
 import { Tabs, Tab, Toolbar, Link } from "framework7-react";
-import Calendar from "components/common/Calendar";
-import { getWeek } from "utils/common";
+import KeyWord from "components/home/keyWord/Index";
+import { getWeek, getDayByNum } from "utils/common";
+import { connect } from "react-redux";
+import { keyWordPanelOption } from "redux/action";
+import PubSub from "pubsub-js";
+
 const SearchForm = React.lazy(() => import("components/home/SearcForm"));
-let dayDiff = 1; //日差
-// let fromWeek = "**";
-// let toWeek = "**";
+
 type stateType = {
-  showCalendar: boolean;
   calendarInline: any;
   startDay: string;
   endDay: string;
-  yesterday: string;
+  dayDiff: number;
   fromWeek: string;
   toWeek: string;
 };
-type propsType = {};
+type propsType = {
+  keyWordPanelOption: Function;
+  keyWord: boolean;
+};
 class SearchPanel extends React.Component<propsType, stateType> {
   constructor(props: any) {
     super(props);
     this.state = {
-      showCalendar: false,
       calendarInline: "",
-      startDay: "2020-08-15",
-      endDay: "2020-08-20",
-      yesterday: "",
+      startDay: "",
+      endDay: "",
+      dayDiff: 0,
       fromWeek: "",
       toWeek: "",
     };
   }
-
   componentDidMount() {
-    this.getYesterday();
     this.initCalendarDate();
+    this.initKeyWordPanel();
+    this.busEvent();
   }
-  
+
+  componentWillUnmount() {
+    //不注销监听就结束页面的话react会发出警告
+    PubSub.clearAllSubscriptions();
+  }
+
+  /**
+   * 初始化关键字面板
+   */
+  initKeyWordPanel() {
+    this.props.keyWordPanelOption(false);
+  }
+
+  /**
+   * 事件绑定
+   */
+  busEvent() {
+    PubSub.subscribe("updateTime", (...ret: any) => {
+      if (ret[1].data.startDay && ret[1].data.endDay) {
+        this.setState({ startDay: ret[1].data.startDay });
+        this.setState({ endDay: ret[1].data.endDay });
+      }
+    });
+  }
+
+  /**
+   * 模拟接口初始化数据
+   */
   initCalendarDate = () => {
-    let calendarInfo={
-      startDay: "2020-08-16",
-      endDay: "2020-08-22",
-      fromWeek: getWeek("2020-08-16"),
-      toWeek: getWeek("2020-08-22"),
-    }
-
-    this.setState(
-      calendarInfo
-    );
-
-    console.log(this.state);
-  };
-  getYesterday = () => {
-    let day = new Date(this.state.startDay);
-    day.setTime(day.getTime() - 24 * 60 * 60 * 1000);
-    this.setState({ yesterday: day.Format("yyyy-M-d") });
-  };
-
-  getCalendar = (showCalendar: boolean) => {
-    this.setState({ showCalendar });
-  };
-
-  setDateRange = (dateArr: {
-    startDay: string;
-    endDay: string;
-    fromWeek: string;
-    toWeek: string;
-  }) => {
-    let sDay = new Date(dateArr.startDay);
-    let eDay = new Date(dateArr.endDay);
-    dayDiff = Math.abs(sDay.getTime() - eDay.getTime()) / 1000 / 60 / 60 / 24;
-    // fromWeek = dateArr.fromWeek;
-    // toWeek = dateArr.toWeek;
+    const startDay = new Date().Format("yyyy-MM-dd");
+    const endDay = getDayByNum(new Date(), 7).Format("yyyy-MM-dd");
+    const fromWeek = getWeek(startDay);
+    const toWeek = getWeek(endDay);
+    const dayDiff = this.getDayDiff(startDay, endDay);
     this.setState({
-      startDay: dateArr.startDay,
-      endDay: dateArr.endDay,
-      fromWeek: dateArr.fromWeek,
-      toWeek: dateArr.toWeek,
+      startDay,
+      endDay,
+      dayDiff,
+      fromWeek,
+      toWeek,
     });
   };
 
+  /**
+   * 打开关键词面板
+   * @param showKeyWork
+   */
+  openKeyWord = () => {
+    this.props.keyWordPanelOption(true);
+  };
+
+  /**
+   * 获取日期间隔
+   * @param dateArr
+   */
+  getDayDiff = (startDay: string, endDay: string) => {
+    let sDay = new Date(startDay);
+    let eDay = new Date(endDay);
+    return Math.ceil(
+      Math.abs(sDay.getTime() - eDay.getTime()) / 1000 / 60 / 60 / 24
+    );
+  };
+
   render() {
-    const {
-      startDay,
-      endDay,
-      yesterday,
-      showCalendar,
-      fromWeek,
-      toWeek,
-    } = this.state;
-    console.log(this.state);
+    const { startDay, endDay, fromWeek, toWeek } = this.state;
     return (
       <>
-        <span>{startDay}</span>
         <div className="search-panel">
           <Toolbar tabbar bottom>
             <Link tabLink="#tab-1" tabLinkActive>
@@ -115,8 +128,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   endDay={endDay}
                   fromWeek={fromWeek}
                   toWeek={toWeek}
-                  getCalendar={this.getCalendar}
-                  dayDiff={dayDiff}
+                  openKeyWord={this.openKeyWord}
                 />
               </div>
             </Tab>
@@ -134,8 +146,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   endDay={endDay}
                   fromWeek={fromWeek}
                   toWeek={toWeek}
-                  getCalendar={this.getCalendar}
-                  dayDiff={dayDiff}
+                  openKeyWord={this.openKeyWord}
                 />
               </div>
             </Tab>
@@ -153,32 +164,25 @@ class SearchPanel extends React.Component<propsType, stateType> {
                   endDay={endDay}
                   fromWeek={fromWeek}
                   toWeek={toWeek}
-                  getCalendar={this.getCalendar}
-                  dayDiff={dayDiff}
+                  openKeyWord={this.openKeyWord}
                 />
               </div>
             </Tab>
           </Tabs>
         </div>
-        <Calendar
-          showCalendar={showCalendar}
-          curDay={new Date()}
-          selDay={{ from: new Date(startDay), to: new Date(endDay) }}
-          disableDay={{ to: new Date(yesterday) }}
-          closeCalendar={() => {
-            this.setState({ showCalendar: false });
-          }}
-          getSelDateArr={(dateArr: {
-            startDay: string;
-            endDay: string;
-            fromWeek: string;
-            toWeek: string;
-          }) => {
-            this.setDateRange(dateArr);
-          }}
-        />
+
+        {/* 这里不再用state去控制开关，在redux中的话，使用props的属性去读取state状态，
+        这是因为使用了reactredux所以让状态的读取通过外面的（app.js）Provider的store就可以达到读取属性的效果 */}
+        <KeyWord showKeyWord={this.props.keyWord} />
       </>
     );
   }
 }
-export default SearchPanel;
+//state这里放的是reducer里面指定方法的state，比如reducer的keyWorkPanelOption方法的state这里就可以取到
+//第二个参数是需要用到的action的方法，这些方法在这里注册以后可以用props的方式调用
+export default connect(
+  (state: any) => ({ keyWord: state.keyWordPanelReducer }),
+  {
+    keyWordPanelOption,
+  }
+)(SearchPanel);

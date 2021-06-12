@@ -29,3 +29,15 @@ h6 {
     }
   }
 }
+
+.condition-pop {
+  height: 50%;
+  top: 50%;
+  .page-content {
+    background-color: #fff;
+    .block {
+      margin-bottom: 0;
+      margin-top: 1.5rem;
+    }
+  }
+}

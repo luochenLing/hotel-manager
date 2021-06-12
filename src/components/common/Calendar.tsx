@@ -1,5 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
-import {getWeek} from 'utils/common'
+import React, {
+  useState,
+  useEffect,
+  Fragment,
+  useImperativeHandle,
+} from "react";
+import { getWeek } from "utils/common";
 import "css/common/calendar.scss";
 interface propsTypes {
   //当前日期
@@ -18,29 +23,28 @@ interface propsTypes {
   showCalendar: boolean;
   //关闭日历
   closeCalendar: Function;
-  //获取选中时间段
-  getSelDateArr?: Function;
+
+  myRef: any;
 }
 //变量不放在外部的话，可能会被父组件加载导致重新渲染给冲掉变量值
 let fromWeek = "",
-toWeek = "";
-export default function Calendar(props: propsTypes) {
+  toWeek = "";
+function CalendarDom(props: propsTypes) {
   let from = props.selDay?.from.Format("yyyy-M-d");
   let to = props.selDay?.to.Format("yyyy-M-d");
   //初始时间段
-  const [startDay, setStartDay] = useState<string | null>(from);
-  const [endDay, setEndDay] = useState<string | null>(to);
+  const [startDay, setStartDay] = useState<string | null>();
+  const [endDay, setEndDay] = useState<string | null>();
+  useEffect(() => {
+    setStartDay(from);
+    setEndDay(to);
+  }, [from, to]);
+  const { myRef } = props;
 
   //是否显示日历界面
   const [show, setShow] = useState(props.showCalendar);
   useEffect(() => {
     setShow(props.showCalendar);
-    if (props.showCalendar === false && props.getSelDateArr) {
-      props.getSelDateArr!({ startDay, endDay,fromWeek,toWeek });
-    }
-
-    //去掉依赖提示，因为这里只是依赖于是否显示日历，不显示的时候就会输出一个开始和结束的日期到调用层
-    // eslint-disable-next-line
   }, [props.showCalendar]);
 
   //#region 获取所有需要显示的月份
@@ -92,17 +96,24 @@ export default function Calendar(props: propsTypes) {
 
   //#endregion
 
+  useImperativeHandle(myRef, () => ({
+    getSelDateArr: () => {
+      return { startDay, endDay, fromWeek, toWeek };
+    },
+  }));
+
   /**
    * 选择日期
    * @param e 当前的dom方法
    */
   const selDomHandle = (e: any) => {
+    // debugger;
     if (e.currentTarget.classList.contains("disable-day")) {
       //禁止的日期范围不能选中
       return;
     }
     //不能重复选择某天
-    let rangeArr = document.querySelectorAll(".range");
+    let rangeArr = document.querySelectorAll(".calendar-slide-in .range");
     if (rangeArr.length >= 0) {
       if (
         rangeArr[0].getAttribute("data-day") ===
@@ -121,13 +132,13 @@ export default function Calendar(props: propsTypes) {
    * @param selDom 当前选中的dom
    */
   const switchDomHandle = (count: number, selDom: HTMLElement) => {
-    let rangeDomArr = document.querySelectorAll(".range");
+    let rangeDomArr = document.querySelectorAll(".calendar-slide-in .range");
     switch (count) {
       case 0:
         //只有一个dom的时候，记录到选中数组并且着色
         selDom.classList.add("range");
         setStartDay(selDom.getAttribute("data-day"));
-        fromWeek=selDom.getAttribute('data-week')!;
+        fromWeek = selDom.getAttribute("data-week")!;
         break;
       case 1:
         //两个的时候记录dom，把之间的dom染色
@@ -144,7 +155,8 @@ export default function Calendar(props: propsTypes) {
           break;
         }
         setEndDay(selDom.getAttribute("data-day"));
-        toWeek=selDom.getAttribute('data-week')!;
+        console.log(selDom.getAttribute("data-day"));
+        toWeek = selDom.getAttribute("data-week")!;
         let dayDomArr = document.querySelectorAll("li[data-day]");
         let idx = Array.from(dayDomArr).findIndex(
           (x) =>
@@ -163,6 +175,10 @@ export default function Calendar(props: propsTypes) {
       case 2:
         clearAllDom(selDom);
         break;
+      default:
+        //如果有很多個起止點超過兩個的話就輸出錯誤提示
+        console.log(`日历逻辑出现了问题，当前的选中dom节点为：${count}`);
+        break;
     }
   };
 
@@ -171,8 +187,8 @@ export default function Calendar(props: propsTypes) {
    * @param selDom 选中的DOM
    */
   const clearAllDom = (selDom: HTMLElement) => {
-    //三个的时候清除所有颜色样式和选中数组并且按照1操作
-    document.querySelectorAll(".range").forEach((item) => {
+    //三个的时候清除所有颜色样式和选中数组并且按照1操作,这里如果有多个日历组件，就只取打开的这个组件
+    document.querySelectorAll(".calendar-slide-in .range").forEach((item) => {
       item.classList.remove("range");
     });
     document.querySelectorAll(".selected").forEach((item) => {
@@ -181,7 +197,7 @@ export default function Calendar(props: propsTypes) {
     setStartDay("");
     setEndDay("");
     setStartDay(selDom.getAttribute("data-day"));
-    fromWeek=selDom.getAttribute('data-week')!;
+    fromWeek = selDom.getAttribute("data-week")!;
     selDom.classList.add("range");
   };
 
@@ -268,7 +284,7 @@ export default function Calendar(props: propsTypes) {
   };
 
   return (
-    <div className={`cal ${show ? "slide-in" : "slide-out"}`}>
+    <div className={`${show ? "calendar-slide-in" : "calendar-slide-out"}`}>
       <div className="cal-header">
         <div className="bar">
           <span className="cancel" onClick={closeCalendar}>
@@ -286,58 +302,64 @@ export default function Calendar(props: propsTypes) {
           <li>日</li>
         </ul>
       </div>
-      <div style={{ height: pageHeight, paddingTop: 72 }}>
-        <section className="cal-body">
-          {dateMonthArr.map((item, idx) => {
-            let curYear = parseInt(item.split("-")[0]);
-            let curMonth = parseInt(item.split("-")[1]);
-            let dayCount = new Date(curYear, curMonth, 0).getDate();
-            let dayArr = [];
-            let curWeek = new Date(curYear, curMonth - 1, 1).getDay() || 7; //周日的话会返回0此时用7替代
-            dayCount += curWeek; //加上是周几的信息
-            let isFirstDay = false;
-            for (let i = 1; i < dayCount; i++) {
-              if (curWeek !== i && !isFirstDay) {
-                dayArr.push(-1);
-              } else {
-                isFirstDay = true;
-                dayArr.push(i - curWeek + 1);
+      <div className="cal">
+        <div style={{ height: pageHeight, paddingTop: 72 }}>
+          <section className="cal-body">
+            {dateMonthArr.map((item, idx) => {
+              let curYear = parseInt(item.split("-")[0]);
+              let curMonth = parseInt(item.split("-")[1]);
+              let dayCount = new Date(curYear, curMonth, 0).getDate();
+              let dayArr = [];
+              let curWeek = new Date(curYear, curMonth - 1, 1).getDay() || 7; //周日的话会返回0此时用7替代
+              dayCount += curWeek; //加上是周几的信息
+              let isFirstDay = false;
+              for (let i = 1; i < dayCount; i++) {
+                if (curWeek !== i && !isFirstDay) {
+                  dayArr.push(-1);
+                } else {
+                  isFirstDay = true;
+                  dayArr.push(i - curWeek + 1);
+                }
               }
-            }
-            return (
-              <Fragment key={idx}>
-                <h4 className="cal-body-month">{`${item.replace(
-                  "-",
-                  "年"
-                )}月`}</h4>
-                <ul className="cal-body-grid">
-                  {dayArr.map((dayItem, dayIdx) => {
-                    if (dayItem === -1) {
-                      return <li key={dayIdx}></li>;
-                    }
-                    return (
-                      <li
-                        className={`${setRange(`${item}-${dayItem}`)} ${
-                          setDisableRange(`${item}-${dayItem}`)
-                            ? "disable-day"
-                            : ""
-                        }`}
-                        data-day={`${item}-${dayItem}`}
-                        data-week={getWeek(`${item}-${dayItem}`)}
-                        onClick={selDomHandle}
-                        key={dayIdx}
-                      >
-                        <span>{dayItem}</span>
-                        <span>{initDateText(`${item}-${dayItem}`)}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </Fragment>
-            );
-          })}
-        </section>
+              return (
+                <Fragment key={idx}>
+                  <h4 className="cal-body-month">{`${item.replace(
+                    "-",
+                    "年"
+                  )}月`}</h4>
+                  <ul className="cal-body-grid">
+                    {dayArr.map((dayItem, dayIdx) => {
+                      if (dayItem === -1) {
+                        return <li key={dayIdx}></li>;
+                      }
+                      return (
+                        <li
+                          className={`${setRange(`${item}-${dayItem}`)} ${
+                            setDisableRange(`${item}-${dayItem}`)
+                              ? "disable-day"
+                              : ""
+                          }`}
+                          data-day={`${item}-${dayItem}`}
+                          data-week={getWeek(`${item}-${dayItem}`)}
+                          onClick={selDomHandle}
+                          key={dayIdx}
+                        >
+                          <span>{dayItem}</span>
+                          <span>{initDateText(`${item}-${dayItem}`)}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Fragment>
+              );
+            })}
+          </section>
+        </div>
       </div>
     </div>
   );
 }
+const Calendar = React.forwardRef((props: any, ref: any) => {
+  return <CalendarDom {...props} myRef={ref}></CalendarDom>;
+});
+export default Calendar;
