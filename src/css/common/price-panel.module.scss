@@ -39,11 +39,11 @@
   &-slider {
     display: flex;
     position: relative;
-    .range-knob-wrap{
-      top:60%;
+    :global .range-knob-wrap {
+      top: 60%;
     }
     &-bar {
-      .min-prince {
+      :local .min-prince {
         position: absolute;
         top: -1.3rem;
         left: 0;
@@ -60,6 +60,7 @@
       left: 94%;
       width: 1.5rem;
       height: 1.5rem;
+      border-radius: 50%;
     }
   }
 }
@@ -68,11 +69,11 @@
   &-title {
     display: flex;
     align-items: center;
+    font-size: 0.65rem;
     h3 {
       font-size: 1rem;
       margin-right: 0.5rem;
     }
-    font-size: 0.65rem;
   }
   &-content {
     .start-list {

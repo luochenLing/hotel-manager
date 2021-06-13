@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "css/hotel/intro-card.scss";
+import styles from "css/hotel/intro-card.module.scss";
 import { getDayByNum } from "utils/common";
 import { Icon } from "framework7-react";
 import DateSelector from "components/common/DateSelector";
@@ -18,7 +18,9 @@ interface propsTypes {
 function IntroCardDom(props: propsTypes) {
   const { info } = props;
   const [startDate, setStartDate] = useState(new Date().Format("yyyy-MM-dd")); //从周几
-  const [endDate, setEndDate] = useState(getDayByNum(new Date(), 7).Format("yyyy-MM-dd")); //到周几
+  const [endDate, setEndDate] = useState(
+    getDayByNum(new Date(), 7).Format("yyyy-MM-dd")
+  ); //到周几
   /**
    * 根据标签获取图标
    * @param val 标签Code
@@ -42,31 +44,31 @@ function IntroCardDom(props: propsTypes) {
   };
   return (
     <>
-      <div className="intro-card">
-        <div className="card-head">
-          <span className="card-score">
+      <div className={styles["intro-card"]}>
+        <div className={styles["card-head"]}>
+          <span className={styles["card-score"]}>
             {info?.score}
-            <span className="card-unit">分</span>
+            <span className={styles["card-unit"]}>分</span>
           </span>
-          <span className="card-title">假日一级酒店</span>
+          <span className={styles["card-title"]}>假日一级酒店</span>
         </div>
 
-        <div className="card-body">
-          <span className="card-addr">
+        <div className={styles["card-body"]}>
+          <span className={styles["card-addr"]}>
             {info?.addr}【{info?.landmark}】
           </span>
-          <span className="card-map-content">{info?.mapContent}</span>
+          <span className={styles["card-map-content"]}>{info?.mapContent}</span>
         </div>
 
-        <div className="card-footer">
-          <span className="card-sub-title">{info?.subTitle}</span>
-          <ul className="card-tag">
+        <div className={styles["card-footer"]}>
+          <span className={styles["card-sub-title"]}>{info?.subTitle}</span>
+          <ul className={styles["card-tag"]}>
             {(info?.tag || []).map((item) => {
               return (
-                <li key={item.code} className="card-tag-item">
+                <li key={item.code} className={styles["card-tag-item"]}>
                   <Icon
                     f7={getIconByTag(item.code)}
-                    className="item-icon"
+                    className={styles["item-icon"]}
                   ></Icon>
                   {item.label}
                 </li>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "css/home/keyWord/panel-list.scss";
+import styles from "css/home/keyWord/panel-list.module.scss";
 import { connect } from "react-redux";
 import {
   keyWordConditionOption,
@@ -48,22 +48,26 @@ function PanelItemDom(props: propsTypes) {
   };
   return (
     <>
-      <div className="keyword">
-        <div className="keyword-title">
+      <div className={styles["keyword"]}>
+        <div className={styles["keyword-title"]}>
           <span style={{ display: "flex", flex: 1 }}>
             <i
-              className="icon"
+              className={styles["icon"]}
               style={{
                 backgroundColor: props.panelItemData.bgColor,
                 backgroundPosition: props.panelItemData.bgPosition,
               }}
             />
-            <span className="sub-title">{props.panelItemData.name}</span>
+            <span className={styles["sub-title"]}>
+              {props.panelItemData.name}
+            </span>
           </span>
-          <div className="tool">
+          <div className={styles["tool"]}>
             {props.panelItemData.needMore === "1" ? (
               <i
-                className={`arrow ${isUp ? "up" : "down"}`}
+                className={`${styles["arrow"]} ${
+                  isUp ? styles["up"] : styles["down"]
+                }`}
                 onClick={setPanel}
               ></i>
             ) : (
@@ -71,7 +75,7 @@ function PanelItemDom(props: propsTypes) {
             )}
           </div>
         </div>
-        <ul className="keyword-content">
+        <ul className={styles["keyword-content"]}>
           {(props.panelItemData.data || []).map((item, index) => {
             let dom: any = [];
             if (props.panelItemData.needMore !== "2") {
@@ -80,7 +84,7 @@ function PanelItemDom(props: propsTypes) {
                 dom = (
                   <li
                     key={index}
-                    className="keyword-content-item"
+                    className={styles["keyword-content-item"]}
                     onClick={() => {
                       setKeyWordCondition(item);
                     }}
@@ -96,7 +100,7 @@ function PanelItemDom(props: propsTypes) {
                     onClick={() => {
                       setKeyWordCondition(item);
                     }}
-                    className="keyword-content-item"
+                    className={styles["keyword-content-item"]}
                   >
                     {item.value}
                   </li>
@@ -107,7 +111,7 @@ function PanelItemDom(props: propsTypes) {
               dom = (
                 <li
                   key={index}
-                  className="keyword-content-item"
+                  className={styles["keyword-content-item"]}
                   onClick={() => {
                     setKeyWordCondition(item);
                   }}
@@ -129,14 +133,16 @@ function PanelItemDom(props: propsTypes) {
                 dom.push(
                   <li
                     key={i}
-                    className="keyword-content-item more"
+                    className={`${styles["keyword-content-item"]} ${styles["more"]}`}
                     onClick={showNavPanel}
                   >
                     更多...
                   </li>
                 );
               } else {
-                dom.push(<li key={i} className="keyword-content-item"></li>);
+                dom.push(
+                  <li key={i} className={styles["keyword-content-item"]}></li>
+                );
               }
             }
             return dom;
@@ -144,7 +150,7 @@ function PanelItemDom(props: propsTypes) {
         </ul>
       </div>
       <Popup
-        className="navPanel-pop"
+        className={styles["navPanel-pop"]}
         opened={props.showNavPanel}
         onPopupClosed={() => closeNavPanel}
       >

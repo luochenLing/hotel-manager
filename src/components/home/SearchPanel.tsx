@@ -1,5 +1,5 @@
 import React from "react";
-import "css/home/search-panel.scss";
+import styles from "css/home/search-panel.module.scss";
 import { Tabs, Tab, Toolbar, Link } from "framework7-react";
 import KeyWord from "components/home/keyWord/Index";
 import { getWeek, getDayByNum } from "utils/common";
@@ -17,6 +17,7 @@ type stateType = {
   fromWeek: string;
   toWeek: string;
 };
+
 type propsType = {
   keyWordPanelOption: Function;
   keyWord: boolean;
@@ -33,6 +34,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
       toWeek: "",
     };
   }
+
   componentDidMount() {
     this.initCalendarDate();
     this.initKeyWordPanel();
@@ -106,7 +108,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
     const { startDay, endDay, fromWeek, toWeek } = this.state;
     return (
       <>
-        <div className="search-panel">
+        <div className={styles["search-panel"]}>
           <Toolbar tabbar bottom>
             <Link tabLink="#tab-1" tabLinkActive>
               国内
@@ -115,7 +117,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
             <Link tabLink="#tab-3">钟点房</Link>
           </Toolbar>
           <Tabs animated>
-            <Tab id="tab-1" className="page-content" tabActive>
+            <Tab id="tab-1" className={styles["page-content"]} tabActive>
               <div
                 style={{
                   display: "flex",
@@ -133,7 +135,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                 />
               </div>
             </Tab>
-            <Tab id="tab-2" className="page-content">
+            <Tab id="tab-2" className={styles["page-content"]}>
               <div
                 style={{
                   display: "flex",
@@ -151,7 +153,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
                 />
               </div>
             </Tab>
-            <Tab id="tab-3" className="page-content">
+            <Tab id="tab-3" className={styles["page-content"]}>
               <div
                 style={{
                   display: "flex",

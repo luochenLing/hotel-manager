@@ -1,5 +1,6 @@
 import React from "react";
 import { Icon, Swiper, SwiperSlide } from "framework7-react";
+import styles from "css/common/banner.module.scss";
 interface propsTypes {
   infoList: { url: string; alt: string }[];
   backFunc?: () => void;
@@ -21,7 +22,7 @@ function BannerDom(props: propsTypes) {
           );
         })}
       </Swiper>
-      <span className="chevron-left" onClick={backFunc}>
+      <span className={styles["chevron-left"]} onClick={backFunc}>
         <Icon f7="chevron_left"></Icon>
       </span>
     </>

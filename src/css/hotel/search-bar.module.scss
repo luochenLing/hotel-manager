@@ -1,10 +1,10 @@
 .pro-condition {
-  .nav-condition {
+  :global .nav-condition {
     .center {
       display: flex;
       align-items: center;
       width: 76%;
-      .container {
+      :local .container {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
@@ -17,10 +17,10 @@
           color: #4cd964;
           display: flex;
           align-items: center;
-          padding-left: 0.5rem;
+          padding-left: 0.8rem;
           box-sizing: border-box;
           &::after {
-            content: '';
+            content: "";
             display: block;
             border-right: solid 0.1rem #ddd;
             height: 1rem;
@@ -47,11 +47,14 @@
               em {
                 color: #4cd964;
                 font-style: normal;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
             }
           }
           &::after {
-            content: '';
+            content: "";
             display: block;
             border-right: solid 0.1rem #ddd;
             height: 1rem;
@@ -64,7 +67,7 @@
         }
       }
     }
-    .right{
+    .right {
       padding-right: 0.5rem;
       box-sizing: border-box;
     }

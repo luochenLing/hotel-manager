@@ -63,7 +63,7 @@ function PanelListDOM(props: propsTypes) {
   const [celsCount] = useState(4); //默认显示4行再有更多按钮的时候多余的行都被隐藏
 
   return (
-    <ul className="key-panel">
+    <>
       {(panelData || []).map((item: any, index: number) => {
         let count = (item.data || []).length;
         if (count > 0) {
@@ -84,7 +84,7 @@ function PanelListDOM(props: propsTypes) {
           ></PanelItem>
         );
       })}
-    </ul>
+    </>
   );
 }
 const PanelList = React.forwardRef((props: any, ref: any) => {

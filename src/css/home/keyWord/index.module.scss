@@ -12,6 +12,15 @@
       transform: translate(0, 0);
     }
   }
+
+  @keyframes slide-out {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(0, 100%);
+    }
+  }
 }
 
 // 日历显示动画

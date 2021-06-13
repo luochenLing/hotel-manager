@@ -1,23 +1,23 @@
-import React from 'react'
-import Condition from 'components/hotel/Condition'
-import SearchBar from 'components/hotel/SearchBar'
-import ProList from 'components/hotel/ProList'
-type stateType = {}
-type propsType = {}
+import React from "react";
+import Condition from "components/hotel/Condition";
+import SearchBar from "components/hotel/SearchBar";
+import ProList from "components/hotel/ProList";
+type stateType = {};
+type propsType = {};
 class Index extends React.Component<propsType, stateType> {
   constructor(props: any) {
-    super(props)
-    this.state = {}
+    super(props);
+    this.state = {};
   }
   render() {
     return (
-      <div className='hotel' style={{height:'100%'}}>
+      <div style={{ height: "100%" }}>
         <SearchBar />
         <Condition />
-        <ProList/>
+        <ProList />
       </div>
-    )
+    );
   }
 }
 
-export default Index
+export default Index;
