@@ -154,23 +154,25 @@ function CalendarDom(props: propsTypes) {
           clearAllDom(selDom);
           break;
         }
-        setEndDay(selDom.getAttribute("data-day"));
-        console.log(selDom.getAttribute("data-day"));
-        toWeek = selDom.getAttribute("data-week")!;
-        let dayDomArr = document.querySelectorAll("li[data-day]");
-        let idx = Array.from(dayDomArr).findIndex(
-          (x) =>
-            x.getAttribute("data-day") ===
-            rangeDomArr[0].getAttribute("data-day")
-        );
-        for (let i = idx + 1; i < dayDomArr.length; i++) {
-          //第一个
-          if (dayDomArr[i].classList.contains("range")) {
-            break;
+        setTimeout(() => {
+          setEndDay(selDom.getAttribute("data-day"));
+          console.log(selDom.getAttribute("data-day"));
+          toWeek = selDom.getAttribute("data-week")!;
+          let dayDomArr = document.querySelectorAll("li[data-day]");
+          let idx = Array.from(dayDomArr).findIndex(
+            (x) =>
+              x.getAttribute("data-day") ===
+              rangeDomArr[0].getAttribute("data-day")
+          );
+          for (let i = idx + 1; i < dayDomArr.length; i++) {
+            //第一个
+            if (dayDomArr[i].classList.contains("range")) {
+              break;
+            }
+            dayDomArr[i].classList.add("selected");
           }
-          dayDomArr[i].classList.add("selected");
-        }
-        props.closeCalendar();
+          props.closeCalendar();
+        }, 0);
         break;
       case 2:
         clearAllDom(selDom);
@@ -362,4 +364,4 @@ function CalendarDom(props: propsTypes) {
 const Calendar = React.forwardRef((props: any, ref: any) => {
   return <CalendarDom {...props} myRef={ref}></CalendarDom>;
 });
-export default Calendar;
+export default React.memo(Calendar);

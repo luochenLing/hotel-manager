@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Calendar from "components/common/Calendar";
 import { getDayByNum } from "utils/common";
@@ -51,7 +51,7 @@ function DataSelectorDom(props: propsTypes) {
   const endDayDom = useRef<HTMLSpanElement>(null);
   const calendarRef = useRef(null);
 
-  useEffect(() => {
+  useCallback(() => {
     getYesterday();
     //eslint-disable-next-line
   }, []);
@@ -72,11 +72,6 @@ function DataSelectorDom(props: propsTypes) {
     if (dayDiff) {
       setDayDiff(dayDiff);
     }
-    //时间默认一开始是调用方传入，选中日期后回传更新调用方的data数据
-    props.updateTime({
-      startDay: dateArr.startDay,
-      endDay: dateArr.endDay,
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showCalendar]);
 
@@ -92,6 +87,12 @@ function DataSelectorDom(props: propsTypes) {
    * 关闭日历，关闭时获取选中值
    */
   const closeCalendar = () => {
+    let dateArr = (calendarRef?.current as any).getSelDateArr();
+    //时间默认一开始是调用方传入，选中日期后回传更新调用方的data数据
+    props.updateTime({
+      startDay: dateArr.startDay,
+      endDay: dateArr.endDay,
+    });
     setShowCalendar(false);
   };
 
@@ -123,8 +124,8 @@ function DataSelectorDom(props: propsTypes) {
       root
     );
   };
-
   const { startDate, endDate } = props;
+  console.log(222);
   return (
     <>
       <div
@@ -156,4 +157,4 @@ function DataSelectorDom(props: propsTypes) {
 const DataSelector = React.forwardRef((props: any, ref: any) => {
   return <DataSelectorDom {...props} myRef={ref}></DataSelectorDom>;
 });
-export default DataSelector;
+export default React.memo(DataSelector);
