@@ -1,5 +1,5 @@
 import React from "react";
-import "css/home/search-panel.scss";
+import "css/home/search-panel.module.scss";
 import { Tabs, Tab, Toolbar, Link, F7Link } from "framework7-react";
 import KeyWord from "components/home/keyWord/Index";
 import { getWeek, getDayByNum } from "utils/common";

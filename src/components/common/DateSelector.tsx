@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { getDayByNum } from "utils/common";
 import Calendar from "./Calendar";
-import "css/common/date-selector.scss";
+import "css/common/date-selector.module.scss";
 interface propsTypes {
   /**
    * 开始时间

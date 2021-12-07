@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "css/hotel/intro-card.scss";
+import "css/hotel/intro-card.module.scss";
 import { getDayByNum } from "utils/common";
 import { Icon } from "framework7-react";
 import DateSelector from "components/common/DateSelector";
