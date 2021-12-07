@@ -140,6 +140,16 @@ class SearcForm extends React.Component<mapPropsType, stateType> {
   //   }
   // }
 
+  // static getDerivedStateFromProps(props:propsType, state:stateType) {
+  //   debugger
+  //   return null
+  // }
+
+  // shouldComponentUpdate(nextProps:propsType,nextState:stateType){
+  //   console.log(nextProps,nextState)
+  //   return true
+  // }
+
   render() {
     const { startDay, endDay, condition } = this.props;
     return (

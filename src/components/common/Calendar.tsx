@@ -114,7 +114,7 @@ function CalendarDom(props: propsTypes) {
     }
     //不能重复选择某天
     let rangeArr = document.querySelectorAll(".calendar-slide-in .range");
-    if (rangeArr.length >= 0) {
+    if (rangeArr.length > 0) {
       if (
         rangeArr[0].getAttribute("data-day") ===
         e.currentTarget.getAttribute("data-day")

@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Calendar from "components/common/Calendar";
 import { getDayByNum } from "utils/common";
+import Calendar from "./Calendar";
 import "css/common/date-selector.scss";
 interface propsTypes {
   /**
@@ -29,7 +29,7 @@ function DataSelectorDom(props: propsTypes) {
    * 获取日期间隔
    * @param dateArr
    */
-  const getDayDiff = (dateArr: { startDay: string; endDay: string }) => {
+  const getDayDiff =(dateArr: { startDay: string; endDay: string }) => {
     let sDay = new Date(dateArr.startDay);
     let eDay = new Date(dateArr.endDay);
     return Math.ceil(
@@ -57,18 +57,19 @@ function DataSelectorDom(props: propsTypes) {
   }, []);
 
   //关闭组件的时候更新值
-  useEffect(() => {
+  useCallback(() => {
+    debugger 
     if (showCalendar) {
       return;
     }
-    let dateArr = (calendarRef?.current as any).getSelDateArr();
+    let dateArr = (calendarRef?.current as any)?.getSelDateArr();
     let dayDiff = getDayDiff({
       //这里props的属性还没有默认值
-      startDay: dateArr.startDay || DataSelectorDom.defaultProps.startDate,
-      endDay: dateArr.endDay || DataSelectorDom.defaultProps.endDate,
+      startDay: dateArr?.startDay || DataSelectorDom.defaultProps.startDate,
+      endDay: dateArr?.endDay || DataSelectorDom.defaultProps.endDate,
     });
-    setFromWeek(dateArr.fromWeek);
-    setToWeek(dateArr.toWeek);
+    setFromWeek(dateArr?.fromWeek);
+    setToWeek(dateArr?.toWeek);
     if (dayDiff) {
       setDayDiff(dayDiff);
     }
@@ -87,7 +88,7 @@ function DataSelectorDom(props: propsTypes) {
    * 关闭日历，关闭时获取选中值
    */
   const closeCalendar = () => {
-    let dateArr = (calendarRef?.current as any).getSelDateArr();
+    let dateArr = (calendarRef?.current as any)?.getSelDateArr();
     //时间默认一开始是调用方传入，选中日期后回传更新调用方的data数据
     props.updateTime({
       startDay: dateArr.startDay,
@@ -157,4 +158,13 @@ function DataSelectorDom(props: propsTypes) {
 const DataSelector = React.forwardRef((props: any, ref: any) => {
   return <DataSelectorDom {...props} myRef={ref}></DataSelectorDom>;
 });
-export default React.memo(DataSelector);
+export default React.memo(DataSelector,areEqual);
+
+function areEqual(prevProps: any, nextProps: any):any {
+  debugger
+  console.log(prevProps.startDate,nextProps.startDate,prevProps.endDate,nextProps.endDate)
+  if(prevProps.startDate===nextProps.startDate&&prevProps.endDate===nextProps.endDate){
+    return true
+  }
+  return false
+}

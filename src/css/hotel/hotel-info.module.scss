@@ -1,0 +1,10 @@
+.info-page{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  .info-content{
+    position: absolute;
+    top: 80%;
+  }
+}

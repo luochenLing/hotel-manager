@@ -1,6 +1,6 @@
 import React from "react";
 import "css/home/search-panel.scss";
-import { Tabs, Tab, Toolbar, Link } from "framework7-react";
+import { Tabs, Tab, Toolbar, Link, F7Link } from "framework7-react";
 import KeyWord from "components/home/keyWord/Index";
 import { getWeek, getDayByNum } from "utils/common";
 import { connect } from "react-redux";
@@ -16,12 +16,18 @@ type stateType = {
   dayDiff: number;
   fromWeek: string;
   toWeek: string;
+  linkTabs: {
+    name: string;
+    label: string;
+  }[];
 };
 type propsType = {
   keyWordPanelOption: Function;
   keyWord: boolean;
 };
+
 class SearchPanel extends React.Component<propsType, stateType> {
+  myRef: React.RefObject<F7Link>;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -31,7 +37,23 @@ class SearchPanel extends React.Component<propsType, stateType> {
       dayDiff: 0,
       fromWeek: "",
       toWeek: "",
+      linkTabs: [
+        {
+          name: "国内",
+          label: "gn",
+        },
+        {
+          name: "国外",
+          label: "gw",
+        },
+        {
+          name: "钟点房",
+          label: "zdf",
+        },
+      ],
     };
+
+    this.myRef = React.createRef();
   }
   componentDidMount() {
     this.initCalendarDate();
@@ -43,6 +65,11 @@ class SearchPanel extends React.Component<propsType, stateType> {
     //不注销监听就结束页面的话react会发出警告
     PubSub.clearAllSubscriptions();
   }
+
+  // shouldComponentUpdate(nextProps:propsType,nextState:stateType){
+  //   console.log(nextProps,nextState)
+  //   return false
+  // }
 
   /**
    * 初始化关键字面板
@@ -101,56 +128,46 @@ class SearchPanel extends React.Component<propsType, stateType> {
     );
   };
 
+  getSearchForm = (
+    startDay: string,
+    endDay: string,
+    fromWeek: string,
+    toWeek: string
+  ) => {
+    return (
+      <SearchForm
+        startDay={startDay}
+        endDay={endDay}
+        fromWeek={fromWeek}
+        toWeek={toWeek}
+        openKeyWord={this.openKeyWord}
+      />
+    );
+  };
+
+  /**
+   * 跳转到某个tab
+   */
+  goTab=()=>{
+    debugger
+  }
+
   render() {
-    const { startDay, endDay, fromWeek, toWeek } = this.state;
+    const { startDay, endDay, fromWeek, toWeek, linkTabs } = this.state;
     return (
       <>
         <div className="search-panel">
           <Toolbar tabbar bottom>
-            <Link tabLink="#tab-1" tabLinkActive>
-              国内
-            </Link>
-            <Link tabLink="#tab-2">国外</Link>
-            <Link tabLink="#tab-3">钟点房</Link>
+            {linkTabs.map((item) => {
+              return (
+                <Link ref={this.myRef} onClick={this.goTab} key={item.label}>
+                  {item.name}
+                </Link>
+              );
+            })}
           </Toolbar>
           <Tabs animated>
             <Tab id="tab-1" className="page-content" tabActive>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <SearchForm
-                  startDay={startDay}
-                  endDay={endDay}
-                  fromWeek={fromWeek}
-                  toWeek={toWeek}
-                  openKeyWord={this.openKeyWord}
-                />
-              </div>
-            </Tab>
-            <Tab id="tab-2" className="page-content">
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <SearchForm
-                  startDay={startDay}
-                  endDay={endDay}
-                  fromWeek={fromWeek}
-                  toWeek={toWeek}
-                  openKeyWord={this.openKeyWord}
-                />
-              </div>
-            </Tab>
-            <Tab id="tab-3" className="page-content">
               <div
                 style={{
                   display: "flex",

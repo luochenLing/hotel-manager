@@ -1,0 +1,129 @@
+.pro-container {
+  overflow: auto;
+  height: calc(100% - 5rem);
+  .pro-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    box-sizing: border-box;
+    .item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.5rem;
+      box-sizing: border-box;
+      .pro-img {
+        width: 5.5rem;
+      }
+      .content {
+        padding: 0.5rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        .title {
+          margin: 0;
+          font-weight: 500;
+          margin-bottom: 0.2rem;
+        }
+        .intro {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          font-size: 0.6rem;
+          color: #666;
+          font-style: normal;
+          margin-bottom: 0.2rem;
+        }
+        .tag {
+          overflow: hidden;
+          height: 1.5rem;
+          margin-bottom: 0.5rem;
+          &-item {
+            border: solid 0.1rem #23cc77;
+            background-color: rgba($color: #23cc77, $alpha: 0.1);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 0.1rem 0.2rem;
+            box-sizing: border-box;
+            border-radius: 0.2rem;
+            font-size: 0.5rem;
+            font-style: normal;
+            text-align: center;
+            color: #23cc77;
+            display: inline-block;
+            &:not(:last-child) {
+              margin-right: 0.3rem;
+            }
+          }
+        }
+        .other {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: space-between;
+          .left {
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            .star-list {
+              display: flex;
+              align-items: center;
+              .star-item {
+                &::after {
+                  content: '\f005';
+                  line-height: 0.75rem;
+                  font-weight: 900;
+                  font-family: 'Font Awesome 5 Free';
+                  font-size: 0.5rem;
+                  margin-left: 0.2rem;
+                  color: #ffab16;
+                }
+              }
+            }
+            .score {
+              color: #23cc77;
+              .num {
+                font-size: 0.8rem;
+                font-weight: 600;
+              }
+              .unit {
+                font-size: 0.6rem;
+                font-weight: 400;
+                font-style: normal;
+              }
+            }
+          }
+          .price {
+            color: #ff4d1d;
+            display: flex;
+            align-items: center;
+            padding-top: 0.2rem;
+            .unit {
+              font-size: 0.55rem;
+              font-weight: 400;
+              padding-right: 0.15rem;
+            }
+            .num {
+              color: #ff4d1d;
+              font-size: 1.1rem;
+              font-weight: 700;
+              line-height: 0.85;
+            }
+            .end {
+              font-size: 0.55rem;
+              padding-left: 0.15rem;
+              color: #999;
+              font-style: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}

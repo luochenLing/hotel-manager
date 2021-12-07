@@ -17,8 +17,10 @@ interface propsTypes {
 
 function IntroCardDom(props: propsTypes) {
   const { info } = props;
-  const [startDate, setStartDate] = useState(new Date().Format("yyyy-MM-dd")); //从周几
-  const [endDate, setEndDate] = useState(getDayByNum(new Date(), 7).Format("yyyy-MM-dd")); //到周几
+  const [time, setTime] = useState({startDate:new Date().Format("yyyy-MM-dd"),endDate:getDayByNum(new Date(), 7).Format("yyyy-MM-dd")}); //从周几
+  // const [endDate, setEndDate] = useState(
+  //   getDayByNum(new Date(), 7).Format("yyyy-MM-dd")
+  // ); //到周几
   /**
    * 根据标签获取图标
    * @param val 标签Code
@@ -37,9 +39,9 @@ function IntroCardDom(props: propsTypes) {
   };
 
   const updateTime = (data: { startDay: string; endDay: string }) => {
-    setStartDate(data.startDay);
-    setEndDate(data.endDay);
+    setTime({startDate:data.startDay,endDate:data.endDay});
   };
+
   return (
     <>
       <div className="intro-card">
@@ -75,8 +77,8 @@ function IntroCardDom(props: propsTypes) {
           </ul>
         </div>
         <DateSelector
-          startDate={startDate}
-          endDate={endDate}
+          startDate={time.startDate}
+          endDate={time.endDate}
           updateTime={updateTime}
         />
       </div>
@@ -86,4 +88,4 @@ function IntroCardDom(props: propsTypes) {
 const IntroCard = React.forwardRef((props: any, ref: any) => {
   return <IntroCardDom {...props} myRef={ref}></IntroCardDom>;
 });
-export default IntroCard;
+export default React.memo(IntroCard);
