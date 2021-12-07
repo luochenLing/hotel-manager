@@ -161,7 +161,7 @@ const DataSelector = React.forwardRef((props: any, ref: any) => {
 export default React.memo(DataSelector,areEqual);
 
 function areEqual(prevProps: any, nextProps: any):any {
-  debugger
+  // debugger
   console.log(prevProps.startDate,nextProps.startDate,prevProps.endDate,nextProps.endDate)
   if(prevProps.startDate===nextProps.startDate&&prevProps.endDate===nextProps.endDate){
     return true
