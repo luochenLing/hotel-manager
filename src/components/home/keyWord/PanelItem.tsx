@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "css/home/keyWord/panel-list.module.scss";
+import styles from "css/home/keyWord/panel-item.module.scss";
 import { connect } from "react-redux";
 import {
   keyWordConditionOption,

@@ -1,72 +1,74 @@
 .pro-condition {
-  .nav-condition {
-    .center {
+  .center {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    .city {
+      color: #4cd964;
       display: flex;
       align-items: center;
-      width: 76%;
+      padding-left: 0.5rem;
+      box-sizing: border-box;
+      white-space: nowrap;
+      &::after {
+        content: "";
+        display: block;
+        border-right: solid 0.1rem #ddd;
+        height: 1rem;
+        width: 0.1rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+
+    .cal-bar {
+      display: flex;
+      align-items: center;
       .container {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        width: 100%;
         background-color: #f3f3f8;
         box-sizing: border-box;
-        border-radius: 1.4rem;
+        border-radius: .4rem;
         font-size: 0.5rem;
-        .city {
-          color: #4cd964;
+        flex-direction: column;
+        padding: 0.1rem 0.5rem;
+        box-sizing: border-box;
+        flex: 1.5;
+        .s-day,
+        .e-day {
           display: flex;
           align-items: center;
-          padding-left: 0.5rem;
-          box-sizing: border-box;
-          &::after {
-            content: '';
-            display: block;
-            border-right: solid 0.1rem #ddd;
-            height: 1rem;
-            width: 0.1rem;
-            margin-left: 0.5rem;
-            margin-right: 0.5rem;
+          i {
+            margin-right: 0.2rem;
+            font-style: normal;
           }
-        }
-        .cal-bar {
-          display: flex;
-          align-items: center;
-          .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            .s-day,
-            .e-day {
-              display: flex;
-              align-items: center;
-              i {
-                margin-right: 0.2rem;
-                font-style: normal;
-              }
-              em {
-                color: #4cd964;
-                font-style: normal;
-              }
-            }
-          }
-          &::after {
-            content: '';
-            display: block;
-            border-right: solid 0.1rem #ddd;
-            height: 1rem;
-            width: 0.1rem;
-            margin-left: 0.5rem;
+          em {
+            color: #4cd964;
+            font-style: normal;
+            white-space: nowrap;
           }
         }
         .search-bar {
           border-radius: 0;
         }
       }
+      &::after {
+        content: "";
+        display: block;
+        border-right: solid 0.1rem #ddd;
+        height: 1rem;
+        width: 0.1rem;
+        margin: 0 0.5rem;
+      }
     }
-    .right{
-      padding-right: 0.5rem;
-      box-sizing: border-box;
-    }
+  }
+  .btn-map{
+    padding-right: 0.2rem;
+  }
+  .right {
+    padding-right: 0.5rem;
+    box-sizing: border-box;
   }
 }

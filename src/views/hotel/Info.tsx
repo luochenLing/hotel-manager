@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "css/hotel/hotel-info.module.scss";
-// import "css/common/nav.scss";
 import Banner from "components/common/Banner";
 import IntroCard from "components/hotel/IntroCard";
 import Evaluate from "components/hotel/Evaluate";

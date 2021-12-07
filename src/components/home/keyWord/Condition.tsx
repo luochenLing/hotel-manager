@@ -4,7 +4,7 @@ import InputSearch from "components/common/InputSearch";
 import { Button } from "framework7-react";
 import {keyWordPanelOption} from 'redux/action'
 import {connect} from 'react-redux'
-import "css/home/keyWord/condition.scss";
+import  "css/home/keyWord/condition.module.scss";
 
 interface propsTypes {
   keyWordPanelOption:Function

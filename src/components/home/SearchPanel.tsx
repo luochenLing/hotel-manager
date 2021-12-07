@@ -1,5 +1,5 @@
 import React from "react";
-import "css/home/search-panel.module.scss";
+import styles from "css/home/search-panel.module.scss";
 import { Tabs, Tab, Toolbar, Link, F7Link } from "framework7-react";
 import KeyWord from "components/home/keyWord/Index";
 import { getWeek, getDayByNum } from "utils/common";
@@ -16,6 +16,7 @@ type stateType = {
   dayDiff: number;
   fromWeek: string;
   toWeek: string;
+  curTabKey:string;
   linkTabs: {
     name: string;
     label: string;
@@ -37,6 +38,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
       dayDiff: 0,
       fromWeek: "",
       toWeek: "",
+      curTabKey:"gn",//当前选中的tab
       linkTabs: [
         {
           name: "国内",
@@ -148,26 +150,27 @@ class SearchPanel extends React.Component<propsType, stateType> {
   /**
    * 跳转到某个tab
    */
-  goTab=()=>{
-    debugger
+  goTab=(label:string)=>{
+    this.setState({curTabKey:label})
+
   }
 
   render() {
-    const { startDay, endDay, fromWeek, toWeek, linkTabs } = this.state;
+    const { startDay, endDay, fromWeek, toWeek, linkTabs,curTabKey } = this.state;
     return (
       <>
-        <div className="search-panel">
+        <div className={styles["search-panel"]}>
           <Toolbar tabbar bottom>
             {linkTabs.map((item) => {
               return (
-                <Link ref={this.myRef} onClick={this.goTab} key={item.label}>
+                <Link ref={this.myRef} tabLinkActive={curTabKey===item.label} onClick={()=>this.goTab(item.label)} key={item.label}>
                   {item.name}
                 </Link>
               );
             })}
           </Toolbar>
           <Tabs animated>
-            <Tab id="tab-1" className="page-content" tabActive>
+            <Tab id="tab-1" className={styles["page-content"]}>
               <div
                 style={{
                   display: "flex",

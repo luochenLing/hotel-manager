@@ -24,7 +24,7 @@ class SearchBar extends React.Component<
     return (
       <div className={styles["pro-condition"]}>
         <NavBar goBack={this.goBack}>
-          <span className={styles["container"]} slot="center">
+          <span className={styles["center"]} slot="center">
             <span className={styles["city"]}>上海</span>
             <div className={styles["cal-bar"]}>
               <div className={styles["container"]}>
@@ -40,7 +40,7 @@ class SearchBar extends React.Component<
             </div>
             <InputSearch placeholderName="关键字/位置/酒店名"></InputSearch>
           </span>
-          <span slot="right">地图</span>
+          <span className={styles["btn-map"]} slot="right">地图</span>
         </NavBar>
       </div>
     );
