@@ -1,16 +1,16 @@
 import React from "react";
-import "css/common/input-search.scss";
+import styles from "css/common/input-search.module.scss";
 interface propsTypes {
-  placeholderName:string
+  placeholderName: string;
 }
-NavBarDom.defaultProps={
-  placeholderName:'关键字/位置/品牌/酒店名'
-}
+NavBarDom.defaultProps = {
+  placeholderName: "关键字/位置/品牌/酒店名",
+};
 function NavBarDom(props: propsTypes) {
   return (
-    <div className="search-bar">
+    <div className={styles["search-bar"]}>
       <input
-        className="input-search"
+        className={styles["input-search"]}
         type="text"
         placeholder={props.placeholderName}
       />
