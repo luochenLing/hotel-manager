@@ -29,7 +29,8 @@ function DataSelectorDom(props: propsTypes) {
    * 获取日期间隔
    * @param dateArr
    */
-  const getDayDiff =(dateArr: { startDay: string; endDay: string }) => {
+  const getDayDiff = (dateArr: { startDay: string; endDay: string }) => {
+    // debugger
     let sDay = new Date(dateArr.startDay);
     let eDay = new Date(dateArr.endDay);
     return Math.ceil(
@@ -37,16 +38,20 @@ function DataSelectorDom(props: propsTypes) {
     );
   };
 
-  const [fromWeek, setFromWeek] = useState(""); //从周几
-  const [toWeek, setToWeek] = useState(""); //到周几
-  const [showCalendar, setShowCalendar] = useState(false); //显示日历组件
-  const [yesterday, setYesterday] = useState(""); //获取昨天（这里是昨天之前的都不能选择）
-  const [dayDiff, setDayDiff] = useState(
-    getDayDiff({
+  const $refs = useRef({
+    yesterday: "",
+    fromWeek: "",
+    toWeek: "",
+    dayDiff: getDayDiff({
       startDay: props.startDate,
       endDay: props.endDate,
-    })
-  ); //日期间隔
+    }),
+  });
+  // : false,
+  const [state, setState] = useState({
+    showCalendar: false,
+  }); //从周几到周几
+
   const startDayDom = useRef<HTMLSpanElement>(null);
   const endDayDom = useRef<HTMLSpanElement>(null);
   const calendarRef = useRef(null);
@@ -56,32 +61,12 @@ function DataSelectorDom(props: propsTypes) {
     //eslint-disable-next-line
   }, []);
 
-  //关闭组件的时候更新值
-  useCallback(() => {
-    debugger 
-    if (showCalendar) {
-      return;
-    }
-    let dateArr = (calendarRef?.current as any)?.getSelDateArr();
-    let dayDiff = getDayDiff({
-      //这里props的属性还没有默认值
-      startDay: dateArr?.startDay || DataSelectorDom.defaultProps.startDate,
-      endDay: dateArr?.endDay || DataSelectorDom.defaultProps.endDate,
-    });
-    setFromWeek(dateArr?.fromWeek);
-    setToWeek(dateArr?.toWeek);
-    if (dayDiff) {
-      setDayDiff(dayDiff);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showCalendar]);
-
   /**
    * 打开日历
    * @param showCalendar
    */
   const getCalendar = (showCalendar: boolean) => {
-    setShowCalendar(showCalendar);
+    setState({ ...state, showCalendar });
   };
 
   /**
@@ -94,7 +79,29 @@ function DataSelectorDom(props: propsTypes) {
       startDay: dateArr.startDay,
       endDay: dateArr.endDay,
     });
-    setShowCalendar(false);
+
+    let dayDiff = getDayDiff({
+      //这里props的属性还没有默认值
+      startDay: dateArr?.startDay || DataSelectorDom.defaultProps.startDate,
+      endDay: dateArr?.endDay || DataSelectorDom.defaultProps.endDate,
+    });
+
+    //初始化的时候是空值，空值不需要更新状态导致界面渲染
+    if (dateArr?.fromWeek && dateArr?.toWeek) {
+      $refs.current = {
+        ...$refs.current,
+        fromWeek: dateArr?.fromWeek,
+        toWeek: dateArr?.toWeek,
+      };
+    }
+
+    if (dayDiff) {
+      $refs.current = {
+        ...$refs.current,
+        dayDiff,
+      };
+    }
+    setState({ ...state, showCalendar: false });
   };
 
   /**
@@ -103,7 +110,10 @@ function DataSelectorDom(props: propsTypes) {
   const getYesterday = () => {
     let day = new Date(startDate);
     let yesterday = getDayByNum(day, -1);
-    setYesterday(yesterday.Format("yyyy-M-d"));
+    $refs.current = {
+      ...$refs.current,
+      yesterday: yesterday.Format("yyyy-M-d")
+    };
   };
 
   /**
@@ -115,10 +125,10 @@ function DataSelectorDom(props: propsTypes) {
     return createPortal(
       <Calendar
         ref={calendarRef}
-        showCalendar={showCalendar}
+        showCalendar={state.showCalendar}
         curDay={new Date()}
         selDay={{ from: new Date(startDate), to: new Date(endDate) }}
-        disableDay={{ to: new Date(yesterday) }}
+        disableDay={{ to: new Date($refs.current.yesterday) }}
         //如果方法带了括号就会立即执行，会导致state更新出现死循环
         closeCalendar={closeCalendar}
       />,
@@ -140,15 +150,15 @@ function DataSelectorDom(props: propsTypes) {
           <span ref={startDayDom} data-seldate={startDate}>
             {`${startDate.split("-")[1]}月${startDate.split("-")[2]}日`}
           </span>
-          <i>{fromWeek}</i>
+          <i>{$refs.current.fromWeek}</i>
         </div>
-        <h4 className={styles["date-count"]}>{dayDiff}晚</h4>
+        <h4 className={styles["date-count"]}>{$refs.current.dayDiff}晚</h4>
         <div>
           <h4>离店</h4>
           <span ref={endDayDom} data-seldate={endDate}>
             {`${endDate.split("-")[1]}月${endDate.split("-")[2]}日`}
           </span>
-          <i>{toWeek}</i>
+          <i>{$refs.current.toWeek}</i>
         </div>
       </div>
       {getCalendarComp()}
@@ -158,13 +168,20 @@ function DataSelectorDom(props: propsTypes) {
 const DataSelector = React.forwardRef((props: any, ref: any) => {
   return <DataSelectorDom {...props} myRef={ref}></DataSelectorDom>;
 });
-export default React.memo(DataSelector,areEqual);
+export default React.memo(DataSelector, areEqual);
 
-function areEqual(prevProps: any, nextProps: any):any {
-  // debugger
-  console.log(prevProps.startDate,nextProps.startDate,prevProps.endDate,nextProps.endDate)
-  if(prevProps.startDate===nextProps.startDate&&prevProps.endDate===nextProps.endDate){
-    return true
+function areEqual(prevProps: any, nextProps: any): any {
+  console.log(
+    prevProps.startDate,
+    nextProps.startDate,
+    prevProps.endDate,
+    nextProps.endDate
+  );
+  if (
+    prevProps.startDate === nextProps.startDate &&
+    prevProps.endDate === nextProps.endDate
+  ) {
+    return true;
   }
-  return false
+  return false;
 }
