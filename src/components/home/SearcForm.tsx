@@ -29,7 +29,7 @@ interface RouterProps extends RouteComponentProps {
   // custom properties passed to component
 }
 type mapPropsType = RouterProps & propsType;
-class SearcForm extends React.Component<mapPropsType, stateType> {
+class SearcForm extends React.PureComponent<mapPropsType, stateType> {
   constructor(props: any) {
     super(props);
     this.state = {

@@ -136,7 +136,7 @@ function DataSelectorDom(props: propsTypes) {
     );
   };
   const { startDate, endDate } = props;
-  console.log(222);
+
   return (
     <>
       <div

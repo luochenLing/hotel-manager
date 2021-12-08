@@ -27,7 +27,7 @@ type propsType = {
   keyWord: boolean;
 };
 
-class SearchPanel extends React.Component<propsType, stateType> {
+class SearchPanel extends React.PureComponent<propsType, stateType> {
   myRef: React.RefObject<F7Link>;
   constructor(props: any) {
     super(props);
@@ -68,11 +68,6 @@ class SearchPanel extends React.Component<propsType, stateType> {
     PubSub.clearAllSubscriptions();
   }
 
-  // shouldComponentUpdate(nextProps:propsType,nextState:stateType){
-  //   console.log(nextProps,nextState)
-  //   return false
-  // }
-
   /**
    * 初始化关键字面板
    */
@@ -86,8 +81,7 @@ class SearchPanel extends React.Component<propsType, stateType> {
   busEvent() {
     PubSub.subscribe("updateTime", (...ret: any) => {
       if (ret[1].data.startDay && ret[1].data.endDay) {
-        this.setState({ startDay: ret[1].data.startDay });
-        this.setState({ endDay: ret[1].data.endDay });
+        this.setState({ startDay: ret[1].data.startDay, endDay: ret[1].data.endDay });
       }
     });
   }
@@ -117,6 +111,11 @@ class SearchPanel extends React.Component<propsType, stateType> {
   openKeyWord = () => {
     this.props.keyWordPanelOption(true);
   };
+
+  // shouldComponentUpdate(nextProp:propsType,nextState:stateType){
+  //   debugger
+  //   return false
+  // }
 
   /**
    * 获取日期间隔
