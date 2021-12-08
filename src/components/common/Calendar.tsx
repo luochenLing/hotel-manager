@@ -23,8 +23,8 @@ interface propsTypes {
   showCalendar: boolean | string;
   //关闭日历
   closeCalendar: Function;
-
-  myRef: any;
+  //获取日历的dom
+  calendarRef: any;
 }
 //变量不放在外部的话，可能会被父组件加载导致重新渲染给冲掉变量值
 let fromWeek = "",
@@ -39,7 +39,7 @@ function CalendarDom(props: propsTypes) {
     setStartDay(from);
     setEndDay(to);
   }, [from, to]);
-  const { myRef } = props;
+  const { calendarRef: myRef } = props;
 
   //是否显示日历界面
   const [show, setShow] = useState(props.showCalendar);
@@ -364,6 +364,6 @@ function CalendarDom(props: propsTypes) {
   );
 }
 const Calendar = React.forwardRef((props: any, ref: any) => {
-  return <CalendarDom {...props} myRef={ref}></CalendarDom>;
+  return <CalendarDom {...props} calendarRef={ref}></CalendarDom>;
 });
 export default React.memo(Calendar);
